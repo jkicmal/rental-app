@@ -1,0 +1,18 @@
+@import '../../assets/styles/variables';
+
+.screen {
+  min-height: calc(100vh - #{$nav-height});
+  padding: 1rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.verticalCenter {
+  justify-content: center;
+}
+
+.horizontalCenter {
+  align-items: center;
+}
