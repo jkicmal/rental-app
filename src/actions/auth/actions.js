@@ -8,14 +8,20 @@ import {
   LOGOUT
 } from './types';
 
+const TOKEN_STORAGE_KEY = 'token';
+const TOKEN_EXPIRATION_DATE_STORAGE_KEY = 'tokenExpirationDate';
+const ACCOUNT_TYPE_STORAGE_KEY = 'accountType';
+
 const loginStart = () => ({
   type: LOGIN_START
 });
 
-const loginSuccess = loginData => ({
+const loginSuccess = (responseData, tokenExpirationDate) => ({
   type: LOGIN_SUCCESS,
   payload: {
-    token: loginData.token
+    token: responseData.token,
+    tokenExpirationDate,
+    accountType: responseData.accountType
   }
 });
 
@@ -30,25 +36,37 @@ const loginFail = (status, error) => ({
   }
 });
 
-export const logout = () => ({ type: LOGOUT });
-
-// TODO: Clear timeout if user logsout or logins again
-const checkoutAuthTimeout = expirationTime => dispatch => {
-  setTimeout(() => {
-    dispatch(logout());
-  }, expirationTime);
+export const logout = () => {
+  localStorage.removeItem(TOKEN_STORAGE_KEY);
+  localStorage.removeItem(TOKEN_EXPIRATION_DATE_STORAGE_KEY);
+  localStorage.removeItem(ACCOUNT_TYPE_STORAGE_KEY);
+  return { type: LOGOUT };
 };
+
+/**
+ * TODO:
+ * Create components that will log out user basing
+ * on expiresIn in state
+ */
 
 export const loginAlertClose = () => dispatch =>
   dispatch({ type: LOGIN_ALERT_CLOSE });
 
-export const login = (email, password) => async dispatch => {
+export const login = loginFormData => async dispatch => {
   dispatch(loginStart());
   try {
-    const response = await axios.post(paths.auth.login(), { email, password });
-    const loginData = response.data.data;
-    dispatch(loginSuccess(loginData));
-    dispatch(checkoutAuthTimeout(loginData.expiresIn));
+    const response = await axios.post(paths.auth.login(), loginFormData);
+    const responseData = response.data.data;
+
+    const tokenExpirationDate = new Date(Date.now() + responseData.expiresIn);
+    localStorage.setItem(TOKEN_STORAGE_KEY, responseData.token);
+    localStorage.setItem(
+      TOKEN_EXPIRATION_DATE_STORAGE_KEY,
+      tokenExpirationDate
+    );
+    localStorage.setItem(ACCOUNT_TYPE_STORAGE_KEY, responseData.accountType);
+
+    dispatch(loginSuccess(responseData, tokenExpirationDate));
   } catch (error) {
     const { response } = error;
     if (response) {
@@ -62,4 +80,28 @@ export const login = (email, password) => async dispatch => {
       );
     }
   }
+};
+
+/**
+ *
+ */
+export const loginCheckState = () => {
+  return dispatch => {
+    const token = localStorage.getItem(TOKEN_STORAGE_KEY);
+    const tokenExpirationDateString = localStorage.getItem(
+      TOKEN_EXPIRATION_DATE_STORAGE_KEY
+    );
+    const accountType = localStorage.getItem(ACCOUNT_TYPE_STORAGE_KEY);
+
+    if (!token || !tokenExpirationDateString || !accountType)
+      dispatch(logout());
+    else {
+      const tokenExpirationDate = new Date(tokenExpirationDateString);
+      if (tokenExpirationDate > new Date()) {
+        dispatch(loginSuccess({ token, tokenExpirationDate, accountType }));
+      } else {
+        dispatch(logout());
+      }
+    }
+  };
 };

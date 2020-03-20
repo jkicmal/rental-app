@@ -13,7 +13,7 @@ import { login, loginAlertClose } from '../../actions/auth/actions';
 
 class LoginFrom extends Component {
   state = {
-    email: 'john.doe@gmail.com',
+    email: 'employee@gmail.com',
     password: 'Password@0'
   };
 
@@ -23,8 +23,7 @@ class LoginFrom extends Component {
 
   onSubmit = e => {
     e.preventDefault();
-    const { email, password } = this.state;
-    this.props.login(email, password);
+    this.props.login(this.state);
   };
 
   onAlertClose = () => {
@@ -80,7 +79,7 @@ class LoginFrom extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    login: (email, password) => dispatch(login(email, password)),
+    login: loginFormData => dispatch(login(loginFormData)),
     loginAlertClose: () => dispatch(loginAlertClose())
   };
 };

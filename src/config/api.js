@@ -3,7 +3,9 @@ const apiHost = 'http://localhost:3001/api';
 export const paths = {
   auth: {
     login: () => `${apiHost}/v1/login`,
-    logout: () => `${apiHost}/v1/logout`,
+    logout: () => `${apiHost}/v1/logout`
+  },
+  register: {
     register: () => `${apiHost}/v1/register`
   },
   category: {
