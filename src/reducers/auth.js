@@ -1,16 +1,9 @@
-import {
-  LOGIN_START,
-  LOGIN_FAIL,
-  LOGIN_SUCCESS,
-  LOGIN_ALERT_CLOSE,
-  LOGOUT
-} from '../actions/auth/types';
+import * as types from '../actions/auth/types';
 
 const initialState = {
   token: null,
   error: null,
   loading: false,
-  showAlert: false,
   expirationTime: null
 };
 
@@ -18,7 +11,6 @@ const loginStart = state => ({
   ...state,
   error: null,
   loading: true,
-  showAlert: false,
   expirationTime: null
 });
 
@@ -37,13 +29,12 @@ const loginFail = (state, payload) => ({
   accountType: null,
   error: payload.error,
   loading: false,
-  showAlert: true,
   expirationTime: null
 });
 
-const loginAlertClose = state => ({
+const loginErrorAlertClose = state => ({
   ...state,
-  showAlert: false
+  error: null
 });
 
 const logout = state => ({
@@ -52,21 +43,20 @@ const logout = state => ({
   accountType: null,
   loading: false,
   error: null,
-  showAlert: false,
   expirationTime: null
 });
 
 export const authReducer = (state = initialState, action) => {
   switch (action.type) {
-    case LOGIN_START:
+    case types.LOGIN_START:
       return loginStart(state);
-    case LOGIN_SUCCESS:
+    case types.LOGIN_SUCCESS:
       return loginSuccess(state, action.payload);
-    case LOGIN_FAIL:
+    case types.LOGIN_FAIL:
       return loginFail(state, action.payload);
-    case LOGIN_ALERT_CLOSE:
-      return loginAlertClose(state);
-    case LOGOUT:
+    case types.LOGIN_ERROR_ALERT_CLOSE:
+      return loginErrorAlertClose(state);
+    case types.LOGOUT:
       return logout(state);
     default:
       return state;

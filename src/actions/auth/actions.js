@@ -4,7 +4,7 @@ import {
   LOGIN_START,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
-  LOGIN_ALERT_CLOSE,
+  LOGIN_ERROR_ALERT_CLOSE,
   LOGOUT
 } from './types';
 
@@ -49,8 +49,8 @@ export const logout = () => {
  * on expiresIn in state
  */
 
-export const loginAlertClose = () => dispatch =>
-  dispatch({ type: LOGIN_ALERT_CLOSE });
+export const loginErrorAlertClose = () => dispatch =>
+  dispatch({ type: LOGIN_ERROR_ALERT_CLOSE });
 
 export const login = loginFormData => async dispatch => {
   dispatch(loginStart());
@@ -68,6 +68,7 @@ export const login = loginFormData => async dispatch => {
 
     dispatch(loginSuccess(responseData, tokenExpirationDate));
   } catch (error) {
+    console.log(error);
     const { response } = error;
     if (response) {
       dispatch(loginFail(response.status, response.data.data));

@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Alert from '../Alert/Alert';
 
-import { login, loginAlertClose } from '../../actions/auth/actions';
+import { login, loginErrorAlertClose } from '../../actions/auth/actions';
 
 class LoginFrom extends Component {
   state = {
@@ -26,20 +26,23 @@ class LoginFrom extends Component {
     this.props.login(this.state);
   };
 
-  onAlertClose = () => {
-    this.props.loginAlertClose();
+  onErrorAlertClose = () => {
+    this.props.loginErrorAlertClose();
   };
 
+  componentWillUnmount() {
+    if (this.props.auth.error) this.props.loginErrorAlertClose();
+  }
+
   render() {
-    const { error, showAlert, loading } = this.props.auth;
+    const { error, loading } = this.props.auth;
     return (
       <Fragment>
-        {error && showAlert ? (
+        {error ? (
           <Alert
             severity="warning"
-            status={error.status}
             message={error.message}
-            onClose={this.onAlertClose}
+            onClose={this.onErrorAlertClose}
           />
         ) : null}
         <div className={classes.container}>
@@ -80,7 +83,7 @@ class LoginFrom extends Component {
 const mapDispatchToProps = dispatch => {
   return {
     login: loginFormData => dispatch(login(loginFormData)),
-    loginAlertClose: () => dispatch(loginAlertClose())
+    loginErrorAlertClose: () => dispatch(loginErrorAlertClose())
   };
 };
 

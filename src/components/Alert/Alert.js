@@ -15,7 +15,7 @@ class Alert extends Component {
   };
 
   render() {
-    const { severity, status, message } = this.props;
+    const { severity, message } = this.props;
 
     if (this.state.closed) return null;
 
@@ -25,7 +25,7 @@ class Alert extends Component {
         severity={severity}
         onClose={this.onClose}
       >
-        {`[${status}] ${message}`}
+        {message}
       </MaterialAlert>
     );
   }
