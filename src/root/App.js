@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { logout, loginCheckState } from '../actions/auth/actions';
+import { logout, loginCheckState } from '../actions/login/actions';
 
 import { Nav } from '../components/UI/Nav/Nav';
 import ScreensEmployeeCategory from '../screens/Employee/Category/Category';
@@ -20,12 +20,13 @@ import ProtectedRoute from '../components/ProtectedRoute/ProtectedRoute';
 import { accountTypes } from '../helpers/constants';
 
 class App extends Component {
-  componentDidMount() {
+  constructor(props) {
+    super(props);
     this.props.loginCheckState();
   }
 
   render() {
-    const { token, accountType } = this.props.auth;
+    const { token, accountType } = this.props.login;
 
     const isAuthenticated = !!token;
 
@@ -61,7 +62,7 @@ class App extends Component {
 }
 
 const mapStateToProps = state => ({
-  auth: state.authReducer
+  login: state.loginReducer
 });
 
 const mapDispatchToProps = dispatch => ({

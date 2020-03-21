@@ -36,7 +36,8 @@ class RegisterForm extends Component {
 
   onSubmit = e => {
     e.preventDefault();
-    this.props.register(this.state.formData);
+    const { registerActions } = this.props;
+    registerActions.register(this.state.formData);
   };
 
   onInputChange = e => {
@@ -50,36 +51,38 @@ class RegisterForm extends Component {
   };
 
   onErrorAlertClose = () => {
-    this.props.registerErrorAlertClose();
+    const { registerActions } = this.props;
+    registerActions.registerErrorAlertClose();
   };
 
   onSuccessAlertClose = () => {
-    this.props.registerSuccessAlertClose();
+    const { registerActions } = this.props;
+    registerActions.registerSuccessAlertClose();
   };
 
   componentWillUnmount() {
-    const { registerError, registerSuccess } = this.props;
-
-    if (registerError) this.props.registerErrorAlertClose();
-    if (registerSuccess) this.props.registerSuccessAlertClose();
+    const { registerState, registerActions } = this.props;
+    if (registerState.error) registerActions.registerErrorAlertClose();
+    if (registerState.success) registerActions.registerSuccessAlertClose();
   }
 
   render() {
     const { formData } = this.state;
-    const { registerError, registerSuccess, registerLoading } = this.props;
+    const { registerState } = this.props;
+
     return (
       <Fragment>
-        {registerError ? (
+        {registerState.error ? (
           <Alert
             severity="warning"
-            message={registerError.message}
+            message={registerState.error.message}
             onClose={this.onErrorAlertClose}
           />
         ) : null}
-        {registerSuccess ? (
+        {registerState.success ? (
           <Alert
             severity="success"
-            message={registerSuccess.message}
+            message={registerState.success.message}
             onClose={this.onSuccessAlertClose}
           />
         ) : null}
@@ -119,8 +122,7 @@ class RegisterForm extends Component {
               className={classes.textField}
               label="First Name"
               name="firstName"
-              // TODO: Uncomment this
-              // required
+              required
               onChange={this.onInputChange}
               value={formData.firstName}
             />
@@ -187,7 +189,7 @@ class RegisterForm extends Component {
               onChange={this.onInputChange}
               value={formData.addressLine2}
             />
-            {registerLoading ? (
+            {registerState.loading ? (
               <CircularProgress />
             ) : (
               <Button type="submit">Submit</Button>
@@ -200,15 +202,19 @@ class RegisterForm extends Component {
 }
 
 const mapStateToProps = state => ({
-  registerError: state.registerReducer.error,
-  registerSuccess: state.registerReducer.success,
-  registerLoading: state.registerReducer.loading
+  registerState: {
+    error: state.registerReducer.error,
+    success: state.registerReducer.success,
+    loading: state.registerReducer.loading
+  }
 });
 
 const mapDispatchToProps = dispatch => ({
-  register: formData => dispatch(register(formData)),
-  registerErrorAlertClose: () => dispatch(registerErrorAlertClose()),
-  registerSuccessAlertClose: () => dispatch(registerSuccessAlertClose())
+  registerActions: {
+    register: formData => dispatch(register(formData)),
+    registerErrorAlertClose: () => dispatch(registerErrorAlertClose()),
+    registerSuccessAlertClose: () => dispatch(registerSuccessAlertClose())
+  }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(RegisterForm);

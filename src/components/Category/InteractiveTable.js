@@ -12,23 +12,27 @@ import MaterialTableBase from '../MaterialTable/Base';
 
 class CategoryInteractiveTable extends Component {
   componentDidMount() {
-    this.props.fetchCategories();
+    const { categoryActions, loginState } = this.props;
+    categoryActions.fetchCategories(loginState.token);
   }
 
   onRowAdd(category) {
-    return this.props.createCategory('', category);
+    const { categoryActions, loginState } = this.props;
+    return categoryActions.createCategory(loginState, category);
   }
 
   onRowUpdate(category) {
-    return this.props.updateCategory('', category);
+    const { categoryActions, loginState } = this.props;
+    return categoryActions.updateCategory(loginState, category);
   }
 
   onRowDelete(category) {
-    return this.props.deleteCategory('', category);
+    const { categoryActions, loginState } = this.props;
+    return categoryActions.deleteCategory(loginState, category);
   }
 
   render() {
-    const { categories } = this.props;
+    const { categoryState } = this.props;
 
     return (
       <MaterialTableBase
@@ -40,7 +44,9 @@ class CategoryInteractiveTable extends Component {
           { title: 'ID', field: 'id', editable: 'never' },
           { title: 'Name', field: 'name' }
         ]}
-        data={categories.map(category => Object.assign({}, category))}
+        data={categoryState.categories.map(category =>
+          Object.assign({}, category)
+        )}
         title="Categories"
         editable={{
           onRowAdd: category => this.onRowAdd(category),
@@ -53,17 +59,25 @@ class CategoryInteractiveTable extends Component {
 }
 
 const mapStateToProps = state => ({
-  categories: state.categoryReducer.categories
+  categoryState: {
+    categories: state.categoryReducer.categories
+  },
+  loginState: {
+    token: state.loginReducer.token
+  }
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchCategories: (token, category) =>
-    dispatch(fetchCategories(token, category)),
-  createCategory: (token, category) =>
-    dispatch(createCategory(token, category)),
-  updateCategory: (token, category) =>
-    dispatch(updateCategory(token, category)),
-  deleteCategory: (token, category) => dispatch(deleteCategory(token, category))
+  categoryActions: {
+    fetchCategories: (token, category) =>
+      dispatch(fetchCategories(token, category)),
+    createCategory: (token, category) =>
+      dispatch(createCategory(token, category)),
+    updateCategory: (token, category) =>
+      dispatch(updateCategory(token, category)),
+    deleteCategory: (token, category) =>
+      dispatch(deleteCategory(token, category))
+  }
 });
 
 export default connect(

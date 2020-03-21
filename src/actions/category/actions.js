@@ -17,7 +17,7 @@ const fetchCategoriesSuccess = fetchedCategories => ({
 });
 
 // TODO: Implement
-const fetchCategoriesFail = (status, error) => ({});
+// const fetchCategoriesFail = (status, error) => ({});
 
 export const fetchCategories = (token, category) => async dispatch => {
   try {
@@ -37,7 +37,7 @@ const createCategorySuccess = createdCategory => ({
 });
 
 // TODO: Implement
-const createCategoryFail = (status, error) => ({});
+// const createCategoryFail = (status, error) => ({});
 
 export const createCategory = (token, category) => async dispatch => {
   try {
@@ -57,7 +57,7 @@ const updateCategorySuccess = updatedCategory => ({
 });
 
 // TODO: Implement
-const updateCategoryFail = (status, error) => ({});
+// const updateCategoryFail = (status, error) => ({});
 
 export const updateCategory = (token, category) => async dispatch => {
   try {
@@ -80,7 +80,7 @@ const deleteCategorySuccess = deletedCategory => ({
 });
 
 // TODO: Implement
-const deleteCategoryFail = (status, error) => ({});
+// const deleteCategoryFail = (status, error) => ({});
 
 export const deleteCategory = (token, category) => async dispatch => {
   try {

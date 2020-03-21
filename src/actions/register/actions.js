@@ -1,7 +1,8 @@
 import axios from 'axios';
+
 import * as types from './types';
 import { paths } from '../../config/api';
-import { serverNotRespondingError } from '../../helpers/errors';
+import { apiToAppError } from '../../helpers/errors';
 
 const registerSuccess = () => ({
   type: types.REGISTER_SUCCESS
@@ -34,19 +35,10 @@ export const register = registerFormData => async dispatch => {
   dispatch(registerStart());
   try {
     await axios.post(paths.register.register(), registerFormData);
-    dispatch(registerSuccess());
+    return dispatch(registerSuccess());
   } catch (error) {
     console.log(error);
-    const { response } = error;
-    if (response) {
-      dispatch(registerFail(response.status, response.data.data));
-    } else {
-      dispatch(
-        registerFail(
-          serverNotRespondingError.status,
-          serverNotRespondingError.error
-        )
-      );
-    }
+    const appError = apiToAppError(error.response);
+    return dispatch(registerFail(appError.status, appError.error));
   }
 };

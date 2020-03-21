@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Alert from '../Alert/Alert';
 
-import { login, loginErrorAlertClose } from '../../actions/auth/actions';
+import { login, loginErrorAlertClose } from '../../actions/login/actions';
 
 class LoginFrom extends Component {
   state = {
@@ -23,25 +23,28 @@ class LoginFrom extends Component {
 
   onSubmit = e => {
     e.preventDefault();
-    this.props.login(this.state);
+    const { loginActions } = this.props;
+    loginActions.login(this.state);
   };
 
   onErrorAlertClose = () => {
-    this.props.loginErrorAlertClose();
+    const { loginActions } = this.props;
+    loginActions.loginErrorAlertClose();
   };
 
   componentWillUnmount() {
-    if (this.props.auth.error) this.props.loginErrorAlertClose();
+    const { loginActions, loginState } = this.props;
+    if (loginState.error) loginActions.loginErrorAlertClose();
   }
 
   render() {
-    const { error, loading } = this.props.auth;
+    const { loginState } = this.props;
     return (
       <Fragment>
-        {error ? (
+        {loginState.error ? (
           <Alert
             severity="warning"
-            message={error.message}
+            message={loginState.error.message}
             onClose={this.onErrorAlertClose}
           />
         ) : null}
@@ -68,7 +71,7 @@ class LoginFrom extends Component {
               onChange={this.onInputChange}
               value={this.state.password}
             />
-            {loading ? (
+            {loginState.loading ? (
               <CircularProgress />
             ) : (
               <Button type="submit">Submit</Button>
@@ -80,17 +83,18 @@ class LoginFrom extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
+const mapDispatchToProps = dispatch => ({
+  loginActions: {
     login: loginFormData => dispatch(login(loginFormData)),
     loginErrorAlertClose: () => dispatch(loginErrorAlertClose())
-  };
-};
+  }
+});
 
-const mapStateToProps = state => {
-  return {
-    auth: state.authReducer
-  };
-};
+const mapStateToProps = state => ({
+  loginState: {
+    loading: state.loginReducer.loading,
+    error: state.loginReducer.error
+  }
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginFrom);

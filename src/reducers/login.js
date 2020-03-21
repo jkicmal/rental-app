@@ -1,4 +1,4 @@
-import * as types from '../actions/auth/types';
+import * as types from '../actions/login/types';
 
 const initialState = {
   token: null,
@@ -16,11 +16,11 @@ const loginStart = state => ({
 
 const loginSuccess = (state, payload) => ({
   ...state,
-  token: payload.token,
-  accountType: payload.accountType,
+  token: payload.loginData.token,
+  accountType: payload.loginData.accountType,
   error: null,
   loading: false,
-  expirationTime: payload.expirationTime
+  expirationTime: payload.loginData.expirationTime
 });
 
 const loginFail = (state, payload) => ({
@@ -46,7 +46,7 @@ const logout = state => ({
   expirationTime: null
 });
 
-export const authReducer = (state = initialState, action) => {
+export const loginReducer = (state = initialState, action) => {
   switch (action.type) {
     case types.LOGIN_START:
       return loginStart(state);
