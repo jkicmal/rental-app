@@ -12,83 +12,83 @@ import { resourceQueryParamsToPathParams } from '../../helpers/resource-query-pa
  * when promise is resolved
  */
 
-const fetchCategoriesSuccess = (fetchedCategories) => ({
+const fetchCategoriesSuccess = fetchedCategories => ({
   type: types.FETCH_CATEGORIES_SUCCESS,
-  payload: { fetchedCategories },
+  payload: { fetchedCategories }
 });
 
 // TODO: Implement
 // const fetchCategoriesFail = (status, error) => ({});
 
-export const fetchCategories = (resourceQueryParams) => async (dispatch) => {
+export const fetchCategories = resourceQueryParams => async dispatch => {
   try {
     // TODO: Use token to authorize
     const resourceQueryPathParams = resourceQueryParamsToPathParams(resourceQueryParams);
     const response = await axios.get(paths.category.multiple(resourceQueryPathParams));
     const fetchedCategories = response.data.data;
     dispatch(fetchCategoriesSuccess(fetchedCategories));
-  } catch (err) {
+  } catch (error) {
     // TODO: Catch
-    console.log(err);
+    console.log(error);
   }
 };
 
-const createCategorySuccess = (createdCategory) => ({
+const createCategorySuccess = createdCategory => ({
   type: types.CREATE_CATEGORY_SUCCESS,
-  payload: { createdCategory },
+  payload: { createdCategory }
 });
 
 // TODO: Implement
 // const createCategoryFail = (status, error) => ({});
 
-export const createCategory = (token, category) => async (dispatch) => {
+export const createCategory = (token, category) => async dispatch => {
   try {
     // TODO: Use token to authorize
     const response = await axios.post(paths.category.multiple(), category);
     const createdCategory = response.data.data;
     dispatch(createCategorySuccess(createdCategory));
-  } catch (err) {
+  } catch (error) {
     // TODO: Catch
-    console.log(err);
+    console.log(error);
   }
 };
 
-const updateCategorySuccess = (updatedCategory) => ({
+const updateCategorySuccess = updatedCategory => ({
   type: types.UPDATE_CATEGORY_SUCCESS,
-  payload: { updatedCategory },
+  payload: { updatedCategory }
 });
 
 // TODO: Implement
 // const updateCategoryFail = (status, error) => ({});
 
-export const updateCategory = (token, category) => async (dispatch) => {
+export const updateCategory = (token, category) => async dispatch => {
   try {
     // TODO: Use token to authorize
     const response = await axios.put(paths.category.single(category.id), category);
     const updatedCategory = response.data.data;
     dispatch(updateCategorySuccess(updatedCategory));
-  } catch (err) {
+  } catch (error) {
     // TODO: Catch
-    console.log(err);
+    console.log(error);
   }
 };
 
-const deleteCategorySuccess = (deletedCategory) => ({
+const deleteCategorySuccess = deletedCategory => ({
   type: types.DELETE_CATEGORY_SUCCESS,
-  payload: { deletedCategory },
+  payload: { deletedCategory }
 });
 
 // TODO: Implement
 // const deleteCategoryFail = (status, error) => ({});
 
-export const deleteCategory = (token, category) => async (dispatch) => {
+export const deleteCategory = (token, category) => async dispatch => {
   try {
     // TODO: Use token to authorize
     const response = await axios.delete(paths.category.single(category.id));
     const deletedCategory = response.data.data;
     dispatch(deleteCategorySuccess(deletedCategory));
-  } catch (err) {
+  } catch (error) {
     // TODO: Catch
-    console.log(err);
+    console.log(error);
   }
 };

@@ -1,12 +1,11 @@
 import React from 'react';
 
-import Typography from '@material-ui/core/Typography';
-
 import Screen from '../../components/Screen/Screen';
+import Store from '../../components/Store/Store';
 
 const ScreensStore = () => (
-  <Screen horizontalCenter verticalCenter>
-    <Typography>Store Page</Typography>
+  <Screen>
+    <Store />
   </Screen>
 );
 
