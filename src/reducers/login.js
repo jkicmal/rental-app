@@ -4,14 +4,14 @@ const initialState = {
   token: null,
   error: null,
   loading: false,
-  expirationTime: null
+  expirationTime: null,
 };
 
-const loginStart = state => ({
+const loginStart = (state) => ({
   ...state,
   error: null,
   loading: true,
-  expirationTime: null
+  expirationTime: null,
 });
 
 const loginSuccess = (state, payload) => ({
@@ -20,7 +20,7 @@ const loginSuccess = (state, payload) => ({
   accountType: payload.loginData.accountType,
   error: null,
   loading: false,
-  expirationTime: payload.loginData.expirationTime
+  expirationTime: payload.loginData.expirationTime,
 });
 
 const loginFail = (state, payload) => ({
@@ -29,21 +29,21 @@ const loginFail = (state, payload) => ({
   accountType: null,
   error: payload.error,
   loading: false,
-  expirationTime: null
+  expirationTime: null,
 });
 
-const loginErrorAlertClose = state => ({
+const loginErrorAlertClose = (state) => ({
   ...state,
-  error: null
+  error: null,
 });
 
-const logout = state => ({
+const logout = (state) => ({
   ...state,
   token: null,
   accountType: null,
   loading: false,
   error: null,
-  expirationTime: null
+  expirationTime: null,
 });
 
 export const loginReducer = (state = initialState, action) => {

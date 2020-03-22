@@ -4,9 +4,7 @@ const ACCOUNT_TYPE_STORAGE_KEY = 'accountType';
 
 export const getLoginDataFromLocalStorage = () => {
   const token = localStorage.getItem(TOKEN_STORAGE_KEY);
-  const tokenExpirationDate = new Date(
-    localStorage.getItem(TOKEN_EXPIRATION_DATE_STORAGE_KEY)
-  );
+  const tokenExpirationDate = new Date(localStorage.getItem(TOKEN_EXPIRATION_DATE_STORAGE_KEY));
   const accountType = localStorage.getItem(ACCOUNT_TYPE_STORAGE_KEY);
 
   if (!token || !tokenExpirationDate || !accountType) return null;
@@ -14,7 +12,7 @@ export const getLoginDataFromLocalStorage = () => {
   return { token, tokenExpirationDate, accountType };
 };
 
-export const saveLoginDataToLocalStorage = loginData => {
+export const saveLoginDataToLocalStorage = (loginData) => {
   const { token, tokenExpirationDate, accountType } = loginData;
 
   localStorage.setItem(TOKEN_STORAGE_KEY, token);

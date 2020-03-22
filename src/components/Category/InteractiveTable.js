@@ -5,15 +5,15 @@ import {
   fetchCategories,
   createCategory,
   updateCategory,
-  deleteCategory
+  deleteCategory,
 } from '../../actions/category/actions';
 
 import MaterialTableBase from '../MaterialTable/Base';
 
 class CategoryInteractiveTable extends Component {
   componentDidMount() {
-    const { categoryActions, loginState } = this.props;
-    categoryActions.fetchCategories(loginState.token);
+    const { categoryActions } = this.props;
+    categoryActions.fetchCategories();
   }
 
   onRowAdd(category) {
@@ -38,49 +38,40 @@ class CategoryInteractiveTable extends Component {
       <MaterialTableBase
         options={{
           search: false,
-          paging: true
+          paging: true,
         }}
         columns={[
           { title: 'ID', field: 'id', editable: 'never' },
-          { title: 'Name', field: 'name' }
+          { title: 'Name', field: 'name' },
         ]}
-        data={categoryState.categories.map(category =>
-          Object.assign({}, category)
-        )}
+        data={categoryState.categories.map((category) => Object.assign({}, category))}
         title="Categories"
         editable={{
-          onRowAdd: category => this.onRowAdd(category),
-          onRowDelete: category => this.onRowDelete(category),
-          onRowUpdate: category => this.onRowUpdate(category)
+          onRowAdd: (category) => this.onRowAdd(category),
+          onRowDelete: (category) => this.onRowDelete(category),
+          onRowUpdate: (category) => this.onRowUpdate(category),
         }}
       />
     );
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   categoryState: {
-    categories: state.categoryReducer.categories
+    categories: state.categoryReducer.categories,
   },
   loginState: {
-    token: state.loginReducer.token
-  }
+    token: state.loginReducer.token,
+  },
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   categoryActions: {
-    fetchCategories: (token, category) =>
-      dispatch(fetchCategories(token, category)),
-    createCategory: (token, category) =>
-      dispatch(createCategory(token, category)),
-    updateCategory: (token, category) =>
-      dispatch(updateCategory(token, category)),
-    deleteCategory: (token, category) =>
-      dispatch(deleteCategory(token, category))
-  }
+    fetchCategories: (token, category) => dispatch(fetchCategories(token, category)),
+    createCategory: (token, category) => dispatch(createCategory(token, category)),
+    updateCategory: (token, category) => dispatch(updateCategory(token, category)),
+    deleteCategory: (token, category) => dispatch(deleteCategory(token, category)),
+  },
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(CategoryInteractiveTable);
+export default connect(mapStateToProps, mapDispatchToProps)(CategoryInteractiveTable);

@@ -12,5 +12,5 @@ export const setToken = () => {
 };
 
 export const getHeader = () => ({
-  [TOKEN_HEADER]: `Bearer ${getToken()}`
+  [TOKEN_HEADER]: `Bearer ${getToken()}`,
 });

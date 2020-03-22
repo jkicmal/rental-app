@@ -4,10 +4,10 @@ import Typography from '@material-ui/core/Typography';
 
 import Screen from '../../components/Screen/Screen';
 
-const ScreensRental = () => (
+const ScreensStore = () => (
   <Screen horizontalCenter verticalCenter>
-    <Typography>Rental Page</Typography>
+    <Typography>Store Page</Typography>
   </Screen>
 );
 
-export default ScreensRental;
+export default ScreensStore;

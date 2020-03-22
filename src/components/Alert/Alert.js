@@ -6,7 +6,7 @@ import classes from './Alert.module.scss';
 
 class Alert extends Component {
   state = {
-    closed: false
+    closed: false,
   };
 
   onClose = () => {
@@ -20,11 +20,7 @@ class Alert extends Component {
     if (this.state.closed) return null;
 
     return (
-      <MaterialAlert
-        className={classes.alert}
-        severity={severity}
-        onClose={this.onClose}
-      >
+      <MaterialAlert className={classes.alert} severity={severity} onClose={this.onClose}>
         {message}
       </MaterialAlert>
     );

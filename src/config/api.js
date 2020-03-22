@@ -3,16 +3,20 @@ const apiHost = 'http://localhost:3001/api';
 export const paths = {
   login: {
     login: () => `${apiHost}/v1/login`,
-    logout: () => `${apiHost}/v1/logout`
+    logout: () => `${apiHost}/v1/logout`,
   },
   register: {
-    register: () => `${apiHost}/v1/register`
+    register: () => `${apiHost}/v1/register`,
   },
   category: {
-    multiple: () => `${apiHost}/v1/categories`,
-    single: id => `${apiHost}/v1/categories/${id}`
+    multiple: (pathParams = '') => `${apiHost}/v1/categories${pathParams}`,
+    single: (id, pathParams = '') => `${apiHost}/v1/categories/${id}${pathParams}`,
   },
-  rental: {
-    single: () => `${apiHost}/v1/rental`
-  }
+  product: {
+    multiple: (pathParams = '') => `${apiHost}/v1/products${pathParams}`,
+    single: (id, pathParams = '') => `${apiHost}/v1/products/${id}${pathParams}`,
+  },
+  store: {
+    single: () => `${apiHost}/v1/store`,
+  },
 };

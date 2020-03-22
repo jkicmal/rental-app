@@ -6,37 +6,21 @@ import { accountTypes } from '../../../helpers/constants';
 
 export const Nav = ({ isAuthenticated, accountType }) => {
   const employeeNavElements = [
-    <RouterLink
-      key="/employee/categories"
-      to="/employee/categories"
-      className={classes.link}
-    >
+    <RouterLink key="/employee/categories" to="/employee/categories" className={classes.link}>
       <Button color="inherit">Categories</Button>
     </RouterLink>,
-    <RouterLink
-      key="/employee/orders"
-      to="/employee/orders"
-      className={classes.link}
-    >
+    <RouterLink key="/employee/orders" to="/employee/orders" className={classes.link}>
       <Button color="inherit">Orders</Button>
-    </RouterLink>
+    </RouterLink>,
   ];
 
   const customerNavElements = [
-    <RouterLink
-      key="/customer/shopping-cart"
-      to="/customer/shopping-cart"
-      className={classes.link}
-    >
+    <RouterLink key="/customer/shopping-cart" to="/customer/shopping-cart" className={classes.link}>
       <Button color="inherit">Shopping Cart</Button>
     </RouterLink>,
-    <RouterLink
-      key="/customer/orders"
-      to="/customer/orders"
-      className={classes.link}
-    >
+    <RouterLink key="/customer/orders" to="/customer/orders" className={classes.link}>
       <Button color="inherit">Orders</Button>
-    </RouterLink>
+    </RouterLink>,
   ];
 
   const logoutNavElement = (
@@ -51,7 +35,7 @@ export const Nav = ({ isAuthenticated, accountType }) => {
     </RouterLink>,
     <RouterLink key="/login" to="/login" className={classes.link}>
       <Button color="inherit">Login</Button>
-    </RouterLink>
+    </RouterLink>,
   ];
 
   const navElementsToRender = isAuthenticated

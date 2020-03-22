@@ -3,44 +3,42 @@ import * as types from '../actions/category/types';
 const initialState = {
   categories: [],
   error: {},
-  loading: false
+  loading: false,
 };
 
 // TODO: ADD fail and start
 const fetchCategoriesSuccess = (state, payload) => ({
   categories: payload.fetchedCategories,
   error: {},
-  loading: false
+  loading: false,
 });
 
 // TODO: ADD fail and start
 const createCategorySuccess = (state, payload) => ({
   categories: [payload.createdCategory, ...state.categories],
   error: {},
-  loading: false
+  loading: false,
 });
 
 // TODO: ADD fail and start
 const updateCategorySuccess = (state, payload) => ({
-  categories: state.categories.map(category => {
+  categories: state.categories.map((category) => {
     const { updatedCategory } = payload;
     if (category.id !== updatedCategory.id) return category;
     return {
       ...category,
-      ...updatedCategory
+      ...updatedCategory,
     };
   }),
   error: {},
-  loading: false
+  loading: false,
 });
 
 // TODO: ADD fail and start
 const deleteCategorySuccess = (state, payload) => ({
-  categories: state.categories.filter(
-    category => category.id !== payload.deletedCategory.id
-  ),
+  categories: state.categories.filter((category) => category.id !== payload.deletedCategory.id),
   error: {},
-  loading: false
+  loading: false,
 });
 
 export const categoryReducer = (state = initialState, action) => {

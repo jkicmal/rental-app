@@ -3,7 +3,7 @@ const redux = require('redux');
 const createStore = redux.createStore;
 
 const initialState = {
-  counter: 0
+  counter: 0,
 };
 
 // Reducer
@@ -12,12 +12,12 @@ const rootReducer = (state = initialState, action) => {
     case 'INC_COUNTER':
       return {
         ...state,
-        counter: state.counter + 1
+        counter: state.counter + 1,
       };
     case 'ADD_COUNTER':
       return {
         ...state,
-        counter: state.counter + action.value
+        counter: state.counter + action.value,
       };
     default:
       return state;

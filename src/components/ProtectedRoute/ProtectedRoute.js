@@ -16,18 +16,11 @@ class ProtectedRoute extends Component {
   }
 
   render() {
-    const {
-      loginState,
-      unauthenticatedOnly,
-      accountType,
-      ...rest
-    } = this.props;
+    const { loginState, unauthenticatedOnly, accountType, ...rest } = this.props;
 
     const isAuthenticated = !!loginState.token;
 
-    const hasCorrectAccountType = accountType
-      ? accountType === loginState.accountType
-      : true;
+    const hasCorrectAccountType = accountType ? accountType === loginState.accountType : true;
 
     const shouldRender =
       (!unauthenticatedOnly && isAuthenticated && hasCorrectAccountType) ||
@@ -37,17 +30,17 @@ class ProtectedRoute extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   loginState: {
     token: state.loginReducer.token,
-    accountType: state.loginReducer.accountType
-  }
+    accountType: state.loginReducer.accountType,
+  },
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   loginActions: {
-    loginCheckState: () => dispatch(loginCheckState())
-  }
+    loginCheckState: () => dispatch(loginCheckState()),
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProtectedRoute);

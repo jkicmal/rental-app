@@ -3,38 +3,37 @@ import * as types from '../actions/register/types';
 const initialState = {
   error: null,
   success: null,
-  loading: false
+  loading: false,
 };
 
 const registerSuccess = () => ({
   error: null,
   success: {
-    message:
-      'You have been sucessfully registered, you can now login using your email.'
+    message: 'You have been sucessfully registered, you can now login using your email.',
   },
-  loading: false
+  loading: false,
 });
 
-const registerFail = payload => ({
+const registerFail = (payload) => ({
   error: payload.error,
   success: null,
-  loading: false
+  loading: false,
 });
 
 const registerStart = () => ({
   error: null,
   success: null,
-  loading: true
+  loading: true,
 });
 
-const registerErrorAlertClose = state => ({
+const registerErrorAlertClose = (state) => ({
   ...state,
-  error: null
+  error: null,
 });
 
-const registerSuccessAlertClose = state => ({
+const registerSuccessAlertClose = (state) => ({
   ...state,
-  success: null
+  success: null,
 });
 
 export const registerReducer = (state = initialState, action) => {

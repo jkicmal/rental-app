@@ -3,6 +3,7 @@ import { paths } from '../../config/api';
 
 // TODO: Implement _START and _FAIL
 import * as types from './types';
+import { resourceQueryParamsToPathParams } from '../../helpers/resource-query-params';
 
 /**
  * NOTE:
@@ -11,18 +12,19 @@ import * as types from './types';
  * when promise is resolved
  */
 
-const fetchCategoriesSuccess = fetchedCategories => ({
+const fetchCategoriesSuccess = (fetchedCategories) => ({
   type: types.FETCH_CATEGORIES_SUCCESS,
-  payload: { fetchedCategories }
+  payload: { fetchedCategories },
 });
 
 // TODO: Implement
 // const fetchCategoriesFail = (status, error) => ({});
 
-export const fetchCategories = (token, category) => async dispatch => {
+export const fetchCategories = (resourceQueryParams) => async (dispatch) => {
   try {
     // TODO: Use token to authorize
-    const response = await axios.get(paths.category.multiple());
+    const resourceQueryPathParams = resourceQueryParamsToPathParams(resourceQueryParams);
+    const response = await axios.get(paths.category.multiple(resourceQueryPathParams));
     const fetchedCategories = response.data.data;
     dispatch(fetchCategoriesSuccess(fetchedCategories));
   } catch (err) {
@@ -31,15 +33,15 @@ export const fetchCategories = (token, category) => async dispatch => {
   }
 };
 
-const createCategorySuccess = createdCategory => ({
+const createCategorySuccess = (createdCategory) => ({
   type: types.CREATE_CATEGORY_SUCCESS,
-  payload: { createdCategory }
+  payload: { createdCategory },
 });
 
 // TODO: Implement
 // const createCategoryFail = (status, error) => ({});
 
-export const createCategory = (token, category) => async dispatch => {
+export const createCategory = (token, category) => async (dispatch) => {
   try {
     // TODO: Use token to authorize
     const response = await axios.post(paths.category.multiple(), category);
@@ -51,21 +53,18 @@ export const createCategory = (token, category) => async dispatch => {
   }
 };
 
-const updateCategorySuccess = updatedCategory => ({
+const updateCategorySuccess = (updatedCategory) => ({
   type: types.UPDATE_CATEGORY_SUCCESS,
-  payload: { updatedCategory }
+  payload: { updatedCategory },
 });
 
 // TODO: Implement
 // const updateCategoryFail = (status, error) => ({});
 
-export const updateCategory = (token, category) => async dispatch => {
+export const updateCategory = (token, category) => async (dispatch) => {
   try {
     // TODO: Use token to authorize
-    const response = await axios.put(
-      paths.category.single(category.id),
-      category
-    );
+    const response = await axios.put(paths.category.single(category.id), category);
     const updatedCategory = response.data.data;
     dispatch(updateCategorySuccess(updatedCategory));
   } catch (err) {
@@ -74,15 +73,15 @@ export const updateCategory = (token, category) => async dispatch => {
   }
 };
 
-const deleteCategorySuccess = deletedCategory => ({
+const deleteCategorySuccess = (deletedCategory) => ({
   type: types.DELETE_CATEGORY_SUCCESS,
-  payload: { deletedCategory }
+  payload: { deletedCategory },
 });
 
 // TODO: Implement
 // const deleteCategoryFail = (status, error) => ({});
 
-export const deleteCategory = (token, category) => async dispatch => {
+export const deleteCategory = (token, category) => async (dispatch) => {
   try {
     // TODO: Use token to authorize
     const response = await axios.delete(paths.category.single(category.id));

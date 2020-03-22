@@ -5,18 +5,18 @@ import { apiToAppError } from '../../helpers/errors';
 import {
   saveLoginDataToLocalStorage,
   getLoginDataFromLocalStorage,
-  removeLoginDataFromLocalStorage
+  removeLoginDataFromLocalStorage,
 } from '../../helpers/login-storage';
 
 // TODO: Create components that will log out user based on expiresIn in state
 
 const loginStart = () => ({
-  type: types.LOGIN_START
+  type: types.LOGIN_START,
 });
 
-const loginSuccess = loginData => ({
+const loginSuccess = (loginData) => ({
   type: types.LOGIN_SUCCESS,
-  payload: { loginData }
+  payload: { loginData },
 });
 
 const loginFail = (status, error) => ({
@@ -25,9 +25,9 @@ const loginFail = (status, error) => ({
     error: {
       status,
       type: error.error,
-      message: error.message
-    }
-  }
+      message: error.message,
+    },
+  },
 });
 
 export const logout = () => {
@@ -35,10 +35,10 @@ export const logout = () => {
   return { type: types.LOGOUT };
 };
 
-export const loginErrorAlertClose = () => dispatch =>
+export const loginErrorAlertClose = () => (dispatch) =>
   dispatch({ type: types.LOGIN_ERROR_ALERT_CLOSE });
 
-export const login = loginFormData => async dispatch => {
+export const login = (loginFormData) => async (dispatch) => {
   dispatch(loginStart());
   try {
     const response = await axios.post(paths.login.login(), loginFormData);
@@ -47,7 +47,7 @@ export const login = loginFormData => async dispatch => {
     const loginData = {
       tokenExpirationDate: new Date(Date.now() + responseData.expiresIn),
       token: responseData.token,
-      accountType: responseData.accountType
+      accountType: responseData.accountType,
     };
     saveLoginDataToLocalStorage(loginData);
 
@@ -58,10 +58,9 @@ export const login = loginFormData => async dispatch => {
   }
 };
 
-export const loginCheckState = () => dispatch => {
+export const loginCheckState = () => (dispatch) => {
   const loginData = getLoginDataFromLocalStorage();
   if (!loginData) return dispatch(logout());
-  else if (loginData.tokenExpirationDate > new Date())
-    return dispatch(loginSuccess(loginData));
+  else if (loginData.tokenExpirationDate > new Date()) return dispatch(loginSuccess(loginData));
   else dispatch(logout());
 };

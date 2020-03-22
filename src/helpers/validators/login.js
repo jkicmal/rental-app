@@ -1,7 +1,7 @@
 import validator from 'validator';
 import isEmpty from 'lodash/isEmpty';
 
-const validateInput = input => {
+const validateInput = (input) => {
   const errors = {};
 
   if (validator.isEmpty(input.email)) {
@@ -18,7 +18,7 @@ const validateInput = input => {
 
   return {
     errors,
-    isValid: isEmpty(errors)
+    isValid: isEmpty(errors),
   };
 };
 

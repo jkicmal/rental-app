@@ -14,14 +14,14 @@ import { login, loginErrorAlertClose } from '../../actions/login/actions';
 class LoginFrom extends Component {
   state = {
     email: 'employee@gmail.com',
-    password: 'Password@0'
+    password: 'Password@0',
   };
 
-  onInputChange = e => {
+  onInputChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  onSubmit = e => {
+  onSubmit = (e) => {
     e.preventDefault();
     const { loginActions } = this.props;
     loginActions.login(this.state);
@@ -71,11 +71,7 @@ class LoginFrom extends Component {
               onChange={this.onInputChange}
               value={this.state.password}
             />
-            {loginState.loading ? (
-              <CircularProgress />
-            ) : (
-              <Button type="submit">Submit</Button>
-            )}
+            {loginState.loading ? <CircularProgress /> : <Button type="submit">Submit</Button>}
           </form>
         </div>
       </Fragment>
@@ -83,18 +79,18 @@ class LoginFrom extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   loginActions: {
-    login: loginFormData => dispatch(login(loginFormData)),
-    loginErrorAlertClose: () => dispatch(loginErrorAlertClose())
-  }
+    login: (loginFormData) => dispatch(login(loginFormData)),
+    loginErrorAlertClose: () => dispatch(loginErrorAlertClose()),
+  },
 });
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   loginState: {
     loading: state.loginReducer.loading,
-    error: state.loginReducer.error
-  }
+    error: state.loginReducer.error,
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginFrom);

@@ -5,7 +5,7 @@ import { paths } from '../../config/api';
 import { apiToAppError } from '../../helpers/errors';
 
 const registerSuccess = () => ({
-  type: types.REGISTER_SUCCESS
+  type: types.REGISTER_SUCCESS,
 });
 
 const registerFail = (status, error) => ({
@@ -14,24 +14,24 @@ const registerFail = (status, error) => ({
     error: {
       status,
       type: error.error,
-      message: error.message
-    }
-  }
+      message: error.message,
+    },
+  },
 });
 
 const registerStart = () => ({
-  type: types.REGISTER_START
+  type: types.REGISTER_START,
 });
 
 export const registerSuccessAlertClose = () => ({
-  type: types.REGISTER_SUCCESS_ALERT_CLOSE
+  type: types.REGISTER_SUCCESS_ALERT_CLOSE,
 });
 
 export const registerErrorAlertClose = () => ({
-  type: types.REGISTER_ERROR_ALERT_CLOSE
+  type: types.REGISTER_ERROR_ALERT_CLOSE,
 });
 
-export const register = registerFormData => async dispatch => {
+export const register = (registerFormData) => async (dispatch) => {
   dispatch(registerStart());
   try {
     await axios.post(paths.register.register(), registerFormData);
