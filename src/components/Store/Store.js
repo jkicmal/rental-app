@@ -4,9 +4,6 @@ import { connect } from 'react-redux';
 import { fetchCategories } from '../../actions/category/actions';
 
 import StoreCategoryList from './Category/List/List';
-import { Container } from '@material-ui/core';
-
-import classes from './Store.module.scss';
 
 class Store extends Component {
   componentDidMount() {

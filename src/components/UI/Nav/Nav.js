@@ -9,9 +9,9 @@ export const Nav = ({ isAuthenticated, accountType }) => {
     <RouterLink key="/employee/categories" to="/employee/categories" className={classes.link}>
       <Button color="inherit">Categories</Button>
     </RouterLink>,
-    <RouterLink key="/employee/orders" to="/employee/orders" className={classes.link}>
-      <Button color="inherit">Orders</Button>
-    </RouterLink>,
+    <RouterLink key="/employee/products" to="/employee/products" className={classes.link}>
+      <Button color="inherit">Products</Button>
+    </RouterLink>
   ];
 
   const customerNavElements = [
@@ -20,7 +20,7 @@ export const Nav = ({ isAuthenticated, accountType }) => {
     </RouterLink>,
     <RouterLink key="/customer/orders" to="/customer/orders" className={classes.link}>
       <Button color="inherit">Orders</Button>
-    </RouterLink>,
+    </RouterLink>
   ];
 
   const logoutNavElement = (
@@ -35,7 +35,7 @@ export const Nav = ({ isAuthenticated, accountType }) => {
     </RouterLink>,
     <RouterLink key="/login" to="/login" className={classes.link}>
       <Button color="inherit">Login</Button>
-    </RouterLink>,
+    </RouterLink>
   ];
 
   const navElementsToRender = isAuthenticated

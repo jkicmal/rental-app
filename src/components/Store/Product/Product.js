@@ -19,7 +19,7 @@ const StoreProduct = ({ product }) => {
       <Typography>Price: {product.price.toFixed(2)}PLN</Typography>
       <Typography>Deposit: {product.deposit.toFixed(2)}PLN</Typography>
       <Button className={classes.button} onClick={onButtonClick}>
-        ADD TO SHOPPING CARD
+        ADD TO SHOPPING CART
       </Button>
     </Paper>
   );
