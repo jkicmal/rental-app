@@ -2,10 +2,13 @@ import axios from 'axios';
 import { paths } from '../../config/api';
 import * as types from './types';
 import { apiToAppError } from '../../helpers/errors';
+import {
+  saveLoginDataToLocalStorage,
+  getLoginDataFromLocalStorage,
+  removeLoginDataFromLocalStorage
+} from '../../helpers/login-storage';
 
-const TOKEN_STORAGE_KEY = 'token';
-const TOKEN_EXPIRATION_DATE_STORAGE_KEY = 'tokenExpirationDate';
-const ACCOUNT_TYPE_STORAGE_KEY = 'accountType';
+// TODO: Create components that will log out user based on expiresIn in state
 
 const loginStart = () => ({
   type: types.LOGIN_START
@@ -27,45 +30,10 @@ const loginFail = (status, error) => ({
   }
 });
 
-/**
- * Local storage related
- */
-const getLoginDataFromLocalStorage = () => {
-  const token = localStorage.getItem(TOKEN_STORAGE_KEY);
-  const tokenExpirationDate = new Date(
-    localStorage.getItem(TOKEN_EXPIRATION_DATE_STORAGE_KEY)
-  );
-  const accountType = localStorage.getItem(ACCOUNT_TYPE_STORAGE_KEY);
-
-  if (!token || !tokenExpirationDate || !accountType) return null;
-
-  return { token, tokenExpirationDate, accountType };
-};
-
-const saveLoginDataToLocalStorage = loginData => {
-  const { token, tokenExpirationDate, accountType } = loginData;
-
-  localStorage.setItem(TOKEN_STORAGE_KEY, token);
-  localStorage.setItem(TOKEN_EXPIRATION_DATE_STORAGE_KEY, tokenExpirationDate);
-  localStorage.setItem(ACCOUNT_TYPE_STORAGE_KEY, accountType);
-};
-
-const removeLoginDataFromLocalStorage = () => {
-  localStorage.removeItem(TOKEN_STORAGE_KEY);
-  localStorage.removeItem(TOKEN_EXPIRATION_DATE_STORAGE_KEY);
-  localStorage.removeItem(ACCOUNT_TYPE_STORAGE_KEY);
-};
-
 export const logout = () => {
   removeLoginDataFromLocalStorage();
   return { type: types.LOGOUT };
 };
-
-/**
- * TODO:
- * Create components that will log out user basing
- * on expiresIn in state
- */
 
 export const loginErrorAlertClose = () => dispatch =>
   dispatch({ type: types.LOGIN_ERROR_ALERT_CLOSE });
@@ -83,10 +51,10 @@ export const login = loginFormData => async dispatch => {
     };
     saveLoginDataToLocalStorage(loginData);
 
-    dispatch(loginSuccess(loginData));
+    return dispatch(loginSuccess(loginData));
   } catch (error) {
     const appError = apiToAppError(error.response);
-    dispatch(loginFail(appError.response, appError.error));
+    return dispatch(loginFail(appError.response, appError.error));
   }
 };
 
