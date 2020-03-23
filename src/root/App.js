@@ -6,13 +6,15 @@ import { accountTypes } from '../helpers/constants';
 import { logout, loginCheckState } from '../actions/login/actions';
 
 import { Nav } from '../components/UI/Nav/Nav';
-import ScreensEmployeeCategory from '../screens/Employee/Category/Category';
 import ScreensLogin from '../screens/Login/Login';
 import ScreensRegister from '../screens/Register/Register';
 import ScreensStore from '../screens/Store/Store';
 import Logout from '../components/Logout/Logout';
 import ProtectedRoute from '../components/ProtectedRoute/ProtectedRoute';
-import ScreensEmployeeProduct from '../screens/Employee/Product/Product';
+
+import ScreensEmployeeCategoryViewMany from '../screens/Employee/Category/ViewMany';
+import ScreensEmployeeProductViewMany from '../screens/Employee/Product/ViewMany';
+import ScreensEmployeeProductViewOne from '../screens/Employee/Product/ViewOne';
 
 class App extends Component {
   constructor(props) {
@@ -41,13 +43,19 @@ class App extends Component {
             accountType={accountTypes.EMPLOYEE}
             exact
             path="/employee/categories"
-            component={ScreensEmployeeCategory}
+            component={ScreensEmployeeCategoryViewMany}
           />
           <ProtectedRoute
             accountType={accountTypes.EMPLOYEE}
             exact
             path="/employee/products"
-            component={ScreensEmployeeProduct}
+            component={ScreensEmployeeProductViewMany}
+          />
+          <ProtectedRoute
+            accountType={accountTypes.EMPLOYEE}
+            exact
+            path="/employee/products/:productId"
+            component={ScreensEmployeeProductViewOne}
           />
 
           {/* Common routes */}

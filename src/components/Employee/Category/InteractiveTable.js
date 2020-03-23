@@ -6,9 +6,9 @@ import {
   createCategory,
   updateCategory,
   deleteCategory
-} from '../../actions/category/actions';
+} from '../../../actions/category/actions';
 
-import MaterialTableBase from '../MaterialTable/Base';
+import MaterialTableBase from '../../MaterialTable/Base';
 
 class CategoryInteractiveTable extends Component {
   componentDidMount() {

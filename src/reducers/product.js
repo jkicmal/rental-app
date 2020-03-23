@@ -30,12 +30,22 @@ const deleteProductSuccess = (state, payload) => ({
   loading: false
 });
 
+const fetchProductSuccess = (state, payload) => ({
+  ...state,
+  product: payload.fetchedProduct,
+  error: null,
+  success: null,
+  loading: false
+});
+
 export const productReducer = (state = initialState, action) => {
   switch (action.type) {
     case types.FETCH_PRODUCTS_SUCCESS:
       return fetchProductsSuccess(state, action.payload);
     case types.DELETE_PRODUCT_SUCCESS:
       return deleteProductSuccess(state, action.payload);
+    case types.FETCH_PRODUCT_SUCCESS:
+      return fetchProductSuccess(state, action.payload);
     default:
       return state;
   }

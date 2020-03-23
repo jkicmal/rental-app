@@ -5,7 +5,7 @@ import { paths } from '../../config/api';
 import { resourceQueryParamsToPathParams } from '../../helpers/resource-query-params';
 import { apiToAppError } from '../../helpers/errors';
 
-// FETCHING
+// FETCHING MANY
 const fetchProductsStart = () => ({
   type: types.FETCH_PRODUCTS_START
 });
@@ -29,7 +29,6 @@ const fetchProductsFail = (status, error) => ({
 export const fetchProducts = resourceQueryParams => async dispatch => {
   dispatch(fetchProductsStart());
   try {
-    console.log(resourceQueryParams);
     const resourceQueryPathParams = resourceQueryParamsToPathParams(resourceQueryParams);
     const response = await axios.get(paths.product.multiple(resourceQueryPathParams));
     const fetchedProducts = response.data.data;
@@ -37,6 +36,40 @@ export const fetchProducts = resourceQueryParams => async dispatch => {
   } catch (error) {
     const appError = apiToAppError(error.response);
     return dispatch(fetchProductsFail(appError.response, appError.error));
+  }
+};
+
+// FETCHING ONE
+const fetchProductStart = () => ({
+  type: types.FETCH_PRODUCT_START
+});
+
+const fetchProductSuccess = fetchedProduct => ({
+  type: types.FETCH_PRODUCT_SUCCESS,
+  payload: { fetchedProduct }
+});
+
+const fetchProductFail = (status, error) => ({
+  type: types.FETCH_PRODUCT_FAIL,
+  payload: {
+    error: {
+      status,
+      type: error.error,
+      message: error.message
+    }
+  }
+});
+
+export const fetchProduct = (id, resourceQueryParams) => async dispatch => {
+  dispatch(fetchProductStart());
+  try {
+    const resourceQueryPathParams = resourceQueryParamsToPathParams(resourceQueryParams);
+    const response = await axios.get(paths.product.single(id, resourceQueryPathParams));
+    const fetchedProduct = response.data.data;
+    return dispatch(fetchProductSuccess(fetchedProduct));
+  } catch (error) {
+    const appError = apiToAppError(error.response);
+    return dispatch(fetchProductFail(appError.response, appError.error));
   }
 };
 

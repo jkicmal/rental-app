@@ -1,0 +1,8 @@
+.link {
+  &,
+  &:visited,
+  &:active,
+  &:link {
+    text-decoration: none;
+  }
+}
