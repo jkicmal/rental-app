@@ -4,7 +4,7 @@ import { AppBar, Toolbar, Button } from '@material-ui/core';
 import classes from './Nav.module.scss';
 import { accountTypes } from '../../../helpers/constants';
 
-export const Nav = ({ isAuthenticated, accountType }) => {
+const Nav = ({ isAuthenticated, accountType }) => {
   const employeeNavElements = [
     <RouterLink key="/employee/categories" to="/employee/categories" className={classes.link}>
       <Button color="inherit">Categories</Button>
@@ -59,3 +59,5 @@ export const Nav = ({ isAuthenticated, accountType }) => {
     </AppBar>
   );
 };
+
+export default Nav;

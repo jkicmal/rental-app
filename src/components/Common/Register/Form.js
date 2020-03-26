@@ -12,8 +12,8 @@ import Alert from '../Alert/Alert';
 import {
   register,
   registerErrorAlertClose,
-  registerSuccessAlertClose,
-} from '../../actions/register/actions';
+  registerSuccessAlertClose
+} from '../../../actions/register/actions';
 
 // TODO: Add error handling to the form
 class RegisterForm extends Component {
@@ -30,23 +30,23 @@ class RegisterForm extends Component {
       city: 'Tarnowskie Góry',
       postalCode: '02-005',
       addressLine1: 'Address line 1',
-      addressLine2: 'Address line 2',
-    },
+      addressLine2: 'Address line 2'
+    }
   };
 
-  onSubmit = (e) => {
+  onSubmit = e => {
     e.preventDefault();
     const { registerActions } = this.props;
     registerActions.register(this.state.formData);
   };
 
-  onInputChange = (e) => {
+  onInputChange = e => {
     e.preventDefault();
     this.setState({
       formData: {
         ...this.state.formData,
-        [e.target.name]: e.target.value,
-      },
+        [e.target.name]: e.target.value
+      }
     });
   };
 
@@ -197,20 +197,20 @@ class RegisterForm extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   registerState: {
     error: state.registerReducer.error,
     success: state.registerReducer.success,
-    loading: state.registerReducer.loading,
-  },
+    loading: state.registerReducer.loading
+  }
 });
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   registerActions: {
-    register: (formData) => dispatch(register(formData)),
+    register: formData => dispatch(register(formData)),
     registerErrorAlertClose: () => dispatch(registerErrorAlertClose()),
-    registerSuccessAlertClose: () => dispatch(registerSuccessAlertClose()),
-  },
+    registerSuccessAlertClose: () => dispatch(registerSuccessAlertClose())
+  }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(RegisterForm);

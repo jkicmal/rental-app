@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
 
-import { loginCheckState } from '../../actions/login/actions';
+import { loginCheckState } from '../../../actions/login/actions';
 
 class ProtectedRoute extends Component {
   componentDidMount() {
@@ -30,17 +30,17 @@ class ProtectedRoute extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   loginState: {
     token: state.loginReducer.token,
-    accountType: state.loginReducer.accountType,
-  },
+    accountType: state.loginReducer.accountType
+  }
 });
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   loginActions: {
-    loginCheckState: () => dispatch(loginCheckState()),
-  },
+    loginCheckState: () => dispatch(loginCheckState())
+  }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProtectedRoute);

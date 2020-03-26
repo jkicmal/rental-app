@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
-import { Button } from '@material-ui/core';
+
+import { fetchProducts, deleteProduct } from '../../../../actions/product/actions';
 
 import classes from './InteractiveTable.module.scss';
-import MaterialTableBase from '../../../MaterialTable/Base';
-import { fetchProducts, deleteProduct } from '../../../../actions/product/actions';
+import { Button } from '@material-ui/core';
+import { MaterialTableBase } from '../../../Common';
 
 class ProductInteractiveTable extends Component {
   componentDidMount() {

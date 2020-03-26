@@ -3,7 +3,7 @@ import { Redirect } from 'react-router-dom';
 
 import { connect } from 'react-redux';
 
-import { logout } from '../../actions/login/actions';
+import { logout } from '../../../actions/login/actions';
 
 class Logout extends Component {
   componentDidMount() {
@@ -16,10 +16,10 @@ class Logout extends Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   loginActions: {
-    logout: () => dispatch(logout()),
-  },
+    logout: () => dispatch(logout())
+  }
 });
 
 export default connect(null, mapDispatchToProps)(Logout);

@@ -1,10 +1,12 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchProduct } from '../../../actions/product/actions';
-import { Typography, Paper } from '@material-ui/core';
-import classes from './Info.module.scss';
 
-class EmployeeProductInfo extends Component {
+import { fetchProduct } from '../../../actions/product/actions';
+
+import { Typography, Paper } from '@material-ui/core';
+import classes from './Product.module.scss';
+
+class EmployeeProduct extends Component {
   componentDidMount() {
     this.props.productActions.fetchProduct(this.props.productId, { relations: ['category'] });
   }
@@ -57,4 +59,4 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(EmployeeProductInfo);
+export default connect(mapStateToProps, mapDispatchToProps)(EmployeeProduct);

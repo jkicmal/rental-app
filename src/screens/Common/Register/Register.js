@@ -1,7 +1,6 @@
 import React from 'react';
 
-import Screen from '../../components/Screen/Screen';
-import RegisterForm from '../../components/Register/Form';
+import { Screen, RegisterForm } from '../../../components/Common';
 
 const ScreensRegister = () => (
   <Screen horizontalCenter verticalCenter>

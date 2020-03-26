@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Typography } from '@material-ui/core';
-import Screen from '../../components/Screen/Screen';
+import { Screen } from '../../../components/Common';
 
 const ScreensNotFound = () => {
   return (

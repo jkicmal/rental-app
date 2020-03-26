@@ -1,7 +1,7 @@
 import React from 'react';
 
-import Screen from '../../components/Screen/Screen';
-import Store from '../../components/Store/Store';
+import { Screen } from '../../components/Common';
+import { Store } from '../../components/Store';
 
 const ScreensStore = () => (
   <Screen>

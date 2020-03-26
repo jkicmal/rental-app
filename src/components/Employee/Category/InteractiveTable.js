@@ -8,7 +8,7 @@ import {
   deleteCategory
 } from '../../../actions/category/actions';
 
-import MaterialTableBase from '../../MaterialTable/Base';
+import MaterialTableBase from '../../Common/MaterialTable/Base';
 
 class CategoryInteractiveTable extends Component {
   componentDidMount() {

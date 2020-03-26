@@ -5,16 +5,16 @@ import { connect } from 'react-redux';
 import { accountTypes } from '../helpers/constants';
 import { logout, loginCheckState } from '../actions/login/actions';
 
-import { Nav } from '../components/UI/Nav/Nav';
-import ScreensLogin from '../screens/Login/Login';
-import ScreensRegister from '../screens/Register/Register';
-import ScreensStore from '../screens/Store/Store';
-import Logout from '../components/Logout/Logout';
-import ProtectedRoute from '../components/ProtectedRoute/ProtectedRoute';
-
-import ScreensEmployeeCategoryViewMany from '../screens/Employee/Category/ViewMany';
-import ScreensEmployeeProductViewMany from '../screens/Employee/Product/ViewMany';
-import ScreensEmployeeProductViewOne from '../screens/Employee/Product/ViewOne';
+import { Nav, Logout, ProtectedRoute } from '../components/Common';
+import { ScreensCommonLogin, ScreensCommonRegister } from '../screens/Common';
+import { ScreensStore } from '../screens/Store';
+import {
+  ScreensEmployeeCategories,
+  ScreensEmployeeProduct,
+  ScreensEmployeeProducts,
+  ScreensEmployeeProductEdit,
+  ScreensEmployeeProductAdd
+} from '../screens/Employee';
 
 class App extends Component {
   constructor(props) {
@@ -32,8 +32,13 @@ class App extends Component {
         <Nav isAuthenticated={isAuthenticated} accountType={accountType} />
         <Switch>
           {/* Unauthenticated only routes */}
-          <ProtectedRoute unauthenticatedOnly exact path="/login" component={ScreensLogin} />
-          <ProtectedRoute unauthenticatedOnly exact path="/register" component={ScreensRegister} />
+          <ProtectedRoute unauthenticatedOnly exact path="/login" component={ScreensCommonLogin} />
+          <ProtectedRoute
+            unauthenticatedOnly
+            exact
+            path="/register"
+            component={ScreensCommonRegister}
+          />
 
           {/* Authenticated routes */}
           <ProtectedRoute exact path="/logout" component={Logout} />
@@ -43,19 +48,31 @@ class App extends Component {
             accountType={accountTypes.EMPLOYEE}
             exact
             path="/employee/categories"
-            component={ScreensEmployeeCategoryViewMany}
+            component={ScreensEmployeeCategories}
           />
           <ProtectedRoute
             accountType={accountTypes.EMPLOYEE}
             exact
             path="/employee/products"
-            component={ScreensEmployeeProductViewMany}
+            component={ScreensEmployeeProducts}
           />
           <ProtectedRoute
             accountType={accountTypes.EMPLOYEE}
             exact
             path="/employee/products/:productId"
-            component={ScreensEmployeeProductViewOne}
+            component={ScreensEmployeeProduct}
+          />
+          <ProtectedRoute
+            accountType={accountTypes.EMPLOYEE}
+            exact
+            path="/employee/products/add"
+            component={ScreensEmployeeProductAdd}
+          />
+          <ProtectedRoute
+            accountType={accountTypes.EMPLOYEE}
+            exact
+            path="/employee/products/:productId/edit"
+            component={ScreensEmployeeProductEdit}
           />
 
           {/* Common routes */}

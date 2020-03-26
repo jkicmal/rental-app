@@ -1,11 +1,10 @@
 import React from 'react';
 
-import Screen from '../../components/Screen/Screen';
-import LoginFrom from '../../components/Login/Form';
+import { LoginForm, Screen } from '../../../components/Common';
 
 const ScreensLogin = () => (
   <Screen horizontalCenter verticalCenter>
-    <LoginFrom />
+    <LoginForm />
   </Screen>
 );
 

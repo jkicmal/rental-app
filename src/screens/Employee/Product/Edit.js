@@ -1,7 +1,7 @@
 import React from 'react';
 
-import Screen from '../../../components/Screen/Screen';
+import Screen from '../../../components/Common/Screen/Screen';
 
-const ScreensEmployeProductEdit = () => <Screen>[ScreensEmployeProductCreate]</Screen>;
+const ScreensEmployeProductEdit = () => <Screen>[ScreensEmployeProductEdit]</Screen>;
 
 export default ScreensEmployeProductEdit;
