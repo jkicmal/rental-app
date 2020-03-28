@@ -4,10 +4,11 @@ import { connect } from 'react-redux';
 import { fetchCategories } from '../../actions/category/actions';
 
 import StoreCategoryList from './Category/List/List';
+import { apiAccessTypes } from '../../config/api';
 
 class Store extends Component {
   componentDidMount() {
-    this.props.categoryActions.fetchCategories({ relations: ['products'] });
+    this.props.categoryActions.fetchCategories({ relations: ['products'] }, apiAccessTypes.SHARED);
   }
 
   render() {
@@ -24,7 +25,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   categoryActions: {
-    fetchCategories: resourceQueryParams => dispatch(fetchCategories(resourceQueryParams))
+    fetchCategories: (resourceQueryParams, apiAccessType) =>
+      dispatch(fetchCategories(resourceQueryParams, apiAccessType))
   }
 });
 

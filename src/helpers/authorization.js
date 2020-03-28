@@ -11,6 +11,6 @@ export const setToken = () => {
   localStorage.setItem(TOKEN_KEY);
 };
 
-export const getHeader = () => ({
-  [TOKEN_HEADER]: `Bearer ${getToken()}`,
+export const createAuthHeader = token => ({
+  [TOKEN_HEADER]: `Bearer ${token}`
 });

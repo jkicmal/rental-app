@@ -9,26 +9,27 @@ import {
 } from '../../../actions/category/actions';
 
 import MaterialTableBase from '../../Common/MaterialTable/Base';
+import { apiAccessTypes } from '../../../config';
 
 class CategoryInteractiveTable extends Component {
   componentDidMount() {
-    const { categoryActions } = this.props;
-    categoryActions.fetchCategories();
+    const { categoryActions, loginState } = this.props;
+    categoryActions.fetchCategories(null, apiAccessTypes.EMPLOYEE, loginState.token);
   }
 
   onRowAdd(category) {
     const { categoryActions, loginState } = this.props;
-    return categoryActions.createCategory(loginState, category);
+    return categoryActions.createCategory(category, apiAccessTypes.EMPLOYEE, loginState.token);
   }
 
   onRowUpdate(category) {
     const { categoryActions, loginState } = this.props;
-    return categoryActions.updateCategory(loginState, category);
+    return categoryActions.updateCategory(category, apiAccessTypes.EMPLOYEE, loginState.token);
   }
 
   onRowDelete(category) {
     const { categoryActions, loginState } = this.props;
-    return categoryActions.deleteCategory(loginState, category);
+    return categoryActions.deleteCategory(category, apiAccessTypes.EMPLOYEE, loginState.token);
   }
 
   render() {
@@ -67,10 +68,14 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   categoryActions: {
-    fetchCategories: (token, category) => dispatch(fetchCategories(token, category)),
-    createCategory: (token, category) => dispatch(createCategory(token, category)),
-    updateCategory: (token, category) => dispatch(updateCategory(token, category)),
-    deleteCategory: (token, category) => dispatch(deleteCategory(token, category))
+    fetchCategories: (resourceQueryParams, apiAccessType, token) =>
+      dispatch(fetchCategories(resourceQueryParams, apiAccessType, token)),
+    createCategory: (category, apiAccessType, token) =>
+      dispatch(createCategory(category, apiAccessType, token)),
+    updateCategory: (category, apiAccessType, token) =>
+      dispatch(updateCategory(category, apiAccessType, token)),
+    deleteCategory: (category, apiAccessType, token) =>
+      dispatch(deleteCategory(category, apiAccessType, token))
   }
 });
 

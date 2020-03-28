@@ -1,11 +1,14 @@
 import axios from 'axios';
 
 import * as types from './types';
-import { paths } from '../../config/api';
+import { resourcePaths } from '../../config/api';
 import { resourceQueryParamsToPathParams } from '../../helpers/resource-query-params';
 import { apiToAppError } from '../../helpers/errors';
+import { createAuthHeader } from '../../helpers/authorization';
 
-// FETCHING MANY
+/**
+ * Fetch many
+ */
 const fetchProductsStart = () => ({
   type: types.FETCH_PRODUCTS_START
 });
@@ -26,11 +29,14 @@ const fetchProductsFail = (status, error) => ({
   }
 });
 
-export const fetchProducts = resourceQueryParams => async dispatch => {
+export const fetchProducts = (resourceQueryParams, apiAccessType, token) => async dispatch => {
   dispatch(fetchProductsStart());
   try {
     const resourceQueryPathParams = resourceQueryParamsToPathParams(resourceQueryParams);
-    const response = await axios.get(paths.product.multiple(resourceQueryPathParams));
+    const response = await axios.get(
+      resourcePaths[apiAccessType].products.many(resourceQueryPathParams),
+      { headers: createAuthHeader(token) }
+    );
     const fetchedProducts = response.data.data;
     return dispatch(fetchProductsSuccess(fetchedProducts));
   } catch (error) {
@@ -39,7 +45,9 @@ export const fetchProducts = resourceQueryParams => async dispatch => {
   }
 };
 
-// FETCHING ONE
+/**
+ * Fetch one
+ */
 const fetchProductStart = () => ({
   type: types.FETCH_PRODUCT_START
 });
@@ -60,11 +68,14 @@ const fetchProductFail = (status, error) => ({
   }
 });
 
-export const fetchProduct = (id, resourceQueryParams) => async dispatch => {
+export const fetchProduct = (id, resourceQueryParams, apiAccessType, token) => async dispatch => {
   dispatch(fetchProductStart());
   try {
     const resourceQueryPathParams = resourceQueryParamsToPathParams(resourceQueryParams);
-    const response = await axios.get(paths.product.single(id, resourceQueryPathParams));
+    const response = await axios.get(
+      resourcePaths[apiAccessType].products.one(id, resourceQueryPathParams),
+      { headers: createAuthHeader(token) }
+    );
     const fetchedProduct = response.data.data;
     return dispatch(fetchProductSuccess(fetchedProduct));
   } catch (error) {
@@ -73,7 +84,9 @@ export const fetchProduct = (id, resourceQueryParams) => async dispatch => {
   }
 };
 
-// DELETING
+/**
+ * Delete
+ */
 const deleteProductStart = () => ({
   type: types.DELETE_PRODUCT_START
 });
@@ -94,11 +107,12 @@ const deleteProductFail = (status, error) => ({
   }
 });
 
-export const deleteProduct = (token, product) => async dispatch => {
+export const deleteProduct = (product, apiAccessType, token) => async dispatch => {
   dispatch(deleteProductStart());
   try {
-    // TODO: Use token to authorize
-    const response = await axios.delete(paths.product.single(product.id));
+    const response = await axios.delete(resourcePaths[apiAccessType].products.one(product.id), {
+      headers: createAuthHeader(token)
+    });
     const deletedProduct = response.data.data;
     return dispatch(deleteProductSuccess(deletedProduct));
   } catch (error) {
@@ -106,3 +120,11 @@ export const deleteProduct = (token, product) => async dispatch => {
     return dispatch(deleteProductFail(appError.response, appError.error));
   }
 };
+
+/**
+ * Update
+ */
+
+/**
+ * Create
+ */

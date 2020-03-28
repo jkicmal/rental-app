@@ -7,31 +7,32 @@ import { fetchProducts, deleteProduct } from '../../../../actions/product/action
 import classes from './InteractiveTable.module.scss';
 import { Button } from '@material-ui/core';
 import { MaterialTableBase } from '../../../Common';
+import { apiAccessTypes } from '../../../../config';
 
 class ProductInteractiveTable extends Component {
   componentDidMount() {
-    console.log('PRODUCT INTERACTIVE TABLE COMPONENT DID MOUNT');
-    this.props.productActions.fetchProducts({ relations: ['category'] });
+    const { productActions, loginState } = this.props;
+    productActions.fetchProducts(
+      { relations: ['category'] },
+      apiAccessTypes.EMPLOYEE,
+      loginState.token
+    );
   }
 
   onRowDelete = async product => {
-    this.props.productActions.deleteProduct('', product);
+    const { productActions, loginState } = this.props;
+    productActions.deleteProduct(product, apiAccessTypes.EMPLOYEE, loginState.token);
   };
 
   render() {
     const { productState } = this.props;
 
-    const productsData = productState.products.map(product => {
-      // console.log(product.category);
-      // return Object.assign({}, product);
-
-      return {
-        ...product,
-        categoryName: !!product.category ? product.category.name : 'None',
-        price: product.price.toFixed(2),
-        deposit: product.deposit.toFixed(2)
-      };
-    });
+    const productsData = productState.products.map(product => ({
+      ...product,
+      categoryName: !!product.category ? product.category.name : 'None',
+      price: product.price.toFixed(2),
+      deposit: product.deposit.toFixed(2)
+    }));
 
     return (
       <MaterialTableBase
@@ -66,13 +67,18 @@ class ProductInteractiveTable extends Component {
 const mapStateToProps = state => ({
   productState: {
     products: state.productReducer.products
+  },
+  loginState: {
+    token: state.loginReducer.token
   }
 });
 
 const mapDispatchToProps = dispatch => ({
   productActions: {
-    fetchProducts: resourceQueryParams => dispatch(fetchProducts(resourceQueryParams)),
-    deleteProduct: (token, product) => dispatch(deleteProduct(token, product))
+    fetchProducts: (resourceQueryParams, apiAccessType, token) =>
+      dispatch(fetchProducts(resourceQueryParams, apiAccessType, token)),
+    deleteProduct: (product, apiAccessType, token) =>
+      dispatch(deleteProduct(product, apiAccessType, token))
   }
 });
 

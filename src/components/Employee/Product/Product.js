@@ -5,10 +5,17 @@ import { fetchProduct } from '../../../actions/product/actions';
 
 import { Typography, Paper } from '@material-ui/core';
 import classes from './Product.module.scss';
+import { apiAccessTypes } from '../../../config/api';
 
 class EmployeeProduct extends Component {
   componentDidMount() {
-    this.props.productActions.fetchProduct(this.props.productId, { relations: ['category'] });
+    const { productActions, loginState, productId } = this.props;
+    productActions.fetchProduct(
+      productId,
+      { relations: ['category'] },
+      apiAccessTypes.EMPLOYEE,
+      loginState.token
+    );
   }
 
   render() {
@@ -50,12 +57,16 @@ class EmployeeProduct extends Component {
 const mapStateToProps = state => ({
   productState: {
     product: state.productReducer.product
+  },
+  loginState: {
+    token: state.loginReducer.token
   }
 });
 
 const mapDispatchToProps = dispatch => ({
   productActions: {
-    fetchProduct: (id, resourceQueryParams) => dispatch(fetchProduct(id, resourceQueryParams))
+    fetchProduct: (id, resourceQueryParams, apiAccessType, token) =>
+      dispatch(fetchProduct(id, resourceQueryParams, apiAccessType, token))
   }
 });
 
