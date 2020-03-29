@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Screen, RouterLink } from '../../../components/Common';
+import { Screen, RouterLink, Divider } from '../../../components/Common';
 import { EmployeeProductInteractiveTable } from '../../../components/Employee/';
 import { Button } from '@material-ui/core';
 
@@ -11,6 +11,7 @@ const ScreensEmployeeProducts = () => (
         Add
       </Button>
     </RouterLink>
+    <Divider size="xs" />
     <EmployeeProductInteractiveTable />
   </Screen>
 );

@@ -2,12 +2,17 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
 
-import { fetchProducts, deleteProduct } from '../../../../actions/product/actions';
+import {
+  fetchProducts,
+  deleteProduct,
+  productConsumeSuccess
+} from '../../../../actions/product/actions';
 
 import classes from './InteractiveTable.module.scss';
 import { Button } from '@material-ui/core';
 import { MaterialTableBase } from '../../../Common';
 import { apiAccessTypes } from '../../../../config';
+import { toastr } from 'react-redux-toastr';
 
 class ProductInteractiveTable extends Component {
   componentDidMount() {
@@ -23,6 +28,15 @@ class ProductInteractiveTable extends Component {
     const { productActions, loginState } = this.props;
     productActions.deleteProduct(product, apiAccessTypes.EMPLOYEE, loginState.token);
   };
+
+  componentDidUpdate() {
+    const { productState, productActions } = this.props;
+    const { success } = productState;
+    if (success) {
+      toastr.success(success.type, success.message);
+      productActions.productConsumeSuccess();
+    }
+  }
 
   render() {
     const { productState } = this.props;
@@ -46,7 +60,6 @@ class ProductInteractiveTable extends Component {
           { title: 'Deposit (PLN)', field: 'deposit' },
           { title: 'Category', field: 'categoryName' },
           {
-            // field: 'id',
             render: rowData => (
               <RouterLink className={classes.link} to={`/employee/products/${rowData.id}`}>
                 <Button variant="outlined">View</Button>
@@ -66,7 +79,8 @@ class ProductInteractiveTable extends Component {
 
 const mapStateToProps = state => ({
   productState: {
-    products: state.productReducer.products
+    products: state.productReducer.products,
+    success: state.productReducer.success
   },
   loginState: {
     token: state.loginReducer.token
@@ -78,7 +92,8 @@ const mapDispatchToProps = dispatch => ({
     fetchProducts: (resourceQueryParams, apiAccessType, token) =>
       dispatch(fetchProducts(resourceQueryParams, apiAccessType, token)),
     deleteProduct: (product, apiAccessType, token) =>
-      dispatch(deleteProduct(product, apiAccessType, token))
+      dispatch(deleteProduct(product, apiAccessType, token)),
+    productConsumeSuccess: () => dispatch(productConsumeSuccess())
   }
 });
 
