@@ -1,11 +1,17 @@
 import React from 'react';
 
-import Screen from '../../../components/Common/Screen/Screen';
-import ProductInteractiveTable from '../../../components/Employee/Product/InteractiveTable/InteractiveTable';
+import { Screen, RouterLink } from '../../../components/Common';
+import { EmployeeProductInteractiveTable } from '../../../components/Employee/';
+import { Button } from '@material-ui/core';
 
 const ScreensEmployeeProducts = () => (
   <Screen>
-    <ProductInteractiveTable />
+    <RouterLink to="/employee/products/add">
+      <Button variant="contained" color="primary">
+        Add
+      </Button>
+    </RouterLink>
+    <EmployeeProductInteractiveTable />
   </Screen>
 );
 

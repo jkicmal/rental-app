@@ -7,15 +7,16 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Button from '@material-ui/core/Button';
-import Alert from '../Alert/Alert';
 
 import {
   register,
-  registerErrorAlertClose,
-  registerSuccessAlertClose
+  registerConsumeSuccess,
+  registerConsumeError
 } from '../../../actions/register/actions';
+import { toastr } from 'react-redux-toastr';
 
 // TODO: Add error handling to the form
+
 class RegisterForm extends Component {
   state = {
     formData: {
@@ -50,20 +51,17 @@ class RegisterForm extends Component {
     });
   };
 
-  onErrorAlertClose = () => {
-    const { registerActions } = this.props;
-    registerActions.registerErrorAlertClose();
-  };
-
-  onSuccessAlertClose = () => {
-    const { registerActions } = this.props;
-    registerActions.registerSuccessAlertClose();
-  };
-
-  componentWillUnmount() {
+  componentDidUpdate() {
     const { registerState, registerActions } = this.props;
-    if (registerState.error) registerActions.registerErrorAlertClose();
-    if (registerState.success) registerActions.registerSuccessAlertClose();
+    const { error, success } = registerState;
+    if (error) {
+      toastr.error(error.type, error.message);
+      registerActions.registerConsumeError();
+    }
+    if (success) {
+      toastr.success(success.type, success.message);
+      registerActions.registerConsumeSuccess();
+    }
   }
 
   render() {
@@ -72,20 +70,6 @@ class RegisterForm extends Component {
 
     return (
       <Fragment>
-        {registerState.error ? (
-          <Alert
-            severity="warning"
-            message={registerState.error.message}
-            onClose={this.onErrorAlertClose}
-          />
-        ) : null}
-        {registerState.success ? (
-          <Alert
-            severity="success"
-            message={registerState.success.message}
-            onClose={this.onSuccessAlertClose}
-          />
-        ) : null}
         <div className={classes.container}>
           <Typography className={classes.title} variant="h5">
             REGISTER
@@ -208,8 +192,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   registerActions: {
     register: formData => dispatch(register(formData)),
-    registerErrorAlertClose: () => dispatch(registerErrorAlertClose()),
-    registerSuccessAlertClose: () => dispatch(registerSuccessAlertClose())
+    registerConsumeError: () => dispatch(registerConsumeError()),
+    registerConsumeSuccess: () => dispatch(registerConsumeSuccess())
   }
 });
 

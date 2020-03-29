@@ -5,11 +5,13 @@ import {
   fetchCategories,
   createCategory,
   updateCategory,
-  deleteCategory
+  deleteCategory,
+  categoryConsumeSuccess
 } from '../../../actions/category/actions';
 
 import MaterialTableBase from '../../Common/MaterialTable/Base';
 import { apiAccessTypes } from '../../../config';
+import { toastr } from 'react-redux-toastr';
 
 class CategoryInteractiveTable extends Component {
   componentDidMount() {
@@ -17,19 +19,37 @@ class CategoryInteractiveTable extends Component {
     categoryActions.fetchCategories(null, apiAccessTypes.EMPLOYEE, loginState.token);
   }
 
-  onRowAdd(category) {
-    const { categoryActions, loginState } = this.props;
-    return categoryActions.createCategory(category, apiAccessTypes.EMPLOYEE, loginState.token);
+  componentDidUpdate() {
+    const { categoryState, categoryActions } = this.props;
+    const { success } = categoryState;
+    if (success) {
+      toastr.success(success.type, success.message);
+      categoryActions.categoryConsumeSuccess();
+    }
   }
 
-  onRowUpdate(category) {
+  onRowAdd(categoryFormData) {
     const { categoryActions, loginState } = this.props;
-    return categoryActions.updateCategory(category, apiAccessTypes.EMPLOYEE, loginState.token);
+    return categoryActions.createCategory(
+      categoryFormData,
+      apiAccessTypes.EMPLOYEE,
+      loginState.token
+    );
   }
 
-  onRowDelete(category) {
+  onRowUpdate(categoryFormData) {
     const { categoryActions, loginState } = this.props;
-    return categoryActions.deleteCategory(category, apiAccessTypes.EMPLOYEE, loginState.token);
+    return categoryActions.updateCategory(
+      categoryFormData.id,
+      categoryFormData,
+      apiAccessTypes.EMPLOYEE,
+      loginState.token
+    );
+  }
+
+  onRowDelete({ id: categoryId }) {
+    const { categoryActions, loginState } = this.props;
+    return categoryActions.deleteCategory(categoryId, apiAccessTypes.EMPLOYEE, loginState.token);
   }
 
   render() {
@@ -59,7 +79,8 @@ class CategoryInteractiveTable extends Component {
 
 const mapStateToProps = state => ({
   categoryState: {
-    categories: state.categoryReducer.categories
+    categories: state.categoryReducer.categories,
+    success: state.categoryReducer.success
   },
   loginState: {
     token: state.loginReducer.token
@@ -72,10 +93,11 @@ const mapDispatchToProps = dispatch => ({
       dispatch(fetchCategories(resourceQueryParams, apiAccessType, token)),
     createCategory: (category, apiAccessType, token) =>
       dispatch(createCategory(category, apiAccessType, token)),
-    updateCategory: (category, apiAccessType, token) =>
-      dispatch(updateCategory(category, apiAccessType, token)),
+    updateCategory: (category, categoryFormData, apiAccessType, token) =>
+      dispatch(updateCategory(category, categoryFormData, apiAccessType, token)),
     deleteCategory: (category, apiAccessType, token) =>
-      dispatch(deleteCategory(category, apiAccessType, token))
+      dispatch(deleteCategory(category, apiAccessType, token)),
+    categoryConsumeSuccess: () => dispatch(categoryConsumeSuccess())
   }
 });
 

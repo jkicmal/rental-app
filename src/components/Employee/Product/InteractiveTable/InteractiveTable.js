@@ -30,8 +30,8 @@ class ProductInteractiveTable extends Component {
     const productsData = productState.products.map(product => ({
       ...product,
       categoryName: !!product.category ? product.category.name : 'None',
-      price: product.price.toFixed(2),
-      deposit: product.deposit.toFixed(2)
+      price: Number(product.price).toFixed(2),
+      deposit: Number(product.price).toFixed(2)
     }));
 
     return (

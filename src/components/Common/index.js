@@ -6,3 +6,4 @@ export { default as MaterialTableBase } from './MaterialTable/Base';
 export { default as Logout } from './Logout/Logout';
 export { default as LoginForm } from './Login/Form';
 export { default as Alert } from './Alert/Alert';
+export { default as RouterLink } from './RouterLink/RouterLink';

@@ -1,9 +1,10 @@
 import axios from 'axios';
-import { paths, resourcePaths } from '../../config/api';
+import { resourcePaths } from '../../config/api';
 
 import * as types from './types';
 import { resourceQueryParamsToPathParams } from '../../helpers/resource-query-params';
 import { createAuthHeader } from '../../helpers/authorization';
+import { successTypes } from '../../helpers/constants';
 
 /**
  * NOTE:
@@ -21,7 +22,7 @@ import { createAuthHeader } from '../../helpers/authorization';
  */
 
 /**
- * Fetch many
+ * FETCH MANY
  */
 const fetchCategoriesSuccess = fetchedCategories => ({
   type: types.FETCH_CATEGORIES_SUCCESS,
@@ -43,18 +44,26 @@ export const fetchCategories = (resourceQueryParams, apiAccessType, token) => as
 };
 
 /**
- * Create
+ * CREATE
  */
 const createCategorySuccess = createdCategory => ({
   type: types.CREATE_CATEGORY_SUCCESS,
-  payload: { createdCategory }
+  payload: {
+    createdCategory,
+    success: {
+      type: successTypes.CREATE_SUCCESS,
+      message: 'Category created'
+    }
+  }
 });
 
-export const createCategory = (category, apiAccessType, token) => async dispatch => {
+export const createCategory = (categoryFormData, apiAccessType, token) => async dispatch => {
   try {
-    const response = await axios.post(resourcePaths[apiAccessType].categories.many(), category, {
-      headers: createAuthHeader(token)
-    });
+    const response = await axios.post(
+      resourcePaths[apiAccessType].categories.many(),
+      categoryFormData,
+      { headers: createAuthHeader(token) }
+    );
     const createdCategory = response.data.data;
     dispatch(createCategorySuccess(createdCategory));
   } catch (error) {
@@ -63,18 +72,29 @@ export const createCategory = (category, apiAccessType, token) => async dispatch
 };
 
 /**
- * Update
+ * UPDATE
  */
 const updateCategorySuccess = updatedCategory => ({
   type: types.UPDATE_CATEGORY_SUCCESS,
-  payload: { updatedCategory }
+  payload: {
+    updatedCategory,
+    success: {
+      type: successTypes.UPDATE_SUCCESS,
+      message: 'Category updated'
+    }
+  }
 });
 
-export const updateCategory = (category, apiAccessType, token) => async dispatch => {
+export const updateCategory = (
+  categoryId,
+  categoryFormData,
+  apiAccessType,
+  token
+) => async dispatch => {
   try {
     const response = await axios.put(
-      resourcePaths[apiAccessType].categories.one(category.id),
-      category,
+      resourcePaths[apiAccessType].categories.one(categoryId),
+      categoryFormData,
       { headers: createAuthHeader(token) }
     );
     const updatedCategory = response.data.data;
@@ -85,16 +105,22 @@ export const updateCategory = (category, apiAccessType, token) => async dispatch
 };
 
 /**
- * Delete
+ * DELETE
  */
 const deleteCategorySuccess = deletedCategory => ({
   type: types.DELETE_CATEGORY_SUCCESS,
-  payload: { deletedCategory }
+  payload: {
+    deletedCategory,
+    success: {
+      type: successTypes.DELETE_SUCCESS,
+      message: 'Category deleted'
+    }
+  }
 });
 
-export const deleteCategory = (category, apiAccessType, token) => async dispatch => {
+export const deleteCategory = (categoryId, apiAccessType, token) => async dispatch => {
   try {
-    const response = await axios.delete(resourcePaths[apiAccessType].categories.one(category.id), {
+    const response = await axios.delete(resourcePaths[apiAccessType].categories.one(categoryId), {
       headers: createAuthHeader(token)
     });
     const deletedCategory = response.data.data;
@@ -103,3 +129,14 @@ export const deleteCategory = (category, apiAccessType, token) => async dispatch
     console.log(error);
   }
 };
+
+/**
+ * NOTIFICATIONS
+ */
+export const categoryConsumeSuccess = () => ({
+  type: types.CATEGORY_CONSUME_SUCCESS
+});
+
+export const categoryConsumeError = () => ({
+  type: types.CATEGORY_CONSUME_ERROR
+});

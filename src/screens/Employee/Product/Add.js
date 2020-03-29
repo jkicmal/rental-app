@@ -1,7 +1,12 @@
 import React from 'react';
 
-import Screen from '../../../components/Common/Screen/Screen';
+import { Screen } from '../../../components/Common';
+import { EmployeeProductFormAdd } from '../../../components/Employee';
 
-const ScreensEmployeProductAdd = () => <Screen>[ScreensEmployeProductAdd]</Screen>;
+const ScreensEmployeProductAdd = () => (
+  <Screen horizontalCenter verticalCenter>
+    <EmployeeProductFormAdd />
+  </Screen>
+);
 
 export default ScreensEmployeProductAdd;

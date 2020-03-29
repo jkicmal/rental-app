@@ -44,12 +44,15 @@ class App extends Component {
           <ProtectedRoute exact path="/logout" component={Logout} />
 
           {/* Employee routes */}
+          {/* Category */}
           <ProtectedRoute
             accountType={accountTypes.EMPLOYEE}
             exact
             path="/employee/categories"
             component={ScreensEmployeeCategories}
           />
+
+          {/* Product */}
           <ProtectedRoute
             accountType={accountTypes.EMPLOYEE}
             exact
@@ -59,14 +62,14 @@ class App extends Component {
           <ProtectedRoute
             accountType={accountTypes.EMPLOYEE}
             exact
-            path="/employee/products/:productId"
-            component={ScreensEmployeeProduct}
+            path="/employee/products/add"
+            component={ScreensEmployeeProductAdd}
           />
           <ProtectedRoute
             accountType={accountTypes.EMPLOYEE}
             exact
-            path="/employee/products/add"
-            component={ScreensEmployeeProductAdd}
+            path="/employee/products/:productId"
+            component={ScreensEmployeeProduct}
           />
           <ProtectedRoute
             accountType={accountTypes.EMPLOYEE}

@@ -3,11 +3,12 @@ import axios from 'axios';
 import * as types from './types';
 import { resourcePaths } from '../../config/api';
 import { resourceQueryParamsToPathParams } from '../../helpers/resource-query-params';
-import { apiToAppError } from '../../helpers/errors';
+import { serverNotRespondingError } from '../../helpers/errors';
 import { createAuthHeader } from '../../helpers/authorization';
+import { successTypes } from '../../helpers/constants';
 
 /**
- * Fetch many
+ * FETCH MANY
  */
 const fetchProductsStart = () => ({
   type: types.FETCH_PRODUCTS_START
@@ -20,13 +21,7 @@ const fetchProductsSuccess = fetchedProducts => ({
 
 const fetchProductsFail = (status, error) => ({
   type: types.FETCH_PRODUCTS_FAIL,
-  payload: {
-    error: {
-      status,
-      type: error.error,
-      message: error.message
-    }
-  }
+  payload: { error }
 });
 
 export const fetchProducts = (resourceQueryParams, apiAccessType, token) => async dispatch => {
@@ -40,13 +35,14 @@ export const fetchProducts = (resourceQueryParams, apiAccessType, token) => asyn
     const fetchedProducts = response.data.data;
     return dispatch(fetchProductsSuccess(fetchedProducts));
   } catch (error) {
-    const appError = apiToAppError(error.response);
-    return dispatch(fetchProductsFail(appError.response, appError.error));
+    console.log(error);
+    const err = error.response ? error.response.data.data : serverNotRespondingError;
+    return dispatch(fetchProductsFail(err));
   }
 };
 
 /**
- * Fetch one
+ * FETCH ONE
  */
 const fetchProductStart = () => ({
   type: types.FETCH_PRODUCT_START
@@ -57,15 +53,9 @@ const fetchProductSuccess = fetchedProduct => ({
   payload: { fetchedProduct }
 });
 
-const fetchProductFail = (status, error) => ({
+const fetchProductFail = error => ({
   type: types.FETCH_PRODUCT_FAIL,
-  payload: {
-    error: {
-      status,
-      type: error.error,
-      message: error.message
-    }
-  }
+  payload: { error }
 });
 
 export const fetchProduct = (id, resourceQueryParams, apiAccessType, token) => async dispatch => {
@@ -79,13 +69,14 @@ export const fetchProduct = (id, resourceQueryParams, apiAccessType, token) => a
     const fetchedProduct = response.data.data;
     return dispatch(fetchProductSuccess(fetchedProduct));
   } catch (error) {
-    const appError = apiToAppError(error.response);
-    return dispatch(fetchProductFail(appError.response, appError.error));
+    console.log(error);
+    const err = error.response ? error.response.data.data : serverNotRespondingError;
+    return dispatch(fetchProductFail(err));
   }
 };
 
 /**
- * Delete
+ * DELETE
  */
 const deleteProductStart = () => ({
   type: types.DELETE_PRODUCT_START
@@ -93,18 +84,18 @@ const deleteProductStart = () => ({
 
 const deleteProductSuccess = deletedProduct => ({
   type: types.DELETE_PRODUCT_SUCCESS,
-  payload: { deletedProduct }
-});
-
-const deleteProductFail = (status, error) => ({
-  type: types.DELETE_PRODUCT_FAIL,
   payload: {
-    error: {
-      status,
-      type: error.error,
-      message: error.message
+    deletedProduct,
+    success: {
+      type: successTypes.DELETE_SUCCESS,
+      message: 'Product deleted'
     }
   }
+});
+
+const deleteProductFail = error => ({
+  type: types.DELETE_PRODUCT_FAIL,
+  payload: { error }
 });
 
 export const deleteProduct = (product, apiAccessType, token) => async dispatch => {
@@ -116,15 +107,106 @@ export const deleteProduct = (product, apiAccessType, token) => async dispatch =
     const deletedProduct = response.data.data;
     return dispatch(deleteProductSuccess(deletedProduct));
   } catch (error) {
-    const appError = apiToAppError(error.response);
-    return dispatch(deleteProductFail(appError.response, appError.error));
+    console.log(error);
+    const err = error.response ? error.response.data.data : serverNotRespondingError;
+    return dispatch(deleteProductFail(err));
   }
 };
 
 /**
- * Update
+ * CREATE
  */
+const createProductStart = () => ({
+  type: types.CREATE_PRODUCT_START
+});
+
+const createProductSuccess = createdProduct => ({
+  type: types.CREATE_PRODUCT_SUCCESS,
+  payload: {
+    createdProduct,
+    success: {
+      type: successTypes.CREATE_SUCCESS,
+      message: 'Product created',
+      productId: createdProduct.id
+    }
+  }
+});
+
+const createProductFail = error => ({
+  type: types.CREATE_PRODUCT_FAIL,
+  payload: { error }
+});
+
+export const createProduct = (productFormData, apiAccessType, token) => async dispatch => {
+  dispatch(createProductStart());
+  try {
+    const response = await axios.post(
+      resourcePaths[apiAccessType].products.many(),
+      productFormData,
+      { headers: createAuthHeader(token) }
+    );
+    const createdProduct = response.data.data;
+    return dispatch(createProductSuccess(createdProduct));
+  } catch (error) {
+    console.log(error);
+    const err = error.response ? error.response.data.data : serverNotRespondingError;
+    return dispatch(createProductFail(err));
+  }
+};
 
 /**
- * Create
+ * UPDATE
  */
+const updateProductStart = () => ({
+  type: types.UPDATE_PRODUCT_START
+});
+
+const updateProductSuccess = updatedProduct => ({
+  type: types.UPDATE_PRODUCT_SUCCESS,
+  payload: {
+    updatedProduct,
+    success: {
+      type: successTypes.UPDATE_SUCCESS,
+      message: 'Product updated',
+      productId: updatedProduct.id
+    }
+  }
+});
+
+const updateProductFail = (status, error) => ({
+  type: types.UPDATE_PRODUCT_FAIL,
+  payload: { error }
+});
+
+export const updateProduct = (
+  productId,
+  productFormData,
+  apiAccessType,
+  token
+) => async dispatch => {
+  dispatch(updateProductStart());
+  try {
+    const response = await axios.put(
+      resourcePaths[apiAccessType].products.one(productId),
+      productFormData,
+      { headers: createAuthHeader(token) }
+    );
+    const createdProduct = response.data.data;
+    return dispatch(updateProductSuccess(createdProduct));
+  } catch (error) {
+    console.log(error);
+    const err = error.response ? error.response.data.data : serverNotRespondingError;
+    return dispatch(updateProductFail(err));
+  }
+};
+
+/**
+ * NOTIFICATIONS
+ */
+export const productConsumeSuccess = () => ({
+  type: types.PRODUCT_CONSUME_SUCCESS
+});
+
+export const productConsumeError = () => ({
+  type: types.PRODUCT_CONSUME_ERROR
+});

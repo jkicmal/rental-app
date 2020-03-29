@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { resourcePaths, apiAccessTypes } from '../../config/api';
 import * as types from './types';
-import { apiToAppError } from '../../helpers/errors';
+import { serverNotRespondingError } from '../../helpers/errors';
 import {
   saveLoginDataToLocalStorage,
   getLoginDataFromLocalStorage,
@@ -16,18 +16,18 @@ const loginStart = () => ({
 
 const loginSuccess = loginData => ({
   type: types.LOGIN_SUCCESS,
-  payload: { loginData }
-});
-
-const loginFail = (status, error) => ({
-  type: types.LOGIN_FAIL,
   payload: {
-    error: {
-      status,
-      type: error.error,
-      message: error.message
+    loginData,
+    success: {
+      type: 'LOGIN_SUCCESS',
+      message: 'Successfuly logged in'
     }
   }
+});
+
+const loginFail = error => ({
+  type: types.LOGIN_FAIL,
+  payload: { error }
 });
 
 export const logout = () => {
@@ -35,8 +35,7 @@ export const logout = () => {
   return { type: types.LOGOUT };
 };
 
-export const loginErrorAlertClose = () => dispatch =>
-  dispatch({ type: types.LOGIN_ERROR_ALERT_CLOSE });
+export const loginConsumeError = () => dispatch => dispatch({ type: types.LOGIN_CONSUME_ERROR });
 
 export const login = loginFormData => async dispatch => {
   dispatch(loginStart());
@@ -56,8 +55,9 @@ export const login = loginFormData => async dispatch => {
 
     return dispatch(loginSuccess(loginData));
   } catch (error) {
-    const appError = apiToAppError(error.response);
-    return dispatch(loginFail(appError.response, appError.error));
+    console.log(error);
+    const err = error.response ? error.response.data.data : serverNotRespondingError;
+    return dispatch(loginFail(err));
   }
 };
 

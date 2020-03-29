@@ -1,39 +1,39 @@
 import React from 'react';
-import { Link as RouterLink } from 'react-router-dom';
 import { AppBar, Toolbar, Button } from '@material-ui/core';
 import classes from './Nav.module.scss';
 import { accountTypes } from '../../../helpers/constants';
+import { RouterLink } from '../';
 
 const Nav = ({ isAuthenticated, accountType }) => {
   const employeeNavElements = [
-    <RouterLink key="/employee/categories" to="/employee/categories" className={classes.link}>
+    <RouterLink key="/employee/categories" to="/employee/categories">
       <Button color="inherit">Categories</Button>
     </RouterLink>,
-    <RouterLink key="/employee/products" to="/employee/products" className={classes.link}>
+    <RouterLink key="/employee/products" to="/employee/products">
       <Button color="inherit">Products</Button>
     </RouterLink>
   ];
 
   const customerNavElements = [
-    <RouterLink key="/customer/shopping-cart" to="/customer/shopping-cart" className={classes.link}>
+    <RouterLink key="/customer/shopping-cart" to="/customer/shopping-cart">
       <Button color="inherit">Shopping Cart</Button>
     </RouterLink>,
-    <RouterLink key="/customer/orders" to="/customer/orders" className={classes.link}>
+    <RouterLink key="/customer/orders" to="/customer/orders">
       <Button color="inherit">Orders</Button>
     </RouterLink>
   ];
 
   const logoutNavElement = (
-    <RouterLink key="/logout" to="/logout" className={classes.link}>
+    <RouterLink key="/logout" to="/logout">
       <Button color="inherit">Logout</Button>
     </RouterLink>
   );
 
   const authNavElements = [
-    <RouterLink key="/register" to="/register" className={classes.link}>
+    <RouterLink key="/register" to="/register">
       <Button color="inherit">Register</Button>
     </RouterLink>,
-    <RouterLink key="/login" to="/login" className={classes.link}>
+    <RouterLink key="/login" to="/login">
       <Button color="inherit">Login</Button>
     </RouterLink>
   ];
@@ -47,7 +47,7 @@ const Nav = ({ isAuthenticated, accountType }) => {
   return (
     <AppBar className={classes.appBar} position="relative" elevation={0}>
       <Toolbar>
-        <RouterLink to="/" className={classes.link}>
+        <RouterLink to="/">
           <Button color="inherit">Rental</Button>
         </RouterLink>
 
