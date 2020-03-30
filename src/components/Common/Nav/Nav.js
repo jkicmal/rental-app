@@ -1,41 +1,43 @@
 import React from 'react';
-import { AppBar, Toolbar, Button } from '@material-ui/core';
+
 import classes from './Nav.module.scss';
+
+import { AppBar, Toolbar } from '@material-ui/core';
 import { accountTypes } from '../../../helpers/constants';
-import { RouterLink } from '../';
+import { ButtonLink } from '../';
 
 const Nav = ({ isAuthenticated, accountType }) => {
   const employeeNavElements = [
-    <RouterLink key="/employee/categories" to="/employee/categories">
-      <Button color="inherit">Categories</Button>
-    </RouterLink>,
-    <RouterLink key="/employee/products" to="/employee/products">
-      <Button color="inherit">Products</Button>
-    </RouterLink>
+    <ButtonLink key="/employee/categories" to="/employee/categories">
+      Categories
+    </ButtonLink>,
+    <ButtonLink key="/employee/products" to="/employee/products">
+      Products
+    </ButtonLink>
   ];
 
   const customerNavElements = [
-    <RouterLink key="/customer/shopping-cart" to="/customer/shopping-cart">
-      <Button color="inherit">Shopping Cart</Button>
-    </RouterLink>,
-    <RouterLink key="/customer/orders" to="/customer/orders">
-      <Button color="inherit">Orders</Button>
-    </RouterLink>
+    <ButtonLink key="/customer/shopping-cart" to="/customer/shopping-cart">
+      Shopping Cart
+    </ButtonLink>,
+    <ButtonLink key="/customer/orders" to="/customer/orders">
+      Orders
+    </ButtonLink>
   ];
 
   const logoutNavElement = (
-    <RouterLink key="/logout" to="/logout">
-      <Button color="inherit">Logout</Button>
-    </RouterLink>
+    <ButtonLink key="/logout" to="/logout">
+      Logout
+    </ButtonLink>
   );
 
   const authNavElements = [
-    <RouterLink key="/register" to="/register">
-      <Button color="inherit">Register</Button>
-    </RouterLink>,
-    <RouterLink key="/login" to="/login">
-      <Button color="inherit">Login</Button>
-    </RouterLink>
+    <ButtonLink key="/register" to="/register">
+      Register
+    </ButtonLink>,
+    <ButtonLink key="/login" to="/login">
+      Login
+    </ButtonLink>
   ];
 
   const navElementsToRender = isAuthenticated
@@ -47,9 +49,7 @@ const Nav = ({ isAuthenticated, accountType }) => {
   return (
     <AppBar className={classes.appBar} position="relative" elevation={0}>
       <Toolbar>
-        <RouterLink to="/">
-          <Button color="inherit">Rental</Button>
-        </RouterLink>
+        <ButtonLink to="/">Rental</ButtonLink>
 
         {/* Spacing between title and menu elements */}
         <div className={classes.divider}></div>

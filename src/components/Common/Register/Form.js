@@ -14,6 +14,7 @@ import {
   registerConsumeError
 } from '../../../actions/register/actions';
 import { toastr } from 'react-redux-toastr';
+import { Redirect } from 'react-router-dom';
 
 // TODO: Add error handling to the form
 
@@ -67,6 +68,10 @@ class RegisterForm extends Component {
   render() {
     const { formData } = this.state;
     const { registerState } = this.props;
+
+    if (registerState.success) {
+      return <Redirect to="/login" />;
+    }
 
     return (
       <Fragment>

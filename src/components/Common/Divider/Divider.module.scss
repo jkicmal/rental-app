@@ -1,19 +1,39 @@
-.xs {
+.horizontal-xs {
   padding-bottom: 1rem;
 }
 
-.sm {
+.horizontal-sm {
   padding-bottom: 2rem;
 }
 
-.md {
+.horizontal-md {
   padding-bottom: 3rem;
 }
 
-.lg {
+.horizontal-lg {
   padding-bottom: 3rem;
 }
 
-.xl {
+.horizontal-xl {
   padding-bottom: 4rem;
+}
+
+.vertical-xs {
+  padding-right: 1rem;
+}
+
+.vertical-sm {
+  padding-right: 2rem;
+}
+
+.vertical-md {
+  padding-right: 3rem;
+}
+
+.vertical-lg {
+  padding-right: 3rem;
+}
+
+.vertical-xl {
+  padding-right: 4rem;
 }

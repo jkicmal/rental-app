@@ -32,7 +32,6 @@ class LoginFrom extends Component {
   componentDidUpdate() {
     const { loginState, loginActions } = this.props;
     if (loginState.error) {
-      console.log(loginState.error);
       toastr.error(loginState.error.type, loginState.error.message);
       loginActions.loginConsumeError();
     }

@@ -7,17 +7,21 @@ import {
   Select,
   Button,
   FormControl,
-  InputLabel
+  InputLabel,
+  Checkbox,
+  FormControlLabel
 } from '@material-ui/core';
+import { Divider } from '../../../Common';
 
 class EmployeeProductForm extends Component {
   state = {
     formData: {
-      name: 'product name',
-      description: 'product description',
-      price: '100',
-      deposit: '20',
-      categoryId: ''
+      name: '',
+      description: '',
+      price: 0,
+      deposit: 0,
+      categoryId: '',
+      showInStore: false
     }
   };
 
@@ -28,7 +32,16 @@ class EmployeeProductForm extends Component {
 
   onInputChange = e => {
     const state = this.state;
-    this.setState({ formData: { ...state.formData, [e.target.name]: e.target.value } });
+    this.setState({
+      formData: { ...state.formData, [e.target.name]: e.target.value }
+    });
+  };
+
+  onCheckboxChange = e => {
+    const state = this.state;
+    this.setState({
+      formData: { ...state.formData, [e.target.name]: e.target.checked }
+    });
   };
 
   assignProductToState(product) {
@@ -38,7 +51,8 @@ class EmployeeProductForm extends Component {
         description: product.description,
         price: product.price,
         deposit: product.deposit,
-        categoryId: product.categoryId
+        categoryId: product.categoryId || '',
+        showInStore: product.showInStore
       }
     });
   }
@@ -57,6 +71,7 @@ class EmployeeProductForm extends Component {
         <Typography className={classes.title} variant="h5">
           {title}
         </Typography>
+        <Divider size="sm" />
         <form className={classes.form} onSubmit={this.onSubmit}>
           <TextField
             className={classes.textField}
@@ -90,25 +105,41 @@ class EmployeeProductForm extends Component {
             value={formData.deposit}
             onChange={this.onInputChange}
           />
-          <FormControl>
-            <InputLabel id="category-label">Category</InputLabel>
-            <Select
-              labelId="category-label"
-              className={classes.textField}
-              name="categoryId"
-              value={formData.categoryId}
-              onChange={this.onInputChange}
-            >
-              {categories
-                ? categories.map(category => (
-                    <MenuItem key={category.id} value={category.id}>
-                      {category.name}
-                    </MenuItem>
-                  ))
-                : null}
-            </Select>
-          </FormControl>
-          <Button type="submit">Create</Button>
+          <FormControlLabel
+            control={
+              <Checkbox
+                color="primary"
+                name="showInStore"
+                checked={formData.showInStore}
+                onChange={this.onCheckboxChange}
+              />
+            }
+            label="Show in store"
+          />
+          {categories.length ? (
+            <FormControl>
+              <InputLabel id="category-label">Category</InputLabel>
+              <Select
+                labelId="category-label"
+                className={classes.textField}
+                name="categoryId"
+                value={formData.categoryId}
+                onChange={this.onInputChange}
+              >
+                {categories
+                  ? categories.map(category => (
+                      <MenuItem key={category.id} value={category.id}>
+                        {category.name}
+                      </MenuItem>
+                    ))
+                  : null}
+              </Select>
+            </FormControl>
+          ) : null}
+          <Divider size="sm" />
+          <Button variant="contained" color="primary" type="submit">
+            Submit
+          </Button>
         </form>
       </div>
     );

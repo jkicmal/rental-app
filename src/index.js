@@ -14,14 +14,14 @@ const componentTree = (
   <StylesProvider injectFirst>
     <Provider store={store}>
       <ReduxToastr
-        timeOut={5000}
+        timeOut={3000}
         newestOnTop={false}
         preventDuplicates
         position="top-right"
-        // getState={state => state.toastr}
-        transitionIn="fadeIn"
-        transitionOut="fadeOut"
-        // progressBar
+        getState={state => state.toastr}
+        transitionIn="bounceInDown"
+        transitionOut="bounceOutUp"
+        progressBar
       />
       <App />
     </Provider>

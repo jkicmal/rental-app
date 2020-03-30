@@ -1,5 +1,4 @@
 import * as types from '../actions/product/types';
-import { successTypes } from '../helpers/constants';
 
 /**
  * TODO:

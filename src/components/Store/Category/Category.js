@@ -6,13 +6,18 @@ import classes from './Category.module.scss';
 
 const StoreCategory = ({ category }) => {
   const { name } = category;
+
+  const productsToDisplay = category.products
+    ? category.products.filter(product => product.showInStore)
+    : [];
+
   return (
     <div className={classes.container}>
       <Typography className={classes.title} variant="h4">
         {name.toUpperCase()}
       </Typography>
-      {category.products && category.products.length ? (
-        <StoreProductList products={category.products} />
+      {productsToDisplay.length ? (
+        <StoreProductList products={productsToDisplay} />
       ) : (
         <Typography>No products in this category</Typography>
       )}

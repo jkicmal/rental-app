@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link as RouterLink } from 'react-router-dom';
 
 import {
   fetchProducts,
@@ -8,9 +7,8 @@ import {
   productConsumeSuccess
 } from '../../../../actions/product/actions';
 
-import classes from './InteractiveTable.module.scss';
-import { Button } from '@material-ui/core';
-import { MaterialTableBase } from '../../../Common';
+import { ButtonGroup } from '@material-ui/core';
+import { MaterialTableBase, Divider, ButtonLink } from '../../../Common';
 import { apiAccessTypes } from '../../../../config';
 import { toastr } from 'react-redux-toastr';
 
@@ -61,9 +59,15 @@ class ProductInteractiveTable extends Component {
           { title: 'Category', field: 'categoryName' },
           {
             render: rowData => (
-              <RouterLink className={classes.link} to={`/employee/products/${rowData.id}`}>
-                <Button variant="outlined">View</Button>
-              </RouterLink>
+              <ButtonGroup
+                orientation="horizontal"
+                color="primary"
+                aria-label="vertical outlined primary button group"
+              >
+                <ButtonLink to={`/employee/products/${rowData.id}`}>View</ButtonLink>
+                <Divider orientation="vertical" size="xs" />
+                <ButtonLink to={`/employee/products/${rowData.id}/edit`}>Edit</ButtonLink>
+              </ButtonGroup>
             )
           }
         ]}
