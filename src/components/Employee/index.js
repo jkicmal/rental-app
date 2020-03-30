@@ -6,3 +6,6 @@ export { default as EmployeeProductFormEdit } from './Product/Form/Edit/Edit';
 
 // Category
 export { default as EmployeeCategoryInteractiveTable } from './Category/InteractiveTable';
+
+// Item
+export { default as EmployeeItemInteractiveTable } from './Item/InteractiveTable';

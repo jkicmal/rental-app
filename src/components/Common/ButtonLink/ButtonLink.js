@@ -13,12 +13,13 @@ import { Button } from '@material-ui/core';
 const ButtonLink = ({
   className,
   disabled,
-  color = 'inherit',
+  color = 'primary',
   disableFocusRipple,
   disableRipple,
   fullWidth,
   size,
-  variant,
+  variant = 'contained',
+  disableElevation = true,
   children,
   to
 }) => (
@@ -32,6 +33,7 @@ const ButtonLink = ({
       fullWidth={fullWidth}
       size={size}
       variant={variant}
+      disableElevation={disableElevation}
     >
       {children}
     </Button>

@@ -33,7 +33,7 @@ export const resourcePaths = {
     },
     items: {
       one: (id, pathParams = '') => `${apiHost}/v1/employee/items/${id}${pathParams}`,
-      many: (pathParams = '') => `${apiHost}/v1/employee/item/${pathParams}`
+      many: (pathParams = '') => `${apiHost}/v1/employee/items/${pathParams}`
     },
     rentals: {
       one: (id, pathParams = '') => `${apiHost}/v1/employee/rentals/${id}${pathParams}`,

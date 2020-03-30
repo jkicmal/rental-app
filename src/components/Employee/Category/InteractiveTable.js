@@ -91,12 +91,12 @@ const mapDispatchToProps = dispatch => ({
   categoryActions: {
     fetchCategories: (resourceQueryParams, apiAccessType, token) =>
       dispatch(fetchCategories(resourceQueryParams, apiAccessType, token)),
-    createCategory: (category, apiAccessType, token) =>
-      dispatch(createCategory(category, apiAccessType, token)),
-    updateCategory: (category, categoryFormData, apiAccessType, token) =>
-      dispatch(updateCategory(category, categoryFormData, apiAccessType, token)),
-    deleteCategory: (category, apiAccessType, token) =>
-      dispatch(deleteCategory(category, apiAccessType, token)),
+    createCategory: (categoryFormData, apiAccessType, token) =>
+      dispatch(createCategory(categoryFormData, apiAccessType, token)),
+    updateCategory: (categoryId, categoryFormData, apiAccessType, token) =>
+      dispatch(updateCategory(categoryId, categoryFormData, apiAccessType, token)),
+    deleteCategory: (categoryId, apiAccessType, token) =>
+      dispatch(deleteCategory(categoryId, apiAccessType, token)),
     categoryConsumeSuccess: () => dispatch(categoryConsumeSuccess())
   }
 });
