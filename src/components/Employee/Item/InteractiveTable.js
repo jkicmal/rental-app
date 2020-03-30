@@ -12,6 +12,7 @@ import {
 import { apiAccessTypes } from '../../../config';
 
 import { MaterialTableBase } from '../../Common';
+import { Select, MenuItem, FormControl } from '@material-ui/core';
 
 class EmployeeItemInteractiveTable extends Component {
   componentDidMount() {
@@ -35,13 +36,18 @@ class EmployeeItemInteractiveTable extends Component {
   }
 
   onRowUpdate(itemFormData) {
-    const { itemActions, loginState } = this.props;
-    return itemActions.updateItem(
-      itemFormData.id,
-      itemFormData,
-      apiAccessTypes.EMPLOYEE,
-      loginState.token
-    );
+    // TODO: Finish working on custom select field
+
+    console.log(itemFormData);
+    return Promise.resolve([]);
+
+    // const { itemActions, loginState } = this.props;
+    // return itemActions.updateItem(
+    //   itemFormData.id,
+    //   itemFormData,
+    //   apiAccessTypes.EMPLOYEE,
+    //   loginState.token
+    // );
   }
 
   onRowDelete({ id: itemId }) {
@@ -60,7 +66,26 @@ class EmployeeItemInteractiveTable extends Component {
         }}
         columns={[
           { title: 'ID', field: 'id', editable: 'never' },
-          { title: 'Owner', field: 'ownerId' } // TODO: Handle this differently
+          {
+            // TODO: Finish working on custom select field
+            title: 'Owner',
+            field: 'ownerId',
+            render: row => {
+              return <div>TEST</div>;
+            },
+            editComponent: row => {
+              return (
+                <FormControl>
+                  <Select value={row.value} onChange={e => row.onChange(e.target.value)}>
+                    <MenuItem value={20}>One</MenuItem>
+                    <MenuItem value="21">One</MenuItem>
+                    <MenuItem value="22">One</MenuItem>
+                    <MenuItem value="23">One</MenuItem>
+                  </Select>
+                </FormControl>
+              );
+            }
+          }
         ]}
         data={itemState.items.map(item => Object.assign({}, item))}
         title="Items"

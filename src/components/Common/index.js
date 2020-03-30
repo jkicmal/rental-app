@@ -5,6 +5,5 @@ export { default as Nav } from './Nav/Nav';
 export { default as MaterialTableBase } from './MaterialTable/Base';
 export { default as Logout } from './Logout/Logout';
 export { default as LoginForm } from './Login/Form';
-export { default as Alert } from './Alert/Alert';
 export { default as Divider } from './Divider/Divider';
 export { default as ButtonLink } from './ButtonLink/ButtonLink';

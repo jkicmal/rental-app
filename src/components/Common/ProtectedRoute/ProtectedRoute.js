@@ -7,7 +7,6 @@ import { loginCheckState } from '../../../actions/login/actions';
 
 class ProtectedRoute extends Component {
   componentDidMount() {
-    // Check user state on each protected route enter
     const { unauthenticatedOnly } = this.props;
     if (!unauthenticatedOnly) {
       const { loginActions } = this.props;

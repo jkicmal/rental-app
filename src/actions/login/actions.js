@@ -8,7 +8,10 @@ import {
   removeLoginDataFromLocalStorage
 } from '../../helpers/login-storage';
 
-// TODO: Create components that will log out user based on expiresIn in state
+/**
+ * TODO:
+ * Create components that will log out user based on expiresIn in state
+ */
 
 const loginStart = () => ({
   type: types.LOGIN_START

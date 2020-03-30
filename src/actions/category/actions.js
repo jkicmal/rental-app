@@ -7,14 +7,11 @@ import { createAuthHeader } from '../../helpers/authorization';
 import { successTypes } from '../../helpers/constants';
 
 /**
- * NOTE:
- * 'thunk' lets us make asynchronous operations using redux
- * each action should return a function that calls dispatch
- * when promise is resolved
- */
-
-/**
  * TODO: Implement _START and _FAIL
+ * const fetchCategoriesStart = (status, error) => ({});
+ * const createCategoryStart = (status, error) => ({});
+ * const updateCategoryStart = (status, error) => ({});
+ * const deleteCategoryStart = (status, error) => ({});
  * const fetchCategoriesFail = (status, error) => ({});
  * const createCategoryFail = (status, error) => ({});
  * const updateCategoryFail = (status, error) => ({});
