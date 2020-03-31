@@ -5,16 +5,19 @@ import { connect } from 'react-redux';
 import { accountTypes } from '../helpers/constants';
 import { logout, loginCheckState } from '../actions/login/actions';
 
-import { Nav, Logout, ProtectedRoute } from '../components/Common';
-import { ScreensCommonLogin, ScreensCommonRegister } from '../screens/Common';
-import { ScreensStore } from '../screens/Store';
+import { Nav, Logout, ProtectedRoute } from '../components/common';
+
 import {
+  ScreensLogin,
+  ScreensRegister,
+  ScreensStore,
   ScreensEmployeeCategories,
   ScreensEmployeeProduct,
   ScreensEmployeeProducts,
   ScreensEmployeeProductEdit,
-  ScreensEmployeeProductAdd
-} from '../screens/Employee';
+  ScreensEmployeeProductAdd,
+  ScreensCustomerShoppingCart
+} from '../screens';
 
 class App extends Component {
   constructor(props) {
@@ -32,16 +35,20 @@ class App extends Component {
         <Nav isAuthenticated={isAuthenticated} accountType={accountType} />
         <Switch>
           {/* Unauthenticated only routes */}
-          <ProtectedRoute unauthenticatedOnly exact path="/login" component={ScreensCommonLogin} />
-          <ProtectedRoute
-            unauthenticatedOnly
-            exact
-            path="/register"
-            component={ScreensCommonRegister}
-          />
+          <ProtectedRoute unauthenticatedOnly exact path="/login" component={ScreensLogin} />
+          <ProtectedRoute unauthenticatedOnly exact path="/register" component={ScreensRegister} />
 
           {/* Authenticated routes */}
           <ProtectedRoute exact path="/logout" component={Logout} />
+
+          {/* Customer routes */}
+          {/* Shopping cart */}
+          <ProtectedRoute
+            accountType={accountTypes.CUSTOMER}
+            exact
+            path="/customer/shopping-cart"
+            component={ScreensCustomerShoppingCart}
+          />
 
           {/* Employee routes */}
           {/* Category */}

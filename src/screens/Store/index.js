@@ -1,1 +1,1 @@
-export { default as ScreensStore } from './Store';
+export { default as ScreensStore } from './screens-store';

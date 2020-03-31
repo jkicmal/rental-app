@@ -2,17 +2,21 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { fetchCategories } from '../../actions/category/actions';
-
-import StoreCategoryList from './Category/List/List';
 import { apiAccessTypes } from '../../config/api';
+
+import { StoreCategoryList } from '.';
 
 class Store extends Component {
   componentDidMount() {
-    this.props.categoryActions.fetchCategories({ relations: ['products'] }, apiAccessTypes.SHARED);
+    this.props.categoryActions.fetchCategories(
+      { relations: ['products', 'products.category'] },
+      apiAccessTypes.SHARED
+    );
   }
 
   render() {
     const { categories } = this.props.categoryState;
+    console.log(categories);
     return <StoreCategoryList categories={categories} />;
   }
 }
