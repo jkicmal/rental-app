@@ -7,3 +7,4 @@ export { default as RegisterForm } from './register-form';
 export { default as Screen } from './screen';
 export { default as Divider } from './divider';
 export { default as ButtonLink } from './button-link';
+export { default as MuiModal } from './mui-modal';

@@ -1,0 +1,16 @@
+@import '../../assets/styles/variables';
+
+.modal {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.verticalCenter {
+  justify-content: center;
+}
+
+.horizontalCenter {
+  align-items: center;
+}

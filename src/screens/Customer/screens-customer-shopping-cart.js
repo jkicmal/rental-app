@@ -1,15 +1,11 @@
 import React from 'react';
 
 import { Screen } from '../../components/common';
-import {
-  CustomerShoppingCartProductsInteractiveTable,
-  CustomerShoppingCartCheckoutForm
-} from '../../components/customer';
+import { CustomerShoppingCartContainer } from '../../components/customer';
 
 const ScreensCustomerShoppingCart = () => (
   <Screen horizontalCenter>
-    <CustomerShoppingCartProductsInteractiveTable />
-    <CustomerShoppingCartCheckoutForm />
+    <CustomerShoppingCartContainer />
   </Screen>
 );
 
