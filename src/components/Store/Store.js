@@ -16,7 +16,7 @@ class Store extends Component {
 
   render() {
     const { categories } = this.props.categoryState;
-    console.log(categories);
+
     return <StoreCategoryList categories={categories} />;
   }
 }

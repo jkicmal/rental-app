@@ -27,8 +27,6 @@ const CustomerShoppingCartCheckoutForm = ({ onSubmit }) => {
     setFormState({ ...formState, [e.target.name]: e.target.value });
   };
 
-  console.log(formState);
-
   return (
     <div className={classes.container}>
       <DatePicker
@@ -68,7 +66,7 @@ const CustomerShoppingCartCheckoutForm = ({ onSubmit }) => {
         }}
       />
       <Divider />
-      <Button onClick={onSubmit} variant="contained" color="primary">
+      <Button onClick={() => onSubmit(formState)} variant="contained" color="primary">
         Rent Out!
       </Button>
     </div>

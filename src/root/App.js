@@ -16,7 +16,8 @@ import {
   ScreensEmployeeProducts,
   ScreensEmployeeProductEdit,
   ScreensEmployeeProductAdd,
-  ScreensCustomerShoppingCart
+  ScreensCustomerShoppingCart,
+  ScreensCustomerRentals
 } from '../screens';
 
 class App extends Component {
@@ -48,6 +49,13 @@ class App extends Component {
             exact
             path="/customer/shopping-cart"
             component={ScreensCustomerShoppingCart}
+          />
+          {/* Rentals */}
+          <ProtectedRoute
+            accountType={accountTypes.CUSTOMER}
+            exact
+            path="/customer/rentals"
+            component={ScreensCustomerRentals}
           />
 
           {/* Employee routes */}

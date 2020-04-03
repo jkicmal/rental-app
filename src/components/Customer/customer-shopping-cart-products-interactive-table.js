@@ -25,7 +25,7 @@ const CustomerShoppingCartProductsInteractiveTable = ({ products, onProductDelet
       data={productsData}
       title="Products"
       editable={{
-        onRowDelete: product => Promise.resolve(onProductDelete(product))
+        onRowDelete: product => onProductDelete(product)
       }}
     />
   );

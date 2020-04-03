@@ -8,3 +8,4 @@ export { default as Screen } from './screen';
 export { default as Divider } from './divider';
 export { default as ButtonLink } from './button-link';
 export { default as MuiModal } from './mui-modal';
+export { default as Div } from './div';

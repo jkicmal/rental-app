@@ -1,0 +1,36 @@
+.div {
+  display: flex;
+  flex-direction: column;
+}
+
+.center-horizontal {
+  align-items: center;
+}
+
+.center-vertical {
+  justify-content: center;
+}
+
+.padding-none {
+  padding: 0;
+}
+
+.padding-xs {
+  padding: 1rem;
+}
+
+.padding-sm {
+  padding: 2rem;
+}
+
+.padding-md {
+  padding: 3rem;
+}
+
+.padding-lg {
+  padding: 4rem;
+}
+
+.padding-xl {
+  padding: 5rem;
+}

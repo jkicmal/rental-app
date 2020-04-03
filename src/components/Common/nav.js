@@ -9,6 +9,9 @@ import { ButtonLink } from '.';
 
 const Nav = ({ isAuthenticated, accountType }) => {
   const employeeNavElements = [
+    <ButtonLink key="/employee/rentals" to="/employee/rentals">
+      Rentals
+    </ButtonLink>,
     <ButtonLink key="/employee/categories" to="/employee/categories">
       Categories
     </ButtonLink>,
@@ -21,8 +24,8 @@ const Nav = ({ isAuthenticated, accountType }) => {
     <ButtonLink key="/customer/shopping-cart" to="/customer/shopping-cart">
       Shopping Cart
     </ButtonLink>,
-    <ButtonLink key="/customer/orders" to="/customer/orders">
-      Orders
+    <ButtonLink key="/customer/rentals" to="/customer/rentals">
+      Rentals
     </ButtonLink>
   ];
 

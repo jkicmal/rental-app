@@ -1,57 +1,98 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { toastr } from 'react-redux-toastr';
 
-import { removeProductFromShoppingCart } from '../../actions/shopping-cart/actions';
+import {
+  removeProductFromShoppingCart,
+  resetShoppingCart
+} from '../../actions/shopping-cart/actions';
+import {
+  createRental,
+  rentalConsumeError,
+  rentalConsumeSuccess
+} from '../../actions/rental/actions';
+import { apiAccessTypes } from '../../config/api';
 
 import Button from '@material-ui/core/Button';
 import { CustomerShoppingCartProductsInteractiveTable, CustomerShoppingCartCheckoutForm } from '.';
-import { MuiModal } from '../common';
+import { MuiModal, Div, Divider } from '../common';
+import { Redirect } from 'react-router-dom';
 
 class CustomerShoppingCartContainer extends Component {
   state = {
     checkoutModalOpen: false
   };
 
-  onCheckout = () => {
-    // Close modal
+  onCheckout = checkoutFormData => {
+    const { products: shoppingCartProducts } = this.props.shoppingCartState;
+    const { createRental } = this.props.rentalActions;
+    const { token } = this.props.loginState;
+
     this.setState({ checkoutModalOpen: false });
 
-    // Send request
+    const rentalFormData = {
+      productsIds: shoppingCartProducts.map(product => product.id),
+      ...checkoutFormData
+    };
+
+    createRental(rentalFormData, apiAccessTypes.CUSTOMER, token);
   };
 
   componentDidUpdate() {
-    // 1) Check for checkout success
-    //      a) Show notification
-    //      b) Reset Shopping cart
-    // 2) Check for checkout error
+    const { success: rentalSuccess, error: rentalError } = this.props.rentalState;
+
+    if (rentalSuccess) {
+      toastr.success(rentalSuccess.type, rentalSuccess.message);
+      this.props.rentalActions.rentalConsumeSuccess();
+      this.props.shoppingCartActions.resetShoppingCart();
+    }
+
+    if (rentalError) {
+      toastr.error(rentalError.type, rentalError.message);
+      this.props.rentalActions.rentalConsumeError();
+    }
   }
 
   render() {
-    // Redirect on checkout success
+    const { success: rentalSuccess } = this.props.rentalState;
+    const { products: shoppingCartProducts } = this.props.shoppingCartState;
+    const { removeProductFromShoppingCart } = this.props.shoppingCartActions;
+    const { checkoutModalOpen } = this.state;
+
+    // NOTE: Redirect on success
+    if (rentalSuccess) return <Redirect to="/" />;
+
     return (
       <>
         <CustomerShoppingCartProductsInteractiveTable
-          products={this.props.shoppingCartState.products}
-          onProductDelete={this.props.shoppingCartActions.removeProductFromShoppingCart.bind(this)}
+          products={shoppingCartProducts}
+          onProductDelete={async product => removeProductFromShoppingCart(product)}
         />
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => {
-            this.setState({ checkoutModalOpen: true });
-          }}
-        >
-          Checkout
-        </Button>
+        <Divider />
+        <Div padding="xs" horizontalCenter>
+          <Button
+            // NOTE: Disable checkout button when there are no products in cart
+            disabled={!shoppingCartProducts.length}
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              this.setState({ checkoutModalOpen: true });
+            }}
+          >
+            Checkout
+          </Button>
+        </Div>
         <MuiModal
           horizontalCenter
           verticalCenter
-          open={this.state.checkoutModalOpen}
+          open={checkoutModalOpen}
           onClose={() => {
             this.setState({ checkoutModalOpen: false });
           }}
         >
-          <CustomerShoppingCartCheckoutForm onSubmit={this.onCheckout} />
+          <CustomerShoppingCartCheckoutForm
+            onSubmit={checkoutFormData => this.onCheckout(checkoutFormData)}
+          />
         </MuiModal>
       </>
     );
@@ -61,12 +102,26 @@ class CustomerShoppingCartContainer extends Component {
 const mapStateToProps = state => ({
   shoppingCartState: {
     products: state.shoppingCartReducer.products
+  },
+  rentalState: {
+    success: state.rentalReducer.success,
+    error: state.rentalReducer.error
+  },
+  loginState: {
+    token: state.loginReducer.token
   }
 });
 
 const mapDispatchToProps = dispatch => ({
   shoppingCartActions: {
-    removeProductFromShoppingCart: product => dispatch(removeProductFromShoppingCart(product))
+    removeProductFromShoppingCart: product => dispatch(removeProductFromShoppingCart(product)),
+    resetShoppingCart: () => dispatch(resetShoppingCart())
+  },
+  rentalActions: {
+    createRental: (rentalFormData, apiAccessType, token) =>
+      dispatch(createRental(rentalFormData, apiAccessType, token)),
+    rentalConsumeError: () => dispatch(rentalConsumeError()),
+    rentalConsumeSuccess: () => dispatch(rentalConsumeSuccess())
   }
 });
 
