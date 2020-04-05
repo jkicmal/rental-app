@@ -6,3 +6,7 @@ export { default as ScreensEmployeeProductEdit } from './screens-employee-produc
 
 // Category
 export { default as ScreensEmployeeCategories } from './screens-employee-categories';
+
+// Rental
+export { default as ScreensEmployeeRentals } from './screens-employee-rentals';
+export { default as ScreensEmployeeRental } from './screens-employee-rental';

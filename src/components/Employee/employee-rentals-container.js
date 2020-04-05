@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { MaterialTableBase, ButtonLink } from '../common';
+
 import { fetchRentals } from '../../actions/rental/actions';
 import { apiAccessTypes } from '../../config';
 import moment from '../../helpers/moment';
 
-class CustomerRentalsContainer extends Component {
+import { MaterialTableBase, ButtonLink } from '../common';
+
+class EmployeeRentalsContainer extends Component {
   componentDidMount() {
     const { fetchRentals } = this.props.rentalActions;
     const { token } = this.props.loginState;
-    fetchRentals(null, apiAccessTypes.CUSTOMER, token);
+    fetchRentals({ relations: ['requestedBy'] }, apiAccessTypes.EMPLOYEE, token);
   }
 
   prepareRentalsForDisplay = (rentals) => {
@@ -21,34 +23,40 @@ class CustomerRentalsContainer extends Component {
       status: rental.status,
       depositTotal: Number(rental.depositTotal).toFixed(2),
       priceTotal: Number(rental.priceTotal).toFixed(2),
+      requestedBy: { ...rental.requestedBy },
     }));
   };
 
   render() {
     const { rentals } = this.props.rentalState;
+
     return (
       <MaterialTableBase
         title="Rentals"
         columns={[
           { title: 'ID', field: 'id' },
+          {
+            title: 'Requested By',
+            render: (rowData) => `${rowData.requestedBy.firstName} ${rowData.requestedBy.lastName}`,
+          },
           { title: 'Start Date', field: 'startDate' },
           { title: 'End Date', field: 'endDate' },
           { title: 'Pickup Time', field: 'pickupTime' },
           { title: 'Status', field: 'status' },
           {
-            title: 'Total Deposit',
+            title: 'Deposit Total',
             field: 'depositTotal',
             render: (rowData) => `${rowData.depositTotal} PLN`,
           },
           {
-            title: 'Total Price',
+            title: 'Price Total',
             field: 'priceTotal',
             render: (rowData) => `${rowData.priceTotal} PLN`,
           },
           {
             title: 'Actions',
             render: (rowData) => (
-              <ButtonLink to={`/customer/rentals/${rowData.id}`}>View</ButtonLink>
+              <ButtonLink to={`/employee/rentals/${rowData.id}`}>View</ButtonLink>
             ),
           },
         ]}
@@ -59,13 +67,11 @@ class CustomerRentalsContainer extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  rentalState: {
-    rentals: state.rentalReducer.rentals,
-    loading: state.rentalReducer.loading,
-    error: state.rentalReducer.error,
-  },
   loginState: {
     token: state.loginReducer.token,
+  },
+  rentalState: {
+    rentals: state.rentalReducer.rentals,
   },
 });
 
@@ -76,4 +82,4 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(CustomerRentalsContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(EmployeeRentalsContainer);

@@ -7,6 +7,7 @@ import classes from './employee-product.module.scss';
 
 import { Typography, Paper } from '@material-ui/core';
 import { apiAccessTypes } from '../../config/api';
+import { FlexContainer, InfoElement } from '../common';
 
 class EmployeeProduct extends Component {
   componentDidMount() {
@@ -29,46 +30,32 @@ class EmployeeProduct extends Component {
         <Typography variant="h4">
           {product.name} #{product.id}
         </Typography>
-        <Paper className={classes.description}>
-          <Typography variant="body1">{product.description}</Typography>
-        </Paper>
-        <div className={classes.infoElementsContainer}>
-          <Paper className={classes.infoElement}>
-            <Typography variant="body1">Price {product.price.toFixed(2)}PLN</Typography>
-          </Paper>
-          <Paper className={classes.infoElement}>
-            <Typography variant="body1">Deposit {product.deposit.toFixed(2)}PLN</Typography>
-          </Paper>
-          <Paper className={classes.infoElement}>
-            <Typography variant="body1">
-              Displayed in store: {product.showInStore ? 'Yes' : 'No'}
-            </Typography>
-          </Paper>
-          <Paper className={classes.infoElement}>
-            <Typography variant="body1">
-              Category: {product.category ? product.category.name : 'None'}
-            </Typography>
-          </Paper>
-        </div>
+        <FlexContainer>
+          <InfoElement extend>{product.description}</InfoElement>
+          <InfoElement>Price {product.price.toFixed(2)}PLN</InfoElement>
+          <InfoElement>Deposit {product.deposit.toFixed(2)}PLN</InfoElement>
+          <InfoElement>Displayed in store: {product.showInStore ? 'Yes' : 'No'}</InfoElement>
+          <InfoElement>Category: {product.category ? product.category.name : 'None'}</InfoElement>
+        </FlexContainer>
       </Fragment>
     );
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   productState: {
-    product: state.productReducer.product
+    product: state.productReducer.product,
   },
   loginState: {
-    token: state.loginReducer.token
-  }
+    token: state.loginReducer.token,
+  },
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   productActions: {
     fetchProduct: (id, resourceQueryParams, apiAccessType, token) =>
-      dispatch(fetchProduct(id, resourceQueryParams, apiAccessType, token))
-  }
+      dispatch(fetchProduct(id, resourceQueryParams, apiAccessType, token)),
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EmployeeProduct);

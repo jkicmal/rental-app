@@ -5,19 +5,19 @@ const initialState = {
   rental: null,
   success: null,
   error: null,
-  loading: false
+  loading: false,
 };
 
 // CREATE
-const createRentalStart = state => ({
+const createRentalStart = (state) => ({
   ...state,
-  loading: true
+  loading: true,
 });
 
 const createRentalFail = (state, payload) => ({
   ...state,
   error: payload.error,
-  loading: false
+  loading: false,
 });
 
 const createRentalSuccess = (state, payload) => ({
@@ -25,37 +25,56 @@ const createRentalSuccess = (state, payload) => ({
   success: payload.success,
   rental: payload.rental,
   error: null,
-  loading: false
+  loading: false,
 });
 
 // FETCH MANY
-const fetchRentalsStart = state => ({
+const fetchRentalsStart = (state) => ({
   ...state,
-  loading: true
+  loading: true,
 });
 
 const fetchRentalsFail = (state, payload) => ({
   ...state,
   error: payload.error,
-  loading: false
+  loading: false,
 });
 
 const fetchRentalsSuccess = (state, payload) => ({
   ...state,
   rentals: payload.rentals,
   error: null,
-  loading: false
+  loading: false,
+});
+
+// FETCH ONE
+const fetchRentalStart = (state) => ({
+  ...state,
+  loading: true,
+});
+
+const fetchRentalFail = (state, payload) => ({
+  ...state,
+  error: payload.error,
+  loading: false,
+});
+
+const fetchRentalSuccess = (state, payload) => ({
+  ...state,
+  rental: payload.rental,
+  error: null,
+  loading: false,
 });
 
 // NOTIFICATIONS
-const rentalConsumeSuccess = state => ({
+const rentalConsumeSuccess = (state) => ({
   ...state,
-  success: null
+  success: null,
 });
 
-const rentalConsumeError = state => ({
+const rentalConsumeError = (state) => ({
   ...state,
-  error: null
+  error: null,
 });
 
 export const rentalReducer = (state = initialState, action) => {
@@ -74,6 +93,13 @@ export const rentalReducer = (state = initialState, action) => {
       return fetchRentalsFail(state, action.payload);
     case types.FETCH_RENTALS_SUCCESS:
       return fetchRentalsSuccess(state, action.payload);
+    // FETCH ONE
+    case types.FETCH_RENTAL_START:
+      return fetchRentalStart(state);
+    case types.FETCH_RENTAL_FAIL:
+      return fetchRentalFail(state, action.payload);
+    case types.FETCH_RENTAL_SUCCESS:
+      return fetchRentalSuccess(state, action.payload);
     // NOTIFICATIONS
     case types.RENTAL_CONSUME_ERROR:
       return rentalConsumeError(state);

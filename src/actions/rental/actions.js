@@ -11,27 +11,27 @@ import { resourceQueryParamsToPathParams } from '../../helpers/resource-query-pa
  * CREATE
  */
 const createRentalStart = () => ({
-  type: types.CREATE_RENTAL_START
+  type: types.CREATE_RENTAL_START,
 });
 
-const createRentalSuccess = rental => ({
+const createRentalSuccess = (rental) => ({
   type: types.CREATE_RENTAL_SUCCESS,
   payload: {
     rental,
-    success: { type: successTypes.CREATE_SUCCESS, message: 'Rental Created' }
-  }
+    success: { type: successTypes.CREATE_SUCCESS, message: 'Rental Created' },
+  },
 });
 
-const createRentalFail = error => ({
+const createRentalFail = (error) => ({
   type: types.CREATE_RENTAL_FAIL,
-  payload: { error }
+  payload: { error },
 });
 
-export const createRental = (rentalFormData, apiAccessType, token) => async dispatch => {
+export const createRental = (rentalFormData, apiAccessType, token) => async (dispatch) => {
   dispatch(createRentalStart());
   try {
     const response = await axios.post(resourcePaths[apiAccessType].rentals.many(), rentalFormData, {
-      headers: createAuthHeader(token)
+      headers: createAuthHeader(token),
     });
     const rental = response.data.data;
     dispatch(createRentalSuccess(rental));
@@ -46,20 +46,20 @@ export const createRental = (rentalFormData, apiAccessType, token) => async disp
  * FETCH MANY
  */
 const fetchRentalsStart = () => ({
-  type: types.FETCH_RENTALS_START
+  type: types.FETCH_RENTALS_START,
 });
 
-const fetchRentalsSuccess = rentals => ({
+const fetchRentalsSuccess = (rentals) => ({
   type: types.FETCH_RENTALS_SUCCESS,
-  payload: { rentals }
+  payload: { rentals },
 });
 
-const fetchRentalsFail = error => ({
+const fetchRentalsFail = (error) => ({
   type: types.FETCH_RENTALS_FAIL,
-  payload: { error }
+  payload: { error },
 });
 
-export const fetchRentals = (resourceQueryParams, apiAccessType, token) => async dispatch => {
+export const fetchRentals = (resourceQueryParams, apiAccessType, token) => async (dispatch) => {
   dispatch(fetchRentalsStart());
   try {
     const response = await axios.get(
@@ -78,12 +78,50 @@ export const fetchRentals = (resourceQueryParams, apiAccessType, token) => async
 };
 
 /**
+ * FETCH ONE
+ */
+const fetchRentalStart = () => ({
+  type: types.FETCH_RENTAL_START,
+});
+
+const fetchRentalSuccess = (rental) => ({
+  type: types.FETCH_RENTAL_SUCCESS,
+  payload: { rental },
+});
+
+const fetchRentalFail = (error) => ({
+  type: types.FETCH_RENTAL_FAIL,
+  payload: { error },
+});
+
+export const fetchRental = (rentalId, resourceQueryParams, apiAccessType, token) => async (
+  dispatch
+) => {
+  dispatch(fetchRentalStart());
+  try {
+    const response = await axios.get(
+      resourcePaths[apiAccessType].rentals.one(
+        rentalId,
+        resourceQueryParamsToPathParams(resourceQueryParams)
+      ),
+      { headers: createAuthHeader(token) }
+    );
+    const rentals = response.data.data;
+    dispatch(fetchRentalSuccess(rentals));
+  } catch (error) {
+    console.log(error);
+    const err = error.response ? error.response.data.data : serverNotRespondingError;
+    return dispatch(fetchRentalFail(err));
+  }
+};
+
+/**
  * NOTIFICATIONS
  */
 export const rentalConsumeSuccess = () => ({
-  type: types.RENTAL_CONSUME_SUCCESS
+  type: types.RENTAL_CONSUME_SUCCESS,
 });
 
 export const rentalConsumeError = () => ({
-  type: types.RENTAL_CONSUME_ERROR
+  type: types.RENTAL_CONSUME_ERROR,
 });

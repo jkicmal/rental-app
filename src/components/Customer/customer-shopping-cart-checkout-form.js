@@ -10,20 +10,12 @@ import { Divider } from '../common';
 
 const CustomerShoppingCartCheckoutForm = ({ onSubmit }) => {
   const [formState, setFormState] = useState({
-    dateFrom: moment()
-      .add(1, 'days')
-      .toISOString(),
-    dateTo: moment()
-      .add(2, 'days')
-      .toISOString(),
-    pickupTime: moment()
-      .add(2, 'days')
-      .hours(12)
-      .minutes(0)
-      .toISOString()
+    startDate: moment().add(1, 'days').toISOString(),
+    endDate: moment().add(2, 'days').toISOString(),
+    pickupTime: moment().add(2, 'days').hours(12).minutes(0).toISOString(),
   });
 
-  const onInputChange = e => {
+  const onInputChange = (e) => {
     setFormState({ ...formState, [e.target.name]: e.target.value });
   };
 
@@ -33,16 +25,16 @@ const CustomerShoppingCartCheckoutForm = ({ onSubmit }) => {
         label="Rental From Date"
         minDate={moment().add(1, 'days')}
         maxDate={moment().add(7, 'days')}
-        value={formState.dateFrom}
-        onChange={e => onInputChange({ target: { name: 'dateFrom', value: e.toISOString() } })}
+        value={formState.startDate}
+        onChange={(e) => onInputChange({ target: { name: 'startDate', value: e.toISOString() } })}
       />
       <Divider />
       <DatePicker
         label="Rental To Date"
-        value={formState.dateTo}
-        minDate={moment(formState.dateFrom).add(1, 'days')}
-        maxDate={moment(formState.dateFrom).add(7, 'days')}
-        onChange={e => onInputChange({ target: { name: 'dateTo', value: e.toISOString() } })}
+        value={formState.endDate}
+        minDate={moment(formState.startDate).add(1, 'days')}
+        maxDate={moment(formState.startDate).add(7, 'days')}
+        onChange={(e) => onInputChange({ target: { name: 'endDate', value: e.toISOString() } })}
       />
       <Divider />
       <TimePicker
@@ -50,18 +42,15 @@ const CustomerShoppingCartCheckoutForm = ({ onSubmit }) => {
         value={formState.pickupTime}
         views={['hours']}
         ampm={false}
-        onChange={e => {
+        onChange={(e) => {
           // NOTE: Allow only hours from 8 to 16
           if (e.hours() < 8) e.hours(8);
           if (e.hours() > 16) e.hours(16);
           onInputChange({
             target: {
               name: 'pickupTime',
-              value: moment(formState.dateTo)
-                .hours(e.hours())
-                .minutes(e.minutes())
-                .toISOString()
-            }
+              value: moment(formState.endDate).hours(e.hours()).minutes(e.minutes()).toISOString(),
+            },
           });
         }}
       />

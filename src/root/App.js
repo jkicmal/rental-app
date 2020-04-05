@@ -8,16 +8,25 @@ import { logout, loginCheckState } from '../actions/login/actions';
 import { Nav, Logout, ProtectedRoute } from '../components/common';
 
 import {
+  // Shared / Common
   ScreensLogin,
   ScreensRegister,
   ScreensStore,
+  // Employee Category
   ScreensEmployeeCategories,
+  // Employee Product
   ScreensEmployeeProduct,
   ScreensEmployeeProducts,
   ScreensEmployeeProductEdit,
   ScreensEmployeeProductAdd,
+  // Employee Rental
+  ScreensEmployeeRentals,
+  ScreensEmployeeRental,
+  // Customer Rental
+  ScreensCustomerRentals,
+  ScreensCustomerRental,
+  // Customer Shopping Cart
   ScreensCustomerShoppingCart,
-  ScreensCustomerRentals
 } from '../screens';
 
 class App extends Component {
@@ -50,12 +59,19 @@ class App extends Component {
             path="/customer/shopping-cart"
             component={ScreensCustomerShoppingCart}
           />
+
           {/* Rentals */}
           <ProtectedRoute
             accountType={accountTypes.CUSTOMER}
             exact
             path="/customer/rentals"
             component={ScreensCustomerRentals}
+          />
+          <ProtectedRoute
+            accountType={accountTypes.CUSTOMER}
+            exact
+            path="/customer/rentals/:rentalId"
+            component={ScreensCustomerRental}
           />
 
           {/* Employee routes */}
@@ -93,6 +109,20 @@ class App extends Component {
             component={ScreensEmployeeProductEdit}
           />
 
+          {/* Rental */}
+          <ProtectedRoute
+            accountType={accountTypes.EMPLOYEE}
+            exact
+            path="/employee/rentals"
+            component={ScreensEmployeeRentals}
+          />
+          <ProtectedRoute
+            accountType={accountTypes.EMPLOYEE}
+            exact
+            path="/employee/rentals/:rentalId"
+            component={ScreensEmployeeRental}
+          />
+
           {/* Common routes */}
           <Route exact path="/" component={ScreensStore} />
 
@@ -104,13 +134,13 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  login: state.loginReducer
+const mapStateToProps = (state) => ({
+  login: state.loginReducer,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   logout: () => dispatch(logout()),
-  loginCheckState: () => dispatch(loginCheckState())
+  loginCheckState: () => dispatch(loginCheckState()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

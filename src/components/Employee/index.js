@@ -10,3 +10,10 @@ export { default as EmployeeCategoryInteractiveTable } from './employee-categori
 
 // Item
 export { default as EmployeeItemInteractiveTable } from './employee-items-interactive-table';
+
+// Rental
+export { default as EmployeeRentalsContainer } from './employee-rentals-container';
+export { default as EmployeeRentalContainer } from './employee-rental-container';
+export { default as EmployeeRentalProduct } from './employee-rental-product';
+export { default as EmployeeRentalProductList } from './employee-rental-product-list';
+export { default as EmployeeRental } from './employee-rental';

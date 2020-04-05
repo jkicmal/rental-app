@@ -4,26 +4,26 @@ import { toastr } from 'react-redux-toastr';
 
 import {
   removeProductFromShoppingCart,
-  resetShoppingCart
+  resetShoppingCart,
 } from '../../actions/shopping-cart/actions';
 import {
   createRental,
   rentalConsumeError,
-  rentalConsumeSuccess
+  rentalConsumeSuccess,
 } from '../../actions/rental/actions';
 import { apiAccessTypes } from '../../config/api';
 
 import Button from '@material-ui/core/Button';
 import { CustomerShoppingCartProductsInteractiveTable, CustomerShoppingCartCheckoutForm } from '.';
-import { MuiModal, Div, Divider } from '../common';
+import { MuiModal, FlexContainer, Divider } from '../common';
 import { Redirect } from 'react-router-dom';
 
 class CustomerShoppingCartContainer extends Component {
   state = {
-    checkoutModalOpen: false
+    checkoutModalOpen: false,
   };
 
-  onCheckout = checkoutFormData => {
+  onCheckout = (checkoutFormData) => {
     const { products: shoppingCartProducts } = this.props.shoppingCartState;
     const { createRental } = this.props.rentalActions;
     const { token } = this.props.loginState;
@@ -31,8 +31,8 @@ class CustomerShoppingCartContainer extends Component {
     this.setState({ checkoutModalOpen: false });
 
     const rentalFormData = {
-      productsIds: shoppingCartProducts.map(product => product.id),
-      ...checkoutFormData
+      productsIds: shoppingCartProducts.map((product) => product.id),
+      ...checkoutFormData,
     };
 
     createRental(rentalFormData, apiAccessTypes.CUSTOMER, token);
@@ -66,10 +66,10 @@ class CustomerShoppingCartContainer extends Component {
       <>
         <CustomerShoppingCartProductsInteractiveTable
           products={shoppingCartProducts}
-          onProductDelete={async product => removeProductFromShoppingCart(product)}
+          onProductDelete={async (product) => removeProductFromShoppingCart(product)}
         />
         <Divider />
-        <Div padding="xs" horizontalCenter>
+        <FlexContainer padding="xs" verticalCenter>
           <Button
             // NOTE: Disable checkout button when there are no products in cart
             disabled={!shoppingCartProducts.length}
@@ -81,7 +81,7 @@ class CustomerShoppingCartContainer extends Component {
           >
             Checkout
           </Button>
-        </Div>
+        </FlexContainer>
         <MuiModal
           horizontalCenter
           verticalCenter
@@ -91,7 +91,7 @@ class CustomerShoppingCartContainer extends Component {
           }}
         >
           <CustomerShoppingCartCheckoutForm
-            onSubmit={checkoutFormData => this.onCheckout(checkoutFormData)}
+            onSubmit={(checkoutFormData) => this.onCheckout(checkoutFormData)}
           />
         </MuiModal>
       </>
@@ -99,30 +99,30 @@ class CustomerShoppingCartContainer extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   shoppingCartState: {
-    products: state.shoppingCartReducer.products
+    products: state.shoppingCartReducer.products,
   },
   rentalState: {
     success: state.rentalReducer.success,
-    error: state.rentalReducer.error
+    error: state.rentalReducer.error,
   },
   loginState: {
-    token: state.loginReducer.token
-  }
+    token: state.loginReducer.token,
+  },
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   shoppingCartActions: {
-    removeProductFromShoppingCart: product => dispatch(removeProductFromShoppingCart(product)),
-    resetShoppingCart: () => dispatch(resetShoppingCart())
+    removeProductFromShoppingCart: (product) => dispatch(removeProductFromShoppingCart(product)),
+    resetShoppingCart: () => dispatch(resetShoppingCart()),
   },
   rentalActions: {
     createRental: (rentalFormData, apiAccessType, token) =>
       dispatch(createRental(rentalFormData, apiAccessType, token)),
     rentalConsumeError: () => dispatch(rentalConsumeError()),
-    rentalConsumeSuccess: () => dispatch(rentalConsumeSuccess())
-  }
+    rentalConsumeSuccess: () => dispatch(rentalConsumeSuccess()),
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CustomerShoppingCartContainer);

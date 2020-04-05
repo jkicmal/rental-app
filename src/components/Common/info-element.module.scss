@@ -1,0 +1,19 @@
+.info-element {
+  margin-top: 0.5rem;
+  padding: 1rem;
+  margin-right: 1rem;
+}
+
+.extend {
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .info-element {
+    margin-right: 0rem;
+  }
+
+  .info-element {
+    width: 100%;
+  }
+}
