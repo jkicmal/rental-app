@@ -1,15 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { fetchRental, rentalConsumeSuccess } from '../../actions/rental/actions';
+import {
+  fetchRental,
+  rentalConsumeSuccess,
+  rentalConsumeError,
+  changeRentalStatus,
+} from '../../actions/rental/actions';
 import { apiAccessTypes } from '../../config';
 import { formatPrice } from '../../helpers/formatters';
 
-import { Divider, LoadingContainer, MaterialTableBase, FlexContainer } from '../common';
+import { Divider, LoadingContainer, MaterialTableBase } from '../common';
 import { RentalInfo, CustomerInfo } from '../shared';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
 import { toastr } from 'react-redux-toastr';
+import { EmployeeRentalActionButtons } from '.';
 
 class EmployeeRentalContainer extends Component {
   componentDidMount() {
@@ -28,25 +33,27 @@ class EmployeeRentalContainer extends Component {
     );
   };
 
-  handleRentalAccept = () => {
-    console.log('Accept Rental');
+  handleRentalStatusChange = (status) => {
+    const { changeRentalStatus } = this.props.rentalActions;
+    const { token } = this.props.loginState;
+    const { rentalId } = this.props;
+    changeRentalStatus(rentalId, status, apiAccessTypes.EMPLOYEE, token);
   };
 
-  handleRentalReject = () => {
-    console.log('Reject Rental');
-  };
+  componentDidUpdate() {
+    const { success, error } = this.props.rentalState;
+    const { rentalConsumeSuccess, rentalConsumeError } = this.props.rentalActions;
 
-  handleRentalFinalize = () => {
-    console.log('Finalize Rental');
-  };
-
-  componentDidUpdate(nextProps) {
-    const { success } = nextProps.rentalState;
-    const { rentalConsumeSuccess } = nextProps.rentalState;
     if (success) {
       toastr.success(success.type, success.message);
       this.handleRentalFetch();
       rentalConsumeSuccess();
+    }
+
+    if (error) {
+      toastr.error(error.type, error.message);
+      this.handleRentalFetch();
+      rentalConsumeError();
     }
   }
 
@@ -57,19 +64,13 @@ class EmployeeRentalContainer extends Component {
         loading={!rental || loading}
         render={() => (
           <>
-            <FlexContainer horizontalCenter>
-              <Button variant="contained" color="primary" onClick={this.handleRentalAccept}>
-                Accept
-              </Button>
-              <Divider orientation="vertical" />
-              <Button variant="contained" color="secondary" onClick={this.handleRentalReject}>
-                Reject
-              </Button>
-              <Divider orientation="vertical" />
-              <Button variant="contained" onClick={this.handleRentalFinalize}>
-                Finalize
-              </Button>
-            </FlexContainer>
+            <Divider />
+            <EmployeeRentalActionButtons
+              rental={rental}
+              onRentalAccept={() => this.handleRentalStatusChange('accept')}
+              onRentalReject={() => this.handleRentalStatusChange('reject')}
+              onRentalFinalize={() => this.handleRentalStatusChange('finalize')}
+            />
             <Divider />
             <Typography variant="h5">Customer Info</Typography>
             <CustomerInfo customer={rental.requestedBy} />
@@ -77,19 +78,24 @@ class EmployeeRentalContainer extends Component {
             <Typography variant="h5">Rental Info</Typography>
             <RentalInfo rental={rental} />
             <Divider />
-            <MaterialTableBase
-              title="Rented Products"
-              columns={[
-                { title: 'Name', field: 'name' },
-                { title: 'Price', render: (rowData) => formatPrice(rowData.price) },
-                { title: 'Deposit', render: (rowData) => formatPrice(rowData.deposit) },
-                { title: 'Item ID', render: (rowData) => rowData.item.id },
-                { title: 'Category', render: (rowData) => rowData.category.name },
-              ]}
-              data={rental.items.map(({ product, ...itemRest }) => ({
-                ...product,
-                item: itemRest,
-              }))}
+            <LoadingContainer
+              loading={!rental.items}
+              render={() => (
+                <MaterialTableBase
+                  title="Rented Products"
+                  columns={[
+                    { title: 'Name', field: 'name' },
+                    { title: 'Price', render: (rowData) => formatPrice(rowData.price) },
+                    { title: 'Deposit', render: (rowData) => formatPrice(rowData.deposit) },
+                    { title: 'Item ID', render: (rowData) => rowData.item.id },
+                    { title: 'Category', render: (rowData) => rowData.category.name },
+                  ]}
+                  data={rental.items.map(({ product, ...itemRest }) => ({
+                    ...product,
+                    item: itemRest,
+                  }))}
+                />
+              )}
             />
           </>
         )}
@@ -102,6 +108,8 @@ const mapStateToProps = (state) => ({
   rentalState: {
     rental: state.rentalReducer.rental,
     loading: state.rentalReducer.loading,
+    success: state.rentalReducer.success,
+    error: state.rentalReducer.error,
   },
   loginState: {
     token: state.loginReducer.token,
@@ -112,7 +120,10 @@ const mapDispatchToProps = (dispatch) => ({
   rentalActions: {
     fetchRental: (rentalId, resourceQueryParams, apiAccessType, token) =>
       dispatch(fetchRental(rentalId, resourceQueryParams, apiAccessType, token)),
+    changeRentalStatus: (rentalId, status, apiAccessType, token) =>
+      dispatch(changeRentalStatus(rentalId, status, apiAccessType, token)),
     rentalConsumeSuccess: () => dispatch(rentalConsumeSuccess()),
+    rentalConsumeError: () => dispatch(rentalConsumeError()),
   },
 });
 

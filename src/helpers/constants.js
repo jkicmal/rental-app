@@ -1,6 +1,6 @@
 export const accountTypes = {
   EMPLOYEE: 'EMPLOYEE',
-  CUSTOMER: 'CUSTOMER'
+  CUSTOMER: 'CUSTOMER',
 };
 
 export const errorTypes = {
@@ -8,11 +8,18 @@ export const errorTypes = {
   FETCH_ONE_ERROR: 'FETCH_ONE_ERROR',
   DELETE_ERROR: 'DELETE_ERROR',
   UPDATE_ERROR: 'UPDATE_ERROR',
-  CREATE_ERROR: 'CREATE_ERROR'
+  CREATE_ERROR: 'CREATE_ERROR',
 };
 
 export const successTypes = {
   DELETE_SUCCESS: 'DELETE_SUCCESS',
   UPDATE_SUCCESS: 'UPDATE_SUCCESS',
-  CREATE_SUCCESS: 'CREATE_SUCCESS'
+  CREATE_SUCCESS: 'CREATE_SUCCESS',
+};
+
+export const rentalStatuses = {
+  NEW: 'NEW',
+  ACCEPTED: 'ACCEPTED',
+  REJECTED: 'REJECTED',
+  FINALIZED: 'FINALIZED',
 };

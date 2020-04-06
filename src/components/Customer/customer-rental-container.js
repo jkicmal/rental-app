@@ -39,7 +39,7 @@ class CustomerRentalContainer extends Component {
               columns={[
                 { title: 'Name', field: 'name' },
                 { title: 'Price', render: (rowData) => formatPrice(rowData.price) },
-                { title: 'Deposit', field: 'deposit' },
+                { title: 'Deposit', render: (rowData) => formatPrice(rowData.deposit) },
                 { title: 'Category', render: (rowData) => rowData.category.name },
               ]}
               data={rental.products}

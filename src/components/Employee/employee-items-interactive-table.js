@@ -7,11 +7,12 @@ import {
   createItem,
   updateItem,
   deleteItem,
-  itemConsumeSuccess
+  itemConsumeSuccess,
 } from '../../actions/item/actions';
 import { apiAccessTypes } from '../../config';
 
 import { MaterialTableBase } from '../common';
+import { formatYesNo } from '../../helpers/formatters';
 
 class EmployeeItemInteractiveTable extends Component {
   componentDidMount() {
@@ -56,32 +57,35 @@ class EmployeeItemInteractiveTable extends Component {
       <MaterialTableBase
         options={{
           search: false,
-          paging: true
+          paging: true,
         }}
-        columns={[{ title: 'ID', field: 'id', editable: 'never' }]}
-        data={itemState.items.map(item => Object.assign({}, item))}
+        columns={[
+          { title: 'ID', field: 'id', editable: 'never' },
+          { title: 'Available', render: (rowData) => formatYesNo(rowData.available) },
+        ]}
+        data={itemState.items.map((item) => Object.assign({}, item))}
         title="Items"
         editable={{
-          onRowAdd: item => this.onRowAdd(item),
-          onRowDelete: item => this.onRowDelete(item),
-          onRowUpdate: item => this.onRowUpdate(item)
+          onRowAdd: (item) => this.onRowAdd(item),
+          onRowDelete: (item) => this.onRowDelete(item),
+          onRowUpdate: (item) => this.onRowUpdate(item),
         }}
       />
     );
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   itemState: {
     items: state.itemReducer.items,
-    success: state.itemReducer.success
+    success: state.itemReducer.success,
   },
   loginState: {
-    token: state.loginReducer.token
-  }
+    token: state.loginReducer.token,
+  },
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   itemActions: {
     fetchItems: (resourceQueryParams, apiAccessType, token) =>
       dispatch(fetchItems(resourceQueryParams, apiAccessType, token)),
@@ -91,8 +95,8 @@ const mapDispatchToProps = dispatch => ({
       dispatch(updateItem(itemId, itemFormData, apiAccessType, token)),
     deleteItem: (itemId, apiAccessType, token) =>
       dispatch(deleteItem(itemId, apiAccessType, token)),
-    itemConsumeSuccess: () => dispatch(itemConsumeSuccess())
-  }
+    itemConsumeSuccess: () => dispatch(itemConsumeSuccess()),
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EmployeeItemInteractiveTable);

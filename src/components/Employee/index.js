@@ -15,3 +15,4 @@ export { default as EmployeeItemInteractiveTable } from './employee-items-intera
 export { default as EmployeeRentalsContainer } from './employee-rentals-container';
 export { default as EmployeeRentalContainer } from './employee-rental-container';
 export { default as EmployeeRental } from './employee-rental';
+export { default as EmployeeRentalActionButtons } from './employee-rental-action-buttons';

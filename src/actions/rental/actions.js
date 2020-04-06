@@ -138,8 +138,9 @@ export const rentalStatusChangeFail = (error) => ({
 
 export const changeRentalStatus = (rentalId, status, apiAccessType, token) => async (dispatch) => {
   dispatch(rentalStatusChangeStart());
+
   try {
-    await axios.post(resourcePaths[apiAccessType].rentals[status](rentalId), {
+    await axios.post(resourcePaths[apiAccessType].rentals[status](rentalId), null, {
       headers: createAuthHeader(token),
     });
     dispatch(rentalStatusChangeSuccess());

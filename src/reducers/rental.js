@@ -11,6 +11,7 @@ const initialState = {
 // CREATE
 const createRentalStart = (state) => ({
   ...state,
+  rental: null,
   loading: true,
 });
 
@@ -67,6 +68,27 @@ const fetchRentalSuccess = (state, payload) => ({
   loading: false,
 });
 
+// STATUS
+const rentalStatusChangeStart = (state) => ({
+  ...state,
+  loading: true,
+  error: null,
+  success: null,
+  rental: null,
+});
+
+const rentalStatusChangeSuccess = (state, payload) => ({
+  ...state,
+  loading: false,
+  success: payload.success,
+});
+
+const rentalStatusChangeFail = (state, payload) => ({
+  ...state,
+  loading: false,
+  error: payload.error,
+});
+
 // NOTIFICATIONS
 const rentalConsumeSuccess = (state) => ({
   ...state,
@@ -101,6 +123,13 @@ export const rentalReducer = (state = initialState, action) => {
       return fetchRentalFail(state, action.payload);
     case types.FETCH_RENTAL_SUCCESS:
       return fetchRentalSuccess(state, action.payload);
+    // STATUS CHANGE
+    case types.RENTAL_STATUS_CHANGE_START:
+      return rentalStatusChangeStart(state);
+    case types.RENTAL_STATUS_CHANGE_SUCCESS:
+      return rentalStatusChangeSuccess(state, action.payload);
+    case types.RENTAL_STATUS_CHANGE_FAIL:
+      return rentalStatusChangeFail(state, action.payload);
     // NOTIFICATIONS
     case types.RENTAL_CONSUME_ERROR:
       return rentalConsumeError(state);
