@@ -1,13 +1,12 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { fetchProduct } from '../../actions/product/actions';
-
-import classes from './employee-product.module.scss';
-
-import { Typography, Paper } from '@material-ui/core';
 import { apiAccessTypes } from '../../config/api';
-import { FlexContainer, InfoElement } from '../common';
+import { formatPrice, formatYesNo } from '../../helpers/formatters';
+
+import { FlexContainer, InfoElement, LoadingContainer } from '../common';
+import Typography from '@material-ui/core/Typography';
 
 class EmployeeProduct extends Component {
   componentDidMount() {
@@ -21,23 +20,28 @@ class EmployeeProduct extends Component {
   }
 
   render() {
-    const { product } = this.props.productState;
-
-    if (!product) return null;
-
+    const { product, loading } = this.props.productState;
     return (
-      <Fragment>
-        <Typography variant="h4">
-          {product.name} #{product.id}
-        </Typography>
-        <FlexContainer>
-          <InfoElement extend>{product.description}</InfoElement>
-          <InfoElement>Price {product.price.toFixed(2)}PLN</InfoElement>
-          <InfoElement>Deposit {product.deposit.toFixed(2)}PLN</InfoElement>
-          <InfoElement>Displayed in store: {product.showInStore ? 'Yes' : 'No'}</InfoElement>
-          <InfoElement>Category: {product.category ? product.category.name : 'None'}</InfoElement>
-        </FlexContainer>
-      </Fragment>
+      <LoadingContainer
+        loading={!product || loading}
+        render={() => (
+          <>
+            <Typography variant="h4">
+              {product.name} #{product.id}
+            </Typography>
+            <FlexContainer wrap>
+              <InfoElement label="Description" value={product.description} extend />
+              <InfoElement label="Price" value={formatPrice(product.price)} />
+              <InfoElement label="Deposit" value={formatPrice(product.deposit)} />
+              <InfoElement label="Displayed In Store" value={formatYesNo(product.showInStore)} />
+              <InfoElement
+                label="Category"
+                value={product.category ? product.category.name : 'None'}
+              />
+            </FlexContainer>
+          </>
+        )}
+      />
     );
   }
 }
@@ -45,6 +49,7 @@ class EmployeeProduct extends Component {
 const mapStateToProps = (state) => ({
   productState: {
     product: state.productReducer.product,
+    loading: state.productReducer.loading,
   },
   loginState: {
     token: state.loginReducer.token,

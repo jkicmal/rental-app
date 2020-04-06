@@ -60,7 +60,7 @@ class CustomerShoppingCartContainer extends Component {
     const { checkoutModalOpen } = this.state;
 
     // NOTE: Redirect on success
-    if (rentalSuccess) return <Redirect to="/" />;
+    if (rentalSuccess) return <Redirect to={`/customer/rentals/${rentalSuccess.rentalId}`} />;
 
     return (
       <>
@@ -69,7 +69,7 @@ class CustomerShoppingCartContainer extends Component {
           onProductDelete={async (product) => removeProductFromShoppingCart(product)}
         />
         <Divider />
-        <FlexContainer padding="xs" verticalCenter>
+        <FlexContainer padding="xs" horizontalCenter>
           <Button
             // NOTE: Disable checkout button when there are no products in cart
             disabled={!shoppingCartProducts.length}

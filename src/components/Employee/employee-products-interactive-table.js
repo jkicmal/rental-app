@@ -4,9 +4,7 @@ import { toastr } from 'react-redux-toastr';
 
 import { fetchProducts, deleteProduct, productConsumeSuccess } from '../../actions/product/actions';
 import { apiAccessTypes } from '../../config';
-
-import { ButtonGroup } from '@material-ui/core';
-import { MaterialTableBase, Divider, ButtonLink } from '../common';
+import { MaterialTableBase, ButtonLink, FlexContainer, Divider } from '../common';
 
 class ProductInteractiveTable extends Component {
   componentDidMount() {
@@ -18,7 +16,7 @@ class ProductInteractiveTable extends Component {
     );
   }
 
-  onRowDelete = async product => {
+  onRowDelete = async (product) => {
     const { productActions, loginState } = this.props;
     productActions.deleteProduct(product, apiAccessTypes.EMPLOYEE, loginState.token);
   };
@@ -35,18 +33,18 @@ class ProductInteractiveTable extends Component {
   render() {
     const { productState } = this.props;
 
-    const productsData = productState.products.map(product => ({
+    const productsData = productState.products.map((product) => ({
       ...product,
       categoryName: !!product.category ? product.category.name : 'None',
       price: Number(product.price).toFixed(2),
-      deposit: Number(product.price).toFixed(2)
+      deposit: Number(product.price).toFixed(2),
     }));
 
     return (
       <MaterialTableBase
         options={{
           search: true,
-          paging: true
+          paging: true,
         }}
         columns={[
           { title: 'Name', field: 'name' },
@@ -54,47 +52,44 @@ class ProductInteractiveTable extends Component {
           { title: 'Deposit (PLN)', field: 'deposit' },
           { title: 'Category', field: 'categoryName' },
           {
-            render: rowData => (
-              <ButtonGroup
-                orientation="horizontal"
-                color="primary"
-                aria-label="vertical outlined primary button group"
-              >
+            title: 'Actions',
+            render: (rowData) => (
+              <FlexContainer>
                 <ButtonLink to={`/employee/products/${rowData.id}`}>View</ButtonLink>
-                <Divider orientation="vertical" size="xs" />
+                <Divider orientation="vertical" />
                 <ButtonLink to={`/employee/products/${rowData.id}/edit`}>Edit</ButtonLink>
-              </ButtonGroup>
-            )
-          }
+              </FlexContainer>
+            ),
+          },
         ]}
         data={productsData}
         title="Products"
         editable={{
-          onRowDelete: product => this.onRowDelete(product)
+          onRowDelete: (product) => this.onRowDelete(product),
         }}
       />
     );
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   productState: {
     products: state.productReducer.products,
-    success: state.productReducer.success
+    success: state.productReducer.success,
   },
   loginState: {
-    token: state.loginReducer.token
-  }
+    token: state.loginReducer.token,
+  },
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   productActions: {
     fetchProducts: (resourceQueryParams, apiAccessType, token) =>
       dispatch(fetchProducts(resourceQueryParams, apiAccessType, token)),
     deleteProduct: (product, apiAccessType, token) =>
       dispatch(deleteProduct(product, apiAccessType, token)),
-    productConsumeSuccess: () => dispatch(productConsumeSuccess())
-  }
+    productConsumeSuccess: () => dispatch(productConsumeSuccess()),
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductInteractiveTable);

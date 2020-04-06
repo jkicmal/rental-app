@@ -10,3 +10,4 @@ export { default as ButtonLink } from './button-link';
 export { default as MuiModal } from './mui-modal';
 export { default as FlexContainer } from './flex-container';
 export { default as InfoElement } from './info-element';
+export { default as LoadingContainer } from './loading-container';

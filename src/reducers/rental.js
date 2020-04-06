@@ -23,7 +23,6 @@ const createRentalFail = (state, payload) => ({
 const createRentalSuccess = (state, payload) => ({
   ...state,
   success: payload.success,
-  rental: payload.rental,
   error: null,
   loading: false,
 });
@@ -31,6 +30,7 @@ const createRentalSuccess = (state, payload) => ({
 // FETCH MANY
 const fetchRentalsStart = (state) => ({
   ...state,
+  rentals: [],
   loading: true,
 });
 
@@ -50,6 +50,7 @@ const fetchRentalsSuccess = (state, payload) => ({
 // FETCH ONE
 const fetchRentalStart = (state) => ({
   ...state,
+  rental: null,
   loading: true,
 });
 

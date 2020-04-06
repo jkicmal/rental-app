@@ -1,14 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { Typography } from '@material-ui/core';
 import { fetchRental } from '../../actions/rental/actions';
 import { apiAccessTypes } from '../../config';
-import { FlexContainer, InfoElement, Divider, MaterialTableBase } from '../common';
-import { formatDate, formatTime } from '../../helpers/moment-utils';
+import { formatPrice } from '../../helpers/formatters';
+
+import { Divider, MaterialTableBase, LoadingContainer } from '../common';
+import { RentalInfo } from '../shared';
 
 class CustomerRentalContainer extends Component {
   componentDidMount() {
+    this.handleFetchRental();
+  }
+
+  handleFetchRental = () => {
     const { fetchRental } = this.props.rentalActions;
     const { token } = this.props.loginState;
     const { rentalId } = this.props;
@@ -18,35 +23,30 @@ class CustomerRentalContainer extends Component {
       apiAccessTypes.CUSTOMER,
       token
     );
-  }
+  };
 
   render() {
-    const { rental } = this.props.rentalState;
-
-    if (!rental || rental.loading) return null;
-
+    const { rental, loading } = this.props.rentalState;
     return (
-      <>
-        <FlexContainer>
-          <InfoElement>Status: {rental.status}</InfoElement>
-          <InfoElement>Rental Start: {formatDate(rental.startDate)}</InfoElement>
-          <InfoElement>Rental End: {formatDate(rental.endDate)}</InfoElement>
-          <InfoElement>Pickup Time: {formatTime(rental.pickupTime)}</InfoElement>
-          <InfoElement>Total Price: {rental.priceTotal} PLN</InfoElement>
-          <InfoElement>Total Deposit: {rental.priceTotal} PLN</InfoElement>
-        </FlexContainer>
-        <Divider />
-        <MaterialTableBase
-          title="Rented Products"
-          columns={[
-            { title: 'Name', field: 'name' },
-            { title: 'Price (PLN)', field: 'price' },
-            { title: 'Deposit (PLN)', field: 'deposit' },
-            { title: 'Category', render: (rowData) => rowData.category.name },
-          ]}
-          data={rental.products}
-        />
-      </>
+      <LoadingContainer
+        loading={!rental || loading}
+        render={() => (
+          <>
+            <RentalInfo rental={rental} />
+            <Divider />
+            <MaterialTableBase
+              title="Rented Products"
+              columns={[
+                { title: 'Name', field: 'name' },
+                { title: 'Price', render: (rowData) => formatPrice(rowData.price) },
+                { title: 'Deposit', field: 'deposit' },
+                { title: 'Category', render: (rowData) => rowData.category.name },
+              ]}
+              data={rental.products}
+            />
+          </>
+        )}
+      />
     );
   }
 }

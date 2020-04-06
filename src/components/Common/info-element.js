@@ -2,13 +2,18 @@ import React from 'react';
 
 import classes from './info-element.module.scss';
 
-import { Paper, Typography } from '@material-ui/core';
+import Typography from '@material-ui/core/Typography';
+import Paper from '@material-ui/core/Paper';
 
-const InfoElement = ({ extend, children }) => {
+const InfoElement = ({ label, value, extend }) => {
   const classNames = [classes['info-element'], extend ? classes['extend'] : null];
+
   return (
     <Paper className={classNames.join(' ')}>
-      <Typography variant="body1">{children}</Typography>
+      <Typography variant="caption">
+        <b>{label}</b>
+      </Typography>
+      <Typography variant="body1">{value}</Typography>
     </Paper>
   );
 };

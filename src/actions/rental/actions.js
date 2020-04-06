@@ -17,8 +17,7 @@ const createRentalStart = () => ({
 const createRentalSuccess = (rental) => ({
   type: types.CREATE_RENTAL_SUCCESS,
   payload: {
-    rental,
-    success: { type: successTypes.CREATE_SUCCESS, message: 'Rental Created' },
+    success: { type: successTypes.CREATE_SUCCESS, message: 'Rental Created', rentalId: rental.id },
   },
 });
 
@@ -112,6 +111,42 @@ export const fetchRental = (rentalId, resourceQueryParams, apiAccessType, token)
     console.log(error);
     const err = error.response ? error.response.data.data : serverNotRespondingError;
     return dispatch(fetchRentalFail(err));
+  }
+};
+
+/**
+ * STATUS CHANGE
+ */
+export const rentalStatusChangeStart = () => ({
+  type: types.RENTAL_STATUS_CHANGE_START,
+});
+
+export const rentalStatusChangeSuccess = () => ({
+  type: types.RENTAL_STATUS_CHANGE_SUCCESS,
+  payload: {
+    success: {
+      type: successTypes.UPDATE_SUCCESS,
+      message: 'Rental status changed',
+    },
+  },
+});
+
+export const rentalStatusChangeFail = (error) => ({
+  type: types.RENTAL_STATUS_CHANGE_FAIL,
+  payload: { error },
+});
+
+export const changeRentalStatus = (rentalId, status, apiAccessType, token) => async (dispatch) => {
+  dispatch(rentalStatusChangeStart());
+  try {
+    await axios.post(resourcePaths[apiAccessType].rentals[status](rentalId), {
+      headers: createAuthHeader(token),
+    });
+    dispatch(rentalStatusChangeSuccess());
+  } catch (error) {
+    console.log(error);
+    const err = error.response ? error.response.data.data : serverNotRespondingError;
+    return dispatch(rentalStatusChangeFail(err));
   }
 };
 

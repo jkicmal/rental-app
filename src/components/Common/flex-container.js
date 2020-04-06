@@ -19,22 +19,23 @@ const getPaddingClassName = (padding) => {
   }
 };
 
-const FlexContainer = ({ horizontalCenter, verticalCenter, padding, flexColumn, children }) => {
-  const horizontalCenterClass = flexColumn
-    ? horizontalCenter
-      ? classes['center-vertical']
-      : null
-    : verticalCenter
-    ? classes['center-horizontal']
-    : null;
+const getHorizontalCenterClassName = (flexColumn) =>
+  flexColumn ? classes['center-horizontal'] : classes['center-vertical'];
 
-  const verticalCenterClass = flexColumn
-    ? horizontalCenter
-      ? classes['center-horizontal']
-      : null
-    : verticalCenter
-    ? classes['center-vertical']
-    : null;
+const getVerticalCenterClassName = (flexColumn) =>
+  flexColumn ? classes['center-vertical'] : classes['center-horizontal'];
+
+const FlexContainer = ({
+  wrap,
+  horizontalCenter,
+  verticalCenter,
+  padding,
+  flexColumn,
+  children,
+}) => {
+  const horizontalCenterClass = horizontalCenter ? getHorizontalCenterClassName(flexColumn) : null;
+  const verticalCenterClass = verticalCenter ? getVerticalCenterClassName(flexColumn) : null;
+  const wrapClass = wrap ? classes['wrap'] : null;
 
   const classNames = [
     classes['div'],
@@ -42,6 +43,7 @@ const FlexContainer = ({ horizontalCenter, verticalCenter, padding, flexColumn, 
     flexColumn ? classes['flex-column'] : null,
     horizontalCenterClass,
     verticalCenterClass,
+    wrapClass,
   ];
 
   return <div className={classNames.join(' ')}>{children}</div>;
