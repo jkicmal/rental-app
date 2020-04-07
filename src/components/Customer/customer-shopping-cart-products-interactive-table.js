@@ -1,31 +1,25 @@
 import React from 'react';
 
 import { MaterialTableBase } from '../common';
+import { formatPrice } from '../../helpers/formatters';
 
 const CustomerShoppingCartProductsInteractiveTable = ({ products, onProductDelete }) => {
-  const productsData = products.map(product => ({
-    ...product,
-    categoryName: !!product.category ? product.category.name : 'None',
-    price: Number(product.price).toFixed(2),
-    deposit: Number(product.price).toFixed(2)
-  }));
-
   return (
     <MaterialTableBase
       options={{
         search: true,
-        paging: true
+        paging: true,
       }}
       columns={[
         { title: 'Name', field: 'name' },
-        { title: 'Price (PLN)', field: 'price' },
-        { title: 'Deposit (PLN)', field: 'deposit' },
-        { title: 'Category', field: 'categoryName' }
+        { title: 'Price / Day', render: (rowData) => formatPrice(rowData.price) },
+        { title: 'Deposit', render: (rowData) => formatPrice(rowData.deposit) },
+        { title: 'Category', field: 'categoryName' },
       ]}
-      data={productsData}
+      data={products.map((product) => ({ ...product }))}
       title="Products"
       editable={{
-        onRowDelete: product => onProductDelete(product)
+        onRowDelete: (product) => onProductDelete(product),
       }}
     />
   );

@@ -11,7 +11,11 @@ class EmployeeRentalsContainer extends Component {
   componentDidMount() {
     const { fetchRentals } = this.props.rentalActions;
     const { token } = this.props.loginState;
-    fetchRentals({ relations: ['requestedBy'] }, apiAccessTypes.EMPLOYEE, token);
+    fetchRentals(
+      { relations: ['requestedBy'], order: { createdAt: -1 } },
+      apiAccessTypes.EMPLOYEE,
+      token
+    );
   }
 
   prepareRentalsForDisplay = (rentals) => {

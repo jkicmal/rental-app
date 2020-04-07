@@ -61,7 +61,12 @@ class EmployeeItemInteractiveTable extends Component {
         }}
         columns={[
           { title: 'ID', field: 'id', editable: 'never' },
-          { title: 'Available', render: (rowData) => formatYesNo(rowData.available) },
+          {
+            title: 'Available',
+            field: 'available',
+            render: (rowData) => formatYesNo(rowData ? rowData.available : true),
+            editable: 'never',
+          },
         ]}
         data={itemState.items.map((item) => Object.assign({}, item))}
         title="Items"

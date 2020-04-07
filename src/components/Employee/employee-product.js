@@ -31,7 +31,7 @@ class EmployeeProduct extends Component {
             </Typography>
             <FlexContainer wrap>
               <InfoElement label="Description" value={product.description} extend />
-              <InfoElement label="Price" value={formatPrice(product.price)} />
+              <InfoElement label="Price / Day" value={formatPrice(product.price)} />
               <InfoElement label="Deposit" value={formatPrice(product.deposit)} />
               <InfoElement label="Displayed In Store" value={formatYesNo(product.showInStore)} />
               <InfoElement

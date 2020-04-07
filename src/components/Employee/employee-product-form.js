@@ -11,7 +11,7 @@ import {
   FormControl,
   InputLabel,
   Checkbox,
-  FormControlLabel
+  FormControlLabel,
 } from '@material-ui/core';
 import { Divider } from '../common';
 
@@ -23,8 +23,8 @@ class EmployeeProductForm extends Component {
       price: 0,
       deposit: 0,
       categoryId: '',
-      showInStore: false
-    }
+      showInStore: false,
+    },
   };
 
   componentDidMount() {
@@ -32,17 +32,17 @@ class EmployeeProductForm extends Component {
     if (product) this.assignProductToState(product);
   }
 
-  onInputChange = e => {
+  onInputChange = (e) => {
     const state = this.state;
     this.setState({
-      formData: { ...state.formData, [e.target.name]: e.target.value }
+      formData: { ...state.formData, [e.target.name]: e.target.value },
     });
   };
 
-  onCheckboxChange = e => {
+  onCheckboxChange = (e) => {
     const state = this.state;
     this.setState({
-      formData: { ...state.formData, [e.target.name]: e.target.checked }
+      formData: { ...state.formData, [e.target.name]: e.target.checked },
     });
   };
 
@@ -54,12 +54,12 @@ class EmployeeProductForm extends Component {
         price: product.price,
         deposit: product.deposit,
         categoryId: product.categoryId || '',
-        showInStore: product.showInStore
-      }
+        showInStore: product.showInStore,
+      },
     });
   }
 
-  onSubmit = e => {
+  onSubmit = (e) => {
     e.preventDefault();
     this.props.onSubmit(this.state.formData);
   };
@@ -94,7 +94,7 @@ class EmployeeProductForm extends Component {
           <TextField
             className={classes.textField}
             name="price"
-            label="Price"
+            label="Price / Day"
             type="number"
             value={formData.price}
             onChange={this.onInputChange}
@@ -129,7 +129,7 @@ class EmployeeProductForm extends Component {
                 onChange={this.onInputChange}
               >
                 {categories
-                  ? categories.map(category => (
+                  ? categories.map((category) => (
                       <MenuItem key={category.id} value={category.id}>
                         {category.name}
                       </MenuItem>

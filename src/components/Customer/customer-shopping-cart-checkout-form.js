@@ -49,7 +49,10 @@ const CustomerShoppingCartCheckoutForm = ({ onSubmit }) => {
           onInputChange({
             target: {
               name: 'pickupTime',
-              value: moment(formState.endDate).hours(e.hours()).minutes(e.minutes()).toISOString(),
+              value: moment(formState.startDate)
+                .hours(e.hours())
+                .minutes(e.minutes())
+                .toISOString(),
             },
           });
         }}

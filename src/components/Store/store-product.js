@@ -4,8 +4,10 @@ import { connect } from 'react-redux';
 import { accountTypes } from '../../helpers/constants';
 import {
   addProductToShoppingCart,
-  removeProductFromShoppingCart
+  removeProductFromShoppingCart,
 } from '../../actions/shopping-cart/actions';
+
+import { formatPrice } from '../../helpers/formatters';
 
 import cameraStockImage from '../../assets/images/stock-camera.jpg';
 import classes from './store-product.module.scss';
@@ -21,7 +23,7 @@ class StoreProduct extends Component {
     const shoppingCartProducts = shoppingCartState.products;
     const inShoppingCart =
       shoppingCartProducts.findIndex(
-        shoppingCartProduct => shoppingCartProduct.id === product.id
+        (shoppingCartProduct) => shoppingCartProduct.id === product.id
       ) !== -1;
 
     return (
@@ -30,12 +32,19 @@ class StoreProduct extends Component {
           {product.name}
         </Typography>
         <img className={classes.image} src={cameraStockImage} alt={product.name} />
-        <Typography className={classes.description}>{product.description}</Typography>
-        <Typography>Price: {product.price.toFixed(2)}PLN</Typography>
-        <Typography>Deposit: {product.deposit.toFixed(2)}PLN</Typography>
-
+        <Typography variant="caption" align="center">
+          Available {product.availableItemsCount} out of {product.totalItemsCount}
+        </Typography>
         <Divider />
-
+        <Typography variant="caption">Description</Typography>
+        <Typography>{product.description}</Typography>
+        <Divider />
+        <Typography variant="caption">Price / Day</Typography>
+        <Typography>{formatPrice(product.price)}</Typography>
+        <Divider />
+        <Typography variant="caption">Deposit</Typography>
+        <Typography>{formatPrice(product.deposit)}</Typography>
+        <Divider />
         {/* NOTE: Render button only for Customer */}
         {loginState.token && loginState.accountType === accountTypes.CUSTOMER ? (
           // NOTE: You 'key' attribute to force re-render every time key changes
@@ -49,6 +58,7 @@ class StoreProduct extends Component {
               </Button>
             ) : (
               <Button
+                disabled={product.availableItemsCount === 0}
                 className={classes.button}
                 onClick={() => shoppingCartActions.addProductToShoppingCart(product)}
               >
@@ -62,21 +72,21 @@ class StoreProduct extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   loginState: {
     token: state.loginReducer.token,
-    accountType: state.loginReducer.accountType
+    accountType: state.loginReducer.accountType,
   },
   shoppingCartState: {
-    products: state.shoppingCartReducer.products
-  }
+    products: state.shoppingCartReducer.products,
+  },
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   shoppingCartActions: {
-    removeProductFromShoppingCart: product => dispatch(removeProductFromShoppingCart(product)),
-    addProductToShoppingCart: product => dispatch(addProductToShoppingCart(product))
-  }
+    removeProductFromShoppingCart: (product) => dispatch(removeProductFromShoppingCart(product)),
+    addProductToShoppingCart: (product) => dispatch(addProductToShoppingCart(product)),
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(StoreProduct);

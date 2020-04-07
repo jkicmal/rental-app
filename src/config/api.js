@@ -21,6 +21,7 @@ export const resourcePaths = {
       one: (id, pathParams = '') => `${apiHost}/v1/products/${id}${pathParams}`,
       many: (pathParams = '') => `${apiHost}/v1/products/${pathParams}`,
     },
+    store: () => `${apiHost}/v1/store`,
   },
   [apiAccessTypes.EMPLOYEE]: {
     products: {

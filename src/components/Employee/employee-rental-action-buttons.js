@@ -25,7 +25,7 @@ const EmployeeRentalActionButtons = ({
         </Button>
       </FlexContainer>
     );
-  else if (rental.status !== rentalStatuses.FINALIZED)
+  else if (rental.status === rentalStatuses.ACCEPTED)
     render = (
       <FlexContainer horizontalCenter>
         <Button variant="contained" onClick={onRentalFinalize}>
