@@ -14,3 +14,4 @@ export { default as ScreensEmployeeRental } from './screens-employee-rental';
 // Account
 export { default as ScreensEmployeeAccounts } from './screens-employee-accounts';
 export { default as ScreensEmployeeAccount } from './screens-employee-account';
+export { default as ScreensEmployeeAccountEdit } from './screens-employee-account-edit';

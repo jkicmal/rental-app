@@ -18,3 +18,5 @@ export { default as EmployeeRentalActionButtons } from './employee-rental-action
 // Account
 export { default as EmployeeAccountsContainer } from './employee-accounts-container';
 export { default as EmployeeAccountContainer } from './employee-account-container';
+export { default as EmployeeAccountEditContainer } from './employee-account-edit-container';
+export { default as EmployeeAccountForm } from './employee-account-from';

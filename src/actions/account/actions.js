@@ -5,6 +5,7 @@ import { serverNotRespondingError } from '../../helpers/errors';
 import { resourceQueryParamsToPathParams } from '../../helpers/resource-query-params';
 import { resourcePaths } from '../../config';
 import { createAuthHeader } from '../../helpers/authorization';
+import { successTypes } from '../../helpers/constants';
 
 // FETCH MANY
 const fetchAccountsStart = () => ({
@@ -64,6 +65,7 @@ export const fetchAccount = (accountId, resourceQueryParams, apiAccessType, toke
       { headers: createAuthHeader(token) }
     );
     const account = response.data.data;
+    console.log('fetchAccount');
     return dispatch(fetchAccountSuccess(account));
   } catch (error) {
     console.log(error);
@@ -71,3 +73,52 @@ export const fetchAccount = (accountId, resourceQueryParams, apiAccessType, toke
     return dispatch(fetchAccountFail(err));
   }
 };
+
+// UPDATE
+const updateAccountStart = () => ({
+  type: types.UPDATE_ACCOUNT_START,
+});
+
+const updateAccountSuccess = (account) => ({
+  type: types.UPDATE_ACCOUNT_SUCCESS,
+  payload: {
+    success: {
+      type: successTypes.UPDATE_SUCCESS,
+      message: 'Account updated',
+      accountId: account.id,
+    },
+  },
+});
+
+const updateAccountFail = (error) => ({
+  type: types.UPDATE_ACCOUNT_FAIL,
+  payload: { error },
+});
+
+export const updateAccount = (accountId, accountFormData, apiAccessType, token) => async (
+  dispatch
+) => {
+  dispatch(updateAccountStart());
+  try {
+    const response = await axios.put(
+      resourcePaths[apiAccessType].accounts.one(accountId),
+      accountFormData,
+      { headers: createAuthHeader(token) }
+    );
+    const account = response.data.data;
+    return dispatch(updateAccountSuccess(account));
+  } catch (error) {
+    console.log(error);
+    const err = error.response ? error.response.data.data : serverNotRespondingError;
+    return dispatch(updateAccountFail(err));
+  }
+};
+
+// NOTIFICATIONS
+export const accountConsumeSuccess = () => ({
+  type: types.ACCOUNT_CONSUME_SUCCESS,
+});
+
+export const accountConsumeError = () => ({
+  type: types.ACCOUNT_CONSUME_ERROR,
+});

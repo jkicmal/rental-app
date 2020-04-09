@@ -3,6 +3,7 @@ import * as types from '../actions/account/types';
 const initialState = {
   accounts: [],
   account: null,
+  success: null,
   error: null,
   loading: false,
 };
@@ -51,6 +52,40 @@ const fetchAccountFail = (state, payload) => ({
   loading: false,
 });
 
+// UPDATE
+const updateAccountStart = (state) => ({
+  ...state,
+  account: null,
+  success: null,
+  error: null,
+  loading: true,
+});
+
+const updateAccountSuccess = (state, payload) => ({
+  ...state,
+  success: payload.success,
+  error: null,
+  loading: false,
+});
+
+const updateAccountFail = (state, payload) => ({
+  ...state,
+  success: null,
+  error: payload.error,
+  loading: false,
+});
+
+// NOTIFICATIONS
+const accountConsumeError = (state) => ({
+  ...state,
+  error: null,
+});
+
+const accountConsumeSuccess = (state) => ({
+  ...state,
+  success: null,
+});
+
 export const accountReducer = (state = initialState, action) => {
   switch (action.type) {
     // FETCH MANY
@@ -67,6 +102,18 @@ export const accountReducer = (state = initialState, action) => {
       return fetchAccountFail(state, action.payload);
     case types.FETCH_ACCOUNT_SUCCESS:
       return fetchAccountSuccess(state, action.payload);
+    // UPDATE
+    case types.UPDATE_ACCOUNT_START:
+      return updateAccountStart(state);
+    case types.UPDATE_ACCOUNT_FAIL:
+      return updateAccountFail(state, action.payload);
+    case types.UPDATE_ACCOUNT_SUCCESS:
+      return updateAccountSuccess(state, action.payload);
+    // NOTIFICATIONS
+    case types.ACCOUNT_CONSUME_ERROR:
+      return accountConsumeError(state);
+    case types.ACCOUNT_CONSUME_SUCCESS:
+      return accountConsumeSuccess(state);
     default:
       return state;
   }

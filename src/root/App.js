@@ -29,6 +29,7 @@ import {
   ScreensCustomerShoppingCart,
   ScreensEmployeeAccounts,
   ScreensEmployeeAccount,
+  ScreensEmployeeAccountEdit,
 } from '../screens';
 
 class App extends Component {
@@ -123,6 +124,12 @@ class App extends Component {
             exact
             path="/employee/accounts"
             component={ScreensEmployeeAccounts}
+          />
+          <ProtectedRoute
+            accountType={accountTypes.EMPLOYEE}
+            exact
+            path="/employee/accounts/:accountId/edit"
+            component={ScreensEmployeeAccountEdit}
           />
 
           {/* Rental */}
