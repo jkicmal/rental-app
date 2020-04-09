@@ -1,11 +1,11 @@
 import React from 'react';
 
 import { Screen } from '../../components/common';
-import { EmployeeCategoryInteractiveTable } from '../../components/employee';
+import { EmployeeCategoriesContainer } from '../../components/employee';
 
 const ScreensEmployeeCategories = () => (
   <Screen>
-    <EmployeeCategoryInteractiveTable />
+    <EmployeeCategoriesContainer />
   </Screen>
 );
 

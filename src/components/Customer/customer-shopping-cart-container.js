@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { toastr } from 'react-redux-toastr';
+import { Redirect } from 'react-router-dom';
 
 import {
   removeProductFromShoppingCart,
@@ -12,11 +13,11 @@ import {
   rentalConsumeSuccess,
 } from '../../actions/rental/actions';
 import { apiAccessTypes } from '../../config/api';
+import { formatPrice } from '../../helpers/formatters';
 
 import Button from '@material-ui/core/Button';
-import { CustomerShoppingCartProductsInteractiveTable, CustomerShoppingCartCheckoutForm } from '.';
-import { MuiModal, FlexContainer, Divider } from '../common';
-import { Redirect } from 'react-router-dom';
+import { CustomerShoppingCartCheckoutForm } from '.';
+import { MuiModal, FlexContainer, Divider, MaterialTableBase } from '../common';
 
 class CustomerShoppingCartContainer extends Component {
   state = {
@@ -64,9 +65,22 @@ class CustomerShoppingCartContainer extends Component {
 
     return (
       <>
-        <CustomerShoppingCartProductsInteractiveTable
-          products={shoppingCartProducts}
-          onProductDelete={async (product) => removeProductFromShoppingCart(product)}
+        <MaterialTableBase
+          options={{
+            search: true,
+            paging: true,
+          }}
+          columns={[
+            { title: 'Name', field: 'name' },
+            { title: 'Price / Day', render: (rowData) => formatPrice(rowData.price) },
+            { title: 'Deposit', render: (rowData) => formatPrice(rowData.deposit) },
+            { title: 'Category', field: 'categoryName' },
+          ]}
+          data={shoppingCartProducts.map((product) => ({ ...product }))}
+          title="Products"
+          editable={{
+            onRowDelete: (product) => Promise.resolve(removeProductFromShoppingCart(product)),
+          }}
         />
         <Divider />
         <FlexContainer padding="xs" horizontalCenter>

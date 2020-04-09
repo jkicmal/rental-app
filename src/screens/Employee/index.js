@@ -10,3 +10,7 @@ export { default as ScreensEmployeeCategories } from './screens-employee-categor
 // Rental
 export { default as ScreensEmployeeRentals } from './screens-employee-rentals';
 export { default as ScreensEmployeeRental } from './screens-employee-rental';
+
+// Account
+export { default as ScreensEmployeeAccounts } from './screens-employee-accounts';
+export { default as ScreensEmployeeAccount } from './screens-employee-account';

@@ -8,12 +8,12 @@ import {
   createCategory,
   updateCategory,
   deleteCategory,
-  categoryConsumeSuccess
+  categoryConsumeSuccess,
 } from '../../actions/category/actions';
 
 import { MaterialTableBase } from '../common';
 
-class CategoryInteractiveTable extends Component {
+class EmployeeCategoriesContainer extends Component {
   componentDidMount() {
     const { categoryActions, loginState } = this.props;
     categoryActions.fetchCategories(null, apiAccessTypes.EMPLOYEE, loginState.token);
@@ -59,35 +59,35 @@ class CategoryInteractiveTable extends Component {
       <MaterialTableBase
         options={{
           search: false,
-          paging: true
+          paging: true,
         }}
         columns={[
           { title: 'ID', field: 'id', editable: 'never' },
-          { title: 'Name', field: 'name' }
+          { title: 'Name', field: 'name' },
         ]}
-        data={categoryState.categories.map(category => Object.assign({}, category))}
+        data={categoryState.categories.map((category) => Object.assign({}, category))}
         title="Categories"
         editable={{
-          onRowAdd: category => this.onRowAdd(category),
-          onRowDelete: category => this.onRowDelete(category),
-          onRowUpdate: category => this.onRowUpdate(category)
+          onRowAdd: (category) => this.onRowAdd(category),
+          onRowDelete: (category) => this.onRowDelete(category),
+          onRowUpdate: (category) => this.onRowUpdate(category),
         }}
       />
     );
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   categoryState: {
     categories: state.categoryReducer.categories,
-    success: state.categoryReducer.success
+    success: state.categoryReducer.success,
   },
   loginState: {
-    token: state.loginReducer.token
-  }
+    token: state.loginReducer.token,
+  },
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   categoryActions: {
     fetchCategories: (resourceQueryParams, apiAccessType, token) =>
       dispatch(fetchCategories(resourceQueryParams, apiAccessType, token)),
@@ -97,8 +97,8 @@ const mapDispatchToProps = dispatch => ({
       dispatch(updateCategory(categoryId, categoryFormData, apiAccessType, token)),
     deleteCategory: (categoryId, apiAccessType, token) =>
       dispatch(deleteCategory(categoryId, apiAccessType, token)),
-    categoryConsumeSuccess: () => dispatch(categoryConsumeSuccess())
-  }
+    categoryConsumeSuccess: () => dispatch(categoryConsumeSuccess()),
+  },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(CategoryInteractiveTable);
+export default connect(mapStateToProps, mapDispatchToProps)(EmployeeCategoriesContainer);

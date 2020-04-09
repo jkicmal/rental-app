@@ -27,6 +27,8 @@ import {
   ScreensCustomerRental,
   // Customer Shopping Cart
   ScreensCustomerShoppingCart,
+  ScreensEmployeeAccounts,
+  ScreensEmployeeAccount,
 } from '../screens';
 
 class App extends Component {
@@ -107,6 +109,20 @@ class App extends Component {
             exact
             path="/employee/products/:productId/edit"
             component={ScreensEmployeeProductEdit}
+          />
+
+          {/* Account */}
+          <ProtectedRoute
+            accountType={accountTypes.EMPLOYEE}
+            exact
+            path="/employee/accounts/:accountId"
+            component={ScreensEmployeeAccount}
+          />
+          <ProtectedRoute
+            accountType={accountTypes.EMPLOYEE}
+            exact
+            path="/employee/accounts"
+            component={ScreensEmployeeAccounts}
           />
 
           {/* Rental */}

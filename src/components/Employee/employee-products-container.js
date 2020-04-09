@@ -6,7 +6,7 @@ import { fetchProducts, deleteProduct, productConsumeSuccess } from '../../actio
 import { apiAccessTypes } from '../../config';
 import { MaterialTableBase, ButtonLink, FlexContainer, Divider } from '../common';
 
-class ProductInteractiveTable extends Component {
+class EmployeeProductsContainer extends Component {
   componentDidMount() {
     const { productActions, loginState } = this.props;
     productActions.fetchProducts(
@@ -92,4 +92,4 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProductInteractiveTable);
+export default connect(mapStateToProps, mapDispatchToProps)(EmployeeProductsContainer);

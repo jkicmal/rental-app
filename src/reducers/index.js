@@ -6,3 +6,4 @@ export * from './item';
 export * from './shoppingCart';
 export * from './rental';
 export * from './store';
+export * from './account';

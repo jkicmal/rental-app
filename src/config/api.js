@@ -43,6 +43,10 @@ export const resourcePaths = {
       reject: (id) => `${apiHost}/v1/employee/rentals/${id}/reject`,
       finalize: (id) => `${apiHost}/v1/employee/rentals/${id}/finalize`,
     },
+    accounts: {
+      one: (id, pathParams = '') => `${apiHost}/v1/employee/accounts/${id}${pathParams}`,
+      many: (pathParams = '') => `${apiHost}/v1/employee/accounts/${pathParams}`,
+    },
   },
   [apiAccessTypes.CUSTOMER]: {
     rentals: {

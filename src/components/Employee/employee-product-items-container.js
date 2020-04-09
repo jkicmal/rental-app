@@ -14,7 +14,7 @@ import { apiAccessTypes } from '../../config';
 import { MaterialTableBase } from '../common';
 import { formatYesNo } from '../../helpers/formatters';
 
-class EmployeeItemInteractiveTable extends Component {
+class EmployeeProductItemsContainer extends Component {
   componentDidMount() {
     const { itemActions, loginState, productId } = this.props;
     itemActions.fetchItems({ where: { productId } }, apiAccessTypes.EMPLOYEE, loginState.token);
@@ -104,4 +104,4 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(EmployeeItemInteractiveTable);
+export default connect(mapStateToProps, mapDispatchToProps)(EmployeeProductItemsContainer);

@@ -8,7 +8,7 @@ import { formatPrice, formatYesNo } from '../../helpers/formatters';
 import { FlexContainer, InfoElement, LoadingContainer } from '../common';
 import Typography from '@material-ui/core/Typography';
 
-class EmployeeProduct extends Component {
+class EmployeeProductContainer extends Component {
   componentDidMount() {
     const { productActions, loginState, productId } = this.props;
     productActions.fetchProduct(
@@ -63,4 +63,4 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(EmployeeProduct);
+export default connect(mapStateToProps, mapDispatchToProps)(EmployeeProductContainer);

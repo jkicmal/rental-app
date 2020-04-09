@@ -17,7 +17,10 @@ const Nav = ({ isAuthenticated, accountType }) => {
     </ButtonLink>,
     <ButtonLink key="/employee/products" to="/employee/products">
       Products
-    </ButtonLink>
+    </ButtonLink>,
+    <ButtonLink key="/employee/accounts" to="/employee/accounts">
+      Accounts
+    </ButtonLink>,
   ];
 
   const customerNavElements = [
@@ -26,7 +29,7 @@ const Nav = ({ isAuthenticated, accountType }) => {
     </ButtonLink>,
     <ButtonLink key="/customer/rentals" to="/customer/rentals">
       Rentals
-    </ButtonLink>
+    </ButtonLink>,
   ];
 
   const logoutNavElement = (
@@ -41,7 +44,7 @@ const Nav = ({ isAuthenticated, accountType }) => {
     </ButtonLink>,
     <ButtonLink key="/login" to="/login">
       Login
-    </ButtonLink>
+    </ButtonLink>,
   ];
 
   const navElementsToRender = isAuthenticated
