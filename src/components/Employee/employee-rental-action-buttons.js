@@ -32,6 +32,7 @@ const EmployeeRentalActionButtons = ({
         <Button variant="contained" onClick={onRentalFinalize}>
           Finalize
         </Button>
+        <Divider orientation="vertical" />
         <Button variant="contained" color="secondary" onClick={onRentalCancel}>
           Cancel
         </Button>
