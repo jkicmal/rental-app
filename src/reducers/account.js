@@ -75,6 +75,30 @@ const updateAccountFail = (state, payload) => ({
   loading: false,
 });
 
+// DELETE
+const deleteAccountStart = (state) => ({
+  ...state,
+  account: null,
+  success: null,
+  error: null,
+  loading: true,
+});
+
+const deleteAccountSuccess = (state, payload) => ({
+  ...state,
+  accounts: state.accounts.filter((account) => account.id !== payload.success.accountId),
+  success: payload.success,
+  error: null,
+  loading: false,
+});
+
+const deleteAccountFail = (state, payload) => ({
+  ...state,
+  success: null,
+  error: payload.error,
+  loading: false,
+});
+
 // NOTIFICATIONS
 const accountConsumeError = (state) => ({
   ...state,
@@ -109,6 +133,13 @@ export const accountReducer = (state = initialState, action) => {
       return updateAccountFail(state, action.payload);
     case types.UPDATE_ACCOUNT_SUCCESS:
       return updateAccountSuccess(state, action.payload);
+    // DELETE
+    case types.DELETE_ACCOUNT_START:
+      return deleteAccountStart(state);
+    case types.DELETE_ACCOUNT_FAIL:
+      return deleteAccountFail(state, action.payload);
+    case types.DELETE_ACCOUNT_SUCCESS:
+      return deleteAccountSuccess(state, action.payload);
     // NOTIFICATIONS
     case types.ACCOUNT_CONSUME_ERROR:
       return accountConsumeError(state);

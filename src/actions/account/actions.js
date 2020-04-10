@@ -114,6 +114,42 @@ export const updateAccount = (accountId, accountFormData, apiAccessType, token) 
   }
 };
 
+// DELETE
+const deleteAccountStart = () => ({
+  type: types.DELETE_ACCOUNT_START,
+});
+
+const deleteAccountSuccess = (account) => ({
+  type: types.DELETE_ACCOUNT_SUCCESS,
+  payload: {
+    success: {
+      type: successTypes.DELETE_SUCCESS,
+      message: 'Account deleted',
+      accountId: account.id,
+    },
+  },
+});
+
+const deleteAccountFail = (error) => ({
+  type: types.DELETE_ACCOUNT_FAIL,
+  payload: { error },
+});
+
+export const deleteAccount = (accountId, apiAccessType, token) => async (dispatch) => {
+  dispatch(deleteAccountStart());
+  try {
+    const response = await axios.delete(resourcePaths[apiAccessType].accounts.one(accountId), {
+      headers: createAuthHeader(token),
+    });
+    const account = response.data.data;
+    return dispatch(deleteAccountSuccess(account));
+  } catch (error) {
+    console.log(error);
+    const err = error.response ? error.response.data.data : serverNotRespondingError;
+    return dispatch(deleteAccountFail(err));
+  }
+};
+
 // NOTIFICATIONS
 export const accountConsumeSuccess = () => ({
   type: types.ACCOUNT_CONSUME_SUCCESS,
