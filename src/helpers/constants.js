@@ -22,4 +22,5 @@ export const rentalStatuses = {
   ACCEPTED: 'ACCEPTED',
   REJECTED: 'REJECTED',
   FINALIZED: 'FINALIZED',
+  CANCELLED: 'CANCELLED',
 };

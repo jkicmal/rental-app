@@ -70,6 +70,7 @@ class EmployeeRentalContainer extends Component {
               onRentalAccept={() => this.handleRentalStatusChange('accept')}
               onRentalReject={() => this.handleRentalStatusChange('reject')}
               onRentalFinalize={() => this.handleRentalStatusChange('finalize')}
+              onRentalCancel={() => this.handleRentalStatusChange('cancel')}
             />
             <Divider />
             <Typography variant="h5">Customer Info</Typography>

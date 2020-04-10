@@ -10,6 +10,7 @@ const EmployeeRentalActionButtons = ({
   onRentalAccept,
   onRentalReject,
   onRentalFinalize,
+  onRentalCancel,
 }) => {
   let render = null;
 
@@ -30,6 +31,9 @@ const EmployeeRentalActionButtons = ({
       <FlexContainer horizontalCenter>
         <Button variant="contained" onClick={onRentalFinalize}>
           Finalize
+        </Button>
+        <Button variant="contained" color="secondary" onClick={onRentalCancel}>
+          Cancel
         </Button>
       </FlexContainer>
     );
