@@ -3,14 +3,6 @@ export const accountTypes = {
   CUSTOMER: 'CUSTOMER',
 };
 
-export const errorTypes = {
-  FETCH_MANY_ERROR: 'FETCH_MANY_ERROR',
-  FETCH_ONE_ERROR: 'FETCH_ONE_ERROR',
-  DELETE_ERROR: 'DELETE_ERROR',
-  UPDATE_ERROR: 'UPDATE_ERROR',
-  CREATE_ERROR: 'CREATE_ERROR',
-};
-
 export const successTypes = {
   DELETE_SUCCESS: 'DELETE_SUCCESS',
   UPDATE_SUCCESS: 'UPDATE_SUCCESS',
