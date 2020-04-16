@@ -2,6 +2,7 @@ export const apiAccessTypes = {
   SHARED: 'shared',
   EMPLOYEE: 'employee',
   CUSTOMER: 'customer',
+  STORE: 'store',
 };
 
 const apiHost = 'http://localhost:3001/api';
@@ -22,6 +23,12 @@ export const resourcePaths = {
       many: (pathParams = '') => `${apiHost}/v1/products/${pathParams}`,
     },
     store: () => `${apiHost}/v1/store`,
+  },
+  [apiAccessTypes.STORE]: {
+    products: {
+      one: (id) => `${apiHost}/v1/store/products/${id}`,
+      many: () => `${apiHost}/v1/store/products`,
+    },
   },
   [apiAccessTypes.EMPLOYEE]: {
     products: {

@@ -11,20 +11,20 @@ import { successTypes } from '../../helpers/constants';
  * FETCH MANY
  */
 const fetchProductsStart = () => ({
-  type: types.FETCH_PRODUCTS_START
+  type: types.FETCH_PRODUCTS_START,
 });
 
-const fetchProductsSuccess = fetchedProducts => ({
+const fetchProductsSuccess = (fetchedProducts) => ({
   type: types.FETCH_PRODUCTS_SUCCESS,
-  payload: { fetchedProducts }
+  payload: { fetchedProducts },
 });
 
 const fetchProductsFail = (status, error) => ({
   type: types.FETCH_PRODUCTS_FAIL,
-  payload: { error }
+  payload: { error },
 });
 
-export const fetchProducts = (resourceQueryParams, apiAccessType, token) => async dispatch => {
+export const fetchProducts = (resourceQueryParams, apiAccessType, token) => async (dispatch) => {
   dispatch(fetchProductsStart());
   try {
     const resourceQueryPathParams = resourceQueryParamsToPathParams(resourceQueryParams);
@@ -45,20 +45,20 @@ export const fetchProducts = (resourceQueryParams, apiAccessType, token) => asyn
  * FETCH ONE
  */
 const fetchProductStart = () => ({
-  type: types.FETCH_PRODUCT_START
+  type: types.FETCH_PRODUCT_START,
 });
 
-const fetchProductSuccess = fetchedProduct => ({
+const fetchProductSuccess = (fetchedProduct) => ({
   type: types.FETCH_PRODUCT_SUCCESS,
-  payload: { fetchedProduct }
+  payload: { fetchedProduct },
 });
 
-const fetchProductFail = error => ({
+const fetchProductFail = (error) => ({
   type: types.FETCH_PRODUCT_FAIL,
-  payload: { error }
+  payload: { error },
 });
 
-export const fetchProduct = (id, resourceQueryParams, apiAccessType, token) => async dispatch => {
+export const fetchProduct = (id, resourceQueryParams, apiAccessType, token) => async (dispatch) => {
   dispatch(fetchProductStart());
   try {
     const resourceQueryPathParams = resourceQueryParamsToPathParams(resourceQueryParams);
@@ -67,6 +67,7 @@ export const fetchProduct = (id, resourceQueryParams, apiAccessType, token) => a
       { headers: createAuthHeader(token) }
     );
     const fetchedProduct = response.data.data;
+    console.log(fetchedProduct);
     return dispatch(fetchProductSuccess(fetchedProduct));
   } catch (error) {
     console.log(error);
@@ -79,30 +80,30 @@ export const fetchProduct = (id, resourceQueryParams, apiAccessType, token) => a
  * DELETE
  */
 const deleteProductStart = () => ({
-  type: types.DELETE_PRODUCT_START
+  type: types.DELETE_PRODUCT_START,
 });
 
-const deleteProductSuccess = deletedProduct => ({
+const deleteProductSuccess = (deletedProduct) => ({
   type: types.DELETE_PRODUCT_SUCCESS,
   payload: {
     deletedProduct,
     success: {
       type: successTypes.DELETE_SUCCESS,
-      message: 'Product deleted'
-    }
-  }
+      message: 'Product deleted',
+    },
+  },
 });
 
-const deleteProductFail = error => ({
+const deleteProductFail = (error) => ({
   type: types.DELETE_PRODUCT_FAIL,
-  payload: { error }
+  payload: { error },
 });
 
-export const deleteProduct = (product, apiAccessType, token) => async dispatch => {
+export const deleteProduct = (product, apiAccessType, token) => async (dispatch) => {
   dispatch(deleteProductStart());
   try {
     const response = await axios.delete(resourcePaths[apiAccessType].products.one(product.id), {
-      headers: createAuthHeader(token)
+      headers: createAuthHeader(token),
     });
     const deletedProduct = response.data.data;
     return dispatch(deleteProductSuccess(deletedProduct));
@@ -117,27 +118,27 @@ export const deleteProduct = (product, apiAccessType, token) => async dispatch =
  * CREATE
  */
 const createProductStart = () => ({
-  type: types.CREATE_PRODUCT_START
+  type: types.CREATE_PRODUCT_START,
 });
 
-const createProductSuccess = createdProduct => ({
+const createProductSuccess = (createdProduct) => ({
   type: types.CREATE_PRODUCT_SUCCESS,
   payload: {
     createdProduct,
     success: {
       type: successTypes.CREATE_SUCCESS,
       message: 'Product created',
-      productId: createdProduct.id
-    }
-  }
+      productId: createdProduct.id,
+    },
+  },
 });
 
-const createProductFail = error => ({
+const createProductFail = (error) => ({
   type: types.CREATE_PRODUCT_FAIL,
-  payload: { error }
+  payload: { error },
 });
 
-export const createProduct = (productFormData, apiAccessType, token) => async dispatch => {
+export const createProduct = (productFormData, apiAccessType, token) => async (dispatch) => {
   dispatch(createProductStart());
   try {
     const response = await axios.post(
@@ -158,32 +159,29 @@ export const createProduct = (productFormData, apiAccessType, token) => async di
  * UPDATE
  */
 const updateProductStart = () => ({
-  type: types.UPDATE_PRODUCT_START
+  type: types.UPDATE_PRODUCT_START,
 });
 
-const updateProductSuccess = updatedProduct => ({
+const updateProductSuccess = (updatedProduct) => ({
   type: types.UPDATE_PRODUCT_SUCCESS,
   payload: {
     updatedProduct,
     success: {
       type: successTypes.UPDATE_SUCCESS,
       message: 'Product updated',
-      productId: updatedProduct.id
-    }
-  }
+      productId: updatedProduct.id,
+    },
+  },
 });
 
 const updateProductFail = (status, error) => ({
   type: types.UPDATE_PRODUCT_FAIL,
-  payload: { error }
+  payload: { error },
 });
 
-export const updateProduct = (
-  productId,
-  productFormData,
-  apiAccessType,
-  token
-) => async dispatch => {
+export const updateProduct = (productId, productFormData, apiAccessType, token) => async (
+  dispatch
+) => {
   dispatch(updateProductStart());
   try {
     const response = await axios.put(
@@ -204,9 +202,9 @@ export const updateProduct = (
  * NOTIFICATIONS
  */
 export const productConsumeSuccess = () => ({
-  type: types.PRODUCT_CONSUME_SUCCESS
+  type: types.PRODUCT_CONSUME_SUCCESS,
 });
 
 export const productConsumeError = () => ({
-  type: types.PRODUCT_CONSUME_ERROR
+  type: types.PRODUCT_CONSUME_ERROR,
 });

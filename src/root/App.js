@@ -12,6 +12,7 @@ import {
   ScreensLogin,
   ScreensRegister,
   ScreensStore,
+  ScreensProduct,
   // Employee Category
   ScreensEmployeeCategories,
   // Employee Product
@@ -148,6 +149,7 @@ class App extends Component {
 
           {/* Common routes */}
           <Route exact path="/" component={ScreensStore} />
+          <Route exact path="/products/:productId" component={ScreensProduct} />
 
           {/* If all of routes aboute fail */}
           <Route render={() => <Redirect to="/" />} />
